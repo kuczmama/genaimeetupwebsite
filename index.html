@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Generative AI Meetup</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -10,15 +10,36 @@
             margin: 0;
             padding: 0;
         }
+
         .banner {
-            max-width: 100%; /* limits the width */
+            width: 100%;
             height: auto;
-            display: block;
-            margin: 0 auto; /* centers the image */
         }
+
+        .header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            color: white;
+            margin: 0;
+            height: 80px;
+            padding-top: 40px;
+            background: rgb(255, 255, 255);
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(45, 45, 45, 0.8) 100%);
+        }
+
         .container {
             padding: 20px;
         }
+
+        .content {
+            display: flex;
+        }
+
+        .col {
+            width: 50%;
+        }
+
         .button {
             display: inline-block;
             margin: 10px;
@@ -30,33 +51,84 @@
             border-radius: 5px;
             text-decoration: none;
         }
+
         .button:hover {
             background-color: #0056b3;
         }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .banner {
-                max-height: 250px; /* smaller image height for mobile devices */
+        ul.podcast-links a {
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        img.rounded-circle {
+            border-radius: 50% !important;
+            width: 36px;
+            min-width: 36px;
+            height: 36px;
+            box-shadow: 1px 1px 6px #00000026;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .content {
+                flex-direction: column;
             }
-            .button {
-                padding: 10px 20px;
-                font-size: 16px;
-            }
-            .container {
-                padding: 10px;
+
+            .col {
+                width: 100%;
             }
         }
     </style>
 </head>
+
 <body>
+    <img src="./assets/banner.jpeg" alt="Generative AI Meetup Banner" class="banner">
+    <h1 class="header">Welcome to the Generative AI Meetup!</h1>
     <div class="container">
-        <img src="https://secure.meetupstatic.com/photos/event/a/3/7/b/clean_512081851.webp" alt="Generative AI Meetup Banner" class="banner">
-        <h1>Welcome to the South Bay Generative AI Meetup!</h1>
-        <p>Join us for exciting events in Silicon Valley every Thursday.</p>
-        <a href="https://www.meetup.com/gen-ai/" class="button">Meetup Group</a>
-        <a href="https://podcast.genaimeetup.com/" class="button">Podcast</a>
-        <a href="https://discadia.com/gen-ai" class="button">Discord Group</a>
+        <div class="content">
+            <div class="col">
+                <h2>Listen to our Podcast</h2>
+                <ul class="podcast-links">
+                    <a href="https://podcasts.apple.com/us/podcast/the-generative-ai-meetup-podcast/id1727039579"
+                        target="_blank" aria-label="Apple Podcasts">
+                        <img class="rounded-circle" src="./assets/apple-podcast.png" alt="Apple Podcasts">
+                    </a>
+                    <a href="https://podcast.genaimeetup.com" target="_blank" aria-label="Podbean App">
+                        <img class="rounded-circle" src="./assets/podbean-app.png" alt="Podbean App">
+                    </a>
+                    <a href="https://open.spotify.com/show/17iOtOaooBbod2vGLvh7cS" target="_blank" aria-label="Spotify">
+                        <img class="rounded-circle" src="./assets/spotify.png" alt="Spotify">
+                    </a>
+                    <a href="https://music.amazon.com/podcasts/0b2de795-7f1f-47fa-8656-555737d68ba9" target="_blank"
+                        aria-label="Amazon Music">
+                        <img class="rounded-circle" src="./assets/AmazonMusic.png" alt="Amazon Music">
+                    </a>
+                    <a href="https://iheart.com/podcast/144919290" target="_blank" aria-label="iHeartRadio">
+                        <img class="rounded-circle" src="./assets/iHeartRadio.png" alt="iHeartRadio">
+                    </a>
+                    <a href="https://player.fm/series/3550845" target="_blank" aria-label="PlayerFM">
+                        <img class="rounded-circle" src="./assets/PlayerFM.png" alt="PlayerFM">
+                    </a>
+                    <a href="https://www.boomplaymusic.com/podcasts/89508" target="_blank" aria-label="BoomPlay">
+                        <img class="rounded-circle" src="./assets/BoomPlay.png" alt="BoomPlay">
+                    </a>
+                </ul>
+                <iframe title="The Generative AI Meetup Podcast" allowtransparency="true" height="315" width="100%"
+                    style="border: none; min-width: min(100%, 430px);height:315px;" scrolling="no"
+                    data-name="pb-iframe-player"
+                    src="https://www.podbean.com/player-v2/?i=daq9r-11101d0-pbblog-playlist&share=1&download=1&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=episode_page&order=episodic&limit=10&filter=all&ss=a713390a017602015775e868a2cf26b0&btn-skin=fb0584&size=315"
+                    loading="lazy" allowfullscreen=""></iframe>
+
+                <h2>Continue the discussion on chat</h2>
+                <a href="https://discadia.com/gen-ai" class="button">Discord Group</a>
+            </div>
+            <div class="col">
+                <h2>Join us for exciting events in Silicon Valley every Thursday</h2>
+                <div class='sk-meetup-event' data-embed-id='25362139'></div>
+                <script src='https://widgets.sociablekit.com/meetup-group-events/widget.js' async defer></script>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>
