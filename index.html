@@ -3554,18 +3554,6 @@
             }
         });
 
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function () {
-                document.querySelector('.nav-links').classList.remove('active');
-            });
-        });
-
         // Initialize
         document.addEventListener('DOMContentLoaded', function () {
             // Ensure page starts at the top
