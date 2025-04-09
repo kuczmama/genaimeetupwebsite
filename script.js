@@ -898,3 +898,34 @@ window.addEventListener('scroll', highlightNavOnScroll);
 document.addEventListener('DOMContentLoaded', function () {
     highlightNavOnScroll();
 });
+
+// Handle smooth scrolling with offset for navigation links
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all navigation links that link to an ID
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    
+    // Add click event listener to each link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Prevent default anchor behavior
+            e.preventDefault();
+            
+            // Get the target element
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                // Calculate header height - can be adjusted as needed
+                const headerOffset = 52;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                // Scroll to the target with offset
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
