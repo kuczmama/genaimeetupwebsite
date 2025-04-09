@@ -1054,8 +1054,8 @@ nav.site-nav.scrolled {
 
 /* Add sponsor text styles */
 @media (max-width: 768px) {
-    #sponsors .code-string {
-        min-width: 96px;
+    #sponsors .code-style {
+        min-height: 96px;
     }
 }
 
