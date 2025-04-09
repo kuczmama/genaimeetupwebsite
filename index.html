@@ -2559,7 +2559,7 @@
             background-color: #1e1e24;
             border-radius: 8px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            border-left: 3px solid #ff7b00;
+            border-left: 3px solid var(--primary-color);
         }
 
         .form-group {
@@ -2591,24 +2591,24 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #ff7b00;
-            box-shadow: 0 0 0 2px rgba(255, 123, 0, 0.2);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--accent-glow);
         }
 
         #contactForm button {
             padding: 12px 24px;
             margin-top: 10px;
             font-size: 16px;
-            background: linear-gradient(to right, #ff7b00, #ff5500);
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
             border: none;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 20px rgba(255, 123, 0, 0.3);
+            box-shadow: 0 4px 20px var(--accent-glow);
         }
 
         #contactForm button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(255, 123, 0, 0.4);
+            box-shadow: 0 6px 25px var(--accent-glow);
         }
 
         #contactForm button i {
@@ -2650,7 +2650,7 @@
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ff7b00' viewBox='0 0 16 16'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>");
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23FF4081' viewBox='0 0 16 16'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>");
             background-repeat: no-repeat;
             background-position: calc(100% - 15px) center;
             background-size: 12px;
@@ -2661,9 +2661,9 @@
         }
 
         .form-group select:focus {
-            border-color: #ff7b00;
+            border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(255, 123, 0, 0.2);
+            box-shadow: 0 0 0 2px var(--accent-glow);
         }
 
         /* Style for the dropdown options */
@@ -2887,7 +2887,7 @@
             padding: 15px;
             gap: 15px;
             transition: all 0.3s ease;
-            border-left: 3px solid #ff7b00;
+            border-left: 3px solid var(--primary-color);
             flex: 1 1 0;
             min-width: 0;
         }
@@ -2909,7 +2909,7 @@
             justify-content: center;
             min-width: 70px;
             height: 70px;
-            background: rgba(255, 123, 0, 0.9);
+            background: var(--primary-color);
             border-radius: 8px;
             padding: 10px;
             color: #fff;
@@ -2953,7 +2953,7 @@
         }
 
         .event-details-widget i {
-            color: #ff7b00;
+            color: var(--primary-color);
             margin-right: 5px;
             width: 16px;
             text-align: center;
@@ -3175,7 +3175,7 @@
                 <!-- Podbean full podcast player with custom colors -->
                 <iframe title="The Generative AI Meetup Podcast" allowtransparency="true" height="500" width="100%"
                     style="border: none; min-width: min(100%, 430px);" scrolling="no" data-name="pb-iframe-player"
-                    src="https://www.podbean.com/player-v2/?i=daq9r-11101d0-pbblog-playlist&share=1&download=1&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=episode_page&order=episodic&limit=10&filter=all&ss=a713390a017602015775e868a2cf26b0&btn-skin=ff7b00&size=500"
+                    src="https://www.podbean.com/player-v2/?i=daq9r-11101d0-pbblog-playlist&share=1&download=1&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=episode_page&order=episodic&limit=10&filter=all&ss=a713390a017602015775e868a2cf26b0&btn-skin=ff4081&size=500"
                     loading="lazy" allowfullscreen=""></iframe>
             </div>
             <div class="text-center mt-4">
@@ -3657,7 +3657,7 @@
                         }
                     },
                     "color": {
-                        "value": ["#888888", "#aaaaaa", "#ff7b00", "#cccccc"]
+                        "value": ["#888888", "#aaaaaa", "#ff4081", "#cccccc"]
                     },
                     "shape": {
                         "type": "circle",
@@ -3726,7 +3726,7 @@
                             "distance": 180,
                             "line_linked": {
                                 "opacity": 1,
-                                "color": "#ff7b00"
+                                "color": "#ff4081"
                             }
                         },
                         "bubble": {
@@ -4417,7 +4417,7 @@
                             const y = sourceNode.y + (targetNode.y - sourceNode.y) * progress;
 
                             // Draw pulse
-                            ctx.fillStyle = '#ff7b00';
+                            ctx.fillStyle = '#ff4081';
                             ctx.beginPath();
                             ctx.arc(x, y, 2, 0, Math.PI * 2);
                             ctx.fill();
