@@ -1408,7 +1408,6 @@ nav.site-nav.scrolled {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    margin: 2rem 0;
 }
 
 /* Responsive adjustments */
@@ -1733,7 +1732,8 @@ h2.code-style {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 123, 0, 0.2);
-    margin-bottom: 20px;
+    margin: 20px 0;
+    overflow: scroll;
     width: 100%;
 }
 
@@ -1742,6 +1742,7 @@ h2.code-style {
     flex-direction: row;
     justify-content: center;
     gap: 20px;
+    padding-right: 16px;
     width: 100%;
 }
 
