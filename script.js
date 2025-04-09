@@ -939,8 +939,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                // Calculate header height - can be adjusted as needed
-                const headerOffset = 52;
+                // Calculate header height based on screen width
+                const headerOffset = window.innerWidth > 768 ? 74 : 52;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 
