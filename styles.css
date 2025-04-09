@@ -1053,6 +1053,12 @@ nav.site-nav.scrolled {
 }
 
 /* Add sponsor text styles */
+@media (max-width: 768px) {
+    #sponsors .code-string {
+        min-width: 96px;
+    }
+}
+
 .sponsor-text {
     padding: 15px 25px;
     margin: 5px 10px;
