@@ -404,8 +404,8 @@ async function fetchUpcomingMeetups() {
         // Sort by date (nearest first)
         upcomingEvents.sort((a, b) => a.date - b.date);
 
-        // Take first 3 events instead of 4
-        upcomingEvents = upcomingEvents.slice(0, 3);
+        // Take first 5 events
+        upcomingEvents = upcomingEvents.slice(0, 5);
 
         if (upcomingEvents.length > 0) {
             // Create a widget-like container
