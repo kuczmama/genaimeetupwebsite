@@ -744,7 +744,7 @@
         });
 
         // Scroll animation for elements
-        const fadeElements = document.querySelectorAll('section h2, #about-description, .sponsor-carousel-container, #testimonials-list, #media-gallery, #hackathons-list, .join-options');
+        const fadeElements = document.querySelectorAll('section h2, .sponsor-carousel-container, .join-options');
 
         // Add fade-in class to elements
         fadeElements.forEach(el => {
@@ -767,74 +767,6 @@
         window.addEventListener('scroll', checkFadeElements);
         window.addEventListener('load', checkFadeElements);
 
-        // Create lightbox for image gallery
-        function createLightbox() {
-            if (document.getElementById('lightbox')) return;
-
-            const lightbox = document.createElement('div');
-            lightbox.id = 'lightbox';
-            lightbox.className = 'lightbox';
-            lightbox.style.display = 'none';
-
-            const lightboxContent = document.createElement('div');
-            lightboxContent.className = 'lightbox-content';
-
-            const lightboxImage = document.createElement('img');
-            lightboxImage.id = 'lightbox-image';
-
-            const lightboxCaption = document.createElement('div');
-            lightboxCaption.id = 'lightbox-caption';
-
-            const closeButton = document.createElement('span');
-            closeButton.className = 'close-button';
-            closeButton.innerHTML = '&times;';
-            closeButton.onclick = closeLightbox;
-
-            lightboxContent.appendChild(lightboxImage);
-            lightboxContent.appendChild(lightboxCaption);
-            lightboxContent.appendChild(closeButton);
-            lightbox.appendChild(lightboxContent);
-
-            // Close lightbox when clicking outside the image
-            lightbox.addEventListener('click', function (e) {
-                if (e.target === lightbox) {
-                    closeLightbox();
-                }
-            });
-
-            // Handle keyboard events
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && lightbox.style.display === 'flex') {
-                    closeLightbox();
-                }
-            });
-
-            document.body.appendChild(lightbox);
-        }
-
-        // Open lightbox with image
-        function openLightbox(src, alt) {
-            const lightbox = document.getElementById('lightbox');
-            const image = document.getElementById('lightbox-image');
-            const caption = document.getElementById('lightbox-caption');
-
-            image.src = src;
-            caption.textContent = alt;
-            lightbox.style.display = 'flex';
-
-            // Prevent scrolling when lightbox is open
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Close lightbox
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.style.display = 'none';
-
-            // Re-enable scrolling
-            document.body.style.overflow = '';
-        }
-
         // Nav scroll effect
         window.addEventListener('scroll', function () {
             const nav = document.querySelector('.site-nav');
@@ -855,21 +787,11 @@
             // Run initial check for fade elements
             checkFadeElements();
 
-            // Create lightbox
-            createLightbox();
-
             // Initialize counter animation
             initCounters();
 
             // Initialize typing animations
             initTypewriterEffect();
-
-            // Add click events to images
-            document.querySelectorAll('.media-item img').forEach(img => {
-                img.addEventListener('click', function () {
-                    openLightbox(this.src, this.alt);
-                });
-            });
 
             // Navigation scroll effect
             window.addEventListener('scroll', function () {
