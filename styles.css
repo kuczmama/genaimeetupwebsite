@@ -1091,7 +1091,7 @@ nav.site-nav.scrolled {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 123, 0, 0.3);
+    border: 1px solid var(--accent-glow);
     transition: all 0.3s ease;
 }
 
@@ -1105,8 +1105,8 @@ nav.site-nav.scrolled {
 .sponsor-text:hover {
     background: rgba(40, 40, 40, 0.9);
     transform: translateY(-3px);
-    border: 1px solid rgba(255, 123, 0, 0.7);
-    box-shadow: 0 5px 15px rgba(255, 123, 0, 0.2);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 5px 15px var(--accent-glow);
     z-index: 2;
 }
 
