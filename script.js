@@ -9,7 +9,7 @@ window.addEventListener('scroll', function () {
 });
 
 // Scroll animation for elements
-const fadeElements = document.querySelectorAll('section h2, .sponsor-carousel-container, .join-options');
+const fadeElements = document.querySelectorAll('section h2, .join-options');
 
 // Add fade-in class to elements
 fadeElements.forEach(el => {
