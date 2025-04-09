@@ -832,6 +832,7 @@ input:focus {
 
 .btn-primary:hover {
     transform: translateY(-2px);
+    color: white;
     box-shadow: var(--shadow-lg);
     background: var(--primary-color);
 }
@@ -1476,11 +1477,8 @@ nav.site-nav.scrolled {
     padding: 12px 24px;
     margin-top: 10px;
     font-size: 16px;
-    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
     border: none;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 20px var(--accent-glow);
 }
 
 #contactForm button:hover {
