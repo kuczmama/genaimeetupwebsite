@@ -368,11 +368,23 @@ async function fetchUpcomingMeetups() {
             const event = new ICAL.Event(vevent);
             const eventDate = event.startDate.toJSDate();
 
+            const vEvent = vevent.jCal[1]; // Assuming the first (and likely only) VEVENT
+
+            let eventUrl = null;
+            if (vEvent && Array.isArray(vEvent)) {
+                for (const property of vEvent) {
+                    if (Array.isArray(property) && property[0] === 'url') {
+                        eventUrl = property[3]; // The URL is at index 3
+                        break; // Found the URL, so exit the loop
+                    }
+                }
+            }
+
             // Only add future events or events today
             if (eventDate >= today) {
                 upcomingEvents.push({
                     title: event.summary,
-                    link: event.description ? event.description.match(/https:\/\/www\.meetup\.com\/[^\/]+\/events\/\d+\//)?.[0] || '#' : '#',
+                    link: eventUrl ? eventUrl : '#',
                     date: eventDate,
                     month: eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase(),
                     day: eventDate.getDate(),
@@ -403,17 +415,29 @@ async function fetchUpcomingMeetups() {
             upcomingEvents.forEach(event => {
                 const eventCard = document.createElement('div');
                 eventCard.className = 'event-card-widget';
+                eventCard.style.cursor = 'pointer';
+                
+                // Add event listener to navigate to the event page when clicked
+                eventCard.addEventListener('click', function() {
+                    console.log(event);
+                    console.log(event.link);
+                    if (event.link && event.link !== '#') {
+                        window.open(event.link, '_blank', 'noopener,noreferrer');
+                    }
+                });
+                
                 eventCard.innerHTML = `
-        <div class="event-date-widget">
-        <span class="month">${event.month}</span>
-        <span class="day">${event.day}</span>
-        </div>
-        <div class="event-details-widget">
-        <h4>${event.title}</h4>
-        <p><i class="far fa-clock"></i> ${event.formattedTime}<br>
-        <i class="far fa-calendar-alt"></i> ${event.formattedDate}</p>
-        </div>
-    `;
+                    <div class="event-date-widget">
+                        <span class="month">${event.month}</span>
+                        <span class="day">${event.day}</span>
+                    </div>
+                    <div class="event-details-widget">
+                        <h4>${event.title}</h4>
+                        <p>
+                            <i class="far fa-clock"></i> ${event.formattedTime}<br>
+                            <i class="far fa-calendar-alt"></i> ${event.formattedDate}</p>
+                    </div>
+                `;
 
                 widgetContainer.appendChild(eventCard);
             });
