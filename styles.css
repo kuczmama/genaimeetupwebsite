@@ -697,8 +697,8 @@ input:focus {
     box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.3);
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
+/* Custom scrollbar - pink theme. disabled for now */
+/* ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
@@ -714,7 +714,7 @@ input:focus {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-color);
-}
+} */
 
 /* Quick Stats in Hero - Horizontal Layout */
 .quick-stats {
