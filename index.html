@@ -384,27 +384,7 @@
             counter-reset: line;
         }
 
-        section::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 50px;
-            background-color: var(--bg-card);
-            border-right: 1px solid var(--border-color);
-            z-index: 1;
-            display: none;
-        }
-
         @media (min-width: 1400px) {
-            section::before {
-                display: block;
-            }
-
-            .container {
-                margin-left: 60px;
-            }
 
             section::after {
                 counter-increment: line;
@@ -434,18 +414,6 @@
         section .container {
             position: relative;
             z-index: 2;
-        }
-
-        /* Add subtle section dividers */
-        section:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--border-color), transparent);
         }
 
         /* About Section */
