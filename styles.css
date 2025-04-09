@@ -216,7 +216,7 @@ a:hover {
 header#hero {
     position: relative;
     height: 80vh;
-    min-height: 500px;
+    min-height: 770px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -225,8 +225,25 @@ header#hero {
     color: var(--text-primary);
     overflow: hidden;
     padding-top: 4rem;
-    margin-bottom: 2rem;
     border-bottom: 1px solid var(--border-color);
+}
+
+@media (max-width: 686px) {
+    header#hero {
+        min-height: 870px;
+    }
+}
+
+@media (max-width: 503px) {
+    header#hero {
+        min-height: 970px;
+    }
+}
+
+@media (max-width: 371px) {
+    header#hero {
+        min-height: 1070px;
+    }
 }
 
 header#hero::before {
@@ -312,8 +329,14 @@ header#hero::after {
     color: var(--primary-color);
     font-size: 2rem;
     font-family: var(--font-mono);
-    margin-bottom: 1rem;
     display: block;
+}
+
+/* Hide the terminal prompt on mobile */
+@media (max-width: 768px) {
+    #hero-content::before {
+        display: none;
+    }
 }
 
 /* Cursor animation with orange highlight */
@@ -821,7 +844,8 @@ input:focus {
 .cta-buttons {
     display: flex;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1em;
     flex-wrap: wrap;
     justify-content: center;
 }
