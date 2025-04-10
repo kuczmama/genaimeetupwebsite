@@ -185,8 +185,8 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchUpcomingMeetups();
     fetchYouTubeVideos();
 
-    // Initialize form submission handler
-    initFormSubmission();
+    // Initialize form submission handler - TEMPORARILY DISABLED FOR TESTING
+    // initFormSubmission();
 });
 
 // Typewriter effect for code-styled text
