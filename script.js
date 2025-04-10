@@ -184,6 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch content
     fetchUpcomingMeetups();
     fetchYouTubeVideos();
+
+    // Initialize form submission handler
+    initFormSubmission();
 });
 
 // Typewriter effect for code-styled text
@@ -953,3 +956,77 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Function to handle form submission asynchronously
+function initFormSubmission() {
+    const form = document.getElementById('contactForm');
+    const messageDiv = document.getElementById('form-message');
+
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(form);
+            const submitButton = form.querySelector('button[type="submit"]');
+            const buttonOriginalText = submitButton.innerHTML;
+
+            // Log form data entries for debugging
+            console.log("Form data being sent:");
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            messageDiv.textContent = '';
+            messageDiv.className = ''; // Reset classes
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json' // Request JSON response from FormSubmit
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Expect JSON response on success
+                } else {
+                    // Attempt to get more specific error from FormSubmit JSON response
+                    return response.json().then(errorData => {
+                        // FormSubmit might return errors in a specific format
+                        // Check for common error structures
+                        let errorMessage = 'Submission failed. Please try again.';
+                        if (errorData && errorData.error) {
+                            errorMessage = `Error: ${errorData.error}`;
+                        } else if (errorData && errorData.message) {
+                            errorMessage = `Error: ${errorData.message}`;
+                        }
+                        throw new Error(errorMessage);
+                    }).catch(jsonError => {
+                        // If parsing JSON fails or the structure is unexpected, use status text
+                        console.error("Error parsing JSON response:", jsonError);
+                        throw new Error(`Submission failed: ${response.statusText} (Status: ${response.status})`);
+                    });
+                }
+            })
+            .then(data => {
+                // Success handling
+                messageDiv.textContent = 'Thanks for your message! We\'ll get back to you soon.';
+                messageDiv.className = 'success';
+                form.reset(); // Clear the form fields
+            })
+            .catch(error => {
+                // Error handling
+                messageDiv.textContent = `Error: ${error.message || 'Could not send message. Please try again.'}`;
+                messageDiv.className = 'error';
+            })
+            .finally(() => {
+                // Re-enable button and restore original text
+                submitButton.disabled = false;
+                submitButton.innerHTML = buttonOriginalText;
+            });
+        });
+    }
+}

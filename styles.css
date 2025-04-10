@@ -1482,8 +1482,9 @@ nav.site-nav.scrolled {
 }
 
 #contactForm button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 25px var(--accent-glow);
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 #contactForm button i {
@@ -1556,27 +1557,24 @@ nav.site-nav.scrolled {
 
 .crew-container {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    margin-top: 3rem;
-    overflow-x: auto;
-    padding-bottom: 1rem;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .crew-member {
-    background: transparent;
     text-align: center;
-    transition: var(--transition-normal);
-    flex: 0 0 auto;
-    max-width: 180px;
-    padding-top: 8px;
-    /* Add padding to prevent cutoff on hover */
+    width: 175px;
+    flex: 0 0 175px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1rem;
 }
 
 .crew-member:hover {
     transform: translateY(-5px);
-    /* Reduced from -8px to -5px */
 }
 
 .crew-image-container {
@@ -1623,38 +1621,38 @@ nav.site-nav.scrolled {
     font-weight: 600;
 }
 
-@media (max-width: 768px) {
-    .crew-container {
-        gap: 1.5rem;
-        justify-content: flex-start;
-    }
-
-    .crew-image-container {
-        width: 120px;
-        height: 120px;
-    }
+/* Add styles for the form message area */
+#form-message {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    font-size: 0.9rem;
+    display: none;
+    transition: opacity 0.3s ease;
 }
 
-.crew-image-container {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin: 0 auto;
-    box-shadow: var(--shadow-sm);
-    border: 3px solid var(--primary-color);
-    transition: var(--transition-normal);
+#form-message.success {
+    background-color: rgba(46, 204, 113, 0.15);
+    border: 1px solid #2ecc71;
+    color: #2ecc71;
+    display: block;
+}
+
+#form-message.error {
+    background-color: rgba(231, 76, 60, 0.15);
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    display: block;
 }
 
 /* Ensure the stats don't cause layout shifts */
 .quick-stats {
     min-height: 80px;
-    /* Adjust this value as needed */
 }
 
 .stat-item {
     min-height: 60px;
-    /* Adjust this value as needed */
 }
 
 /* Override the default cursor on tagline */
@@ -1681,7 +1679,6 @@ h2.code-style {
 
 .code-highlight {
     color: #ffe6cc;
-    /* Lighter orange for better visibility on buttons */
     font-family: 'Courier New', monospace;
 }
 
