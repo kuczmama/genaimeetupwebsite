@@ -387,29 +387,6 @@ section {
     counter-reset: line;
 }
 
-@media (min-width: 1400px) {
-
-    section::after {
-        counter-increment: line;
-        content: counter(line);
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 50px;
-        height: 100%;
-        color: var(--line-number);
-        font-family: var(--font-mono);
-        font-size: 0.8rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 4rem;
-        gap: 1.2rem;
-        text-align: right;
-        z-index: 2;
-    }
-}
-
 section:nth-child(odd) {
     background-color: rgba(30, 41, 59, 0.3);
 }
