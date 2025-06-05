@@ -403,7 +403,8 @@
     </section>
 
     <!-- Contact Form Section -->
-    <section id="contact">
+<!-- Contact Form Section -->
+<section id="contact">
   <div class="container">
     <h2 class="code-style">
       <span class="code-function">contact</span>(
@@ -411,16 +412,11 @@
       );
     </h2>
     <div class="contact-form-container">
-      <form action="https://formsubmit.co/el/cobozo" method="POST">
-        <!-- Honeypot to catch bots -->
-        <input type="text" name="_honey" style="display:none">
+      <form id="contact-form" action="https://formsubmit.co/el/cobozo" method="POST">
+        <!-- Disable FormSubmit’s reCAPTCHA -->
+        <input type="hidden" name="_captcha" value="false">
 
-        <!-- (No _captcha field here → reCAPTCHA v3 is enabled by default) -->
-
-        <!-- Redirect after successful submit -->
-        <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
-
-        <!-- Optional: custom email subject -->
+        <!-- (Optional) Custom email subject -->
         <input type="hidden" name="_subject" value="New Contact Form Submission">
 
         <div class="form-group">
@@ -454,9 +450,37 @@
           <i class="fas fa-paper-plane"></i>
         </button>
       </form>
+
+      <!-- This div will display the success/error message -->
+      <div id="form-message" style="margin-top: 1rem; font-weight: bold;"></div>
     </div>
   </div>
 </section>
+
+<script>
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        form.reset();
+        document.getElementById('form-message').innerText = 'Thank you! Your message has been sent.';
+      } else {
+        document.getElementById('form-message').innerText = 'Oops! Something went wrong.';
+      }
+    })
+    .catch(() => {
+      document.getElementById('form-message').innerText = 'Oops! Something went wrong.';
+    });
+  });
+</script>
+
 
 
     <footer>
