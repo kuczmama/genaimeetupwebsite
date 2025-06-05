@@ -404,45 +404,60 @@
 
     <!-- Contact Form Section -->
     <section id="contact">
-        <div class="container">
-            <h2 class="code-style"><span class="code-function">contact</span>(<span class="code-string typing-text"
-                    data-text="us"></span>);</h2>
-            <div class="contact-form-container">
-                <form action="https://formsubmit.co/el/cobozo" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contactType">I'm interested in:</label>
-                        <select id="contactType" name="contactType" required>
-                            <option value="" disabled selected>Select an option</option>
-                            <option value="sponsor">Becoming a sponsor (hosting an event)</option>
-                            <option value="speaker">Speaking at an event</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="4" required></textarea>
-                    </div>
-                    <!-- Honeypot field to prevent spam -->
-                    <input type="text" name="_honey" style="display:none">
-                    <!-- Disable captcha - Temporarily removed for testing -->
-                    <input type="hidden" name="_captcha" value="false">
-                    <button type="submit" class="btn btn-primary"><span class="code-function">submit</span>(<span
-                            class="code-highlight typing-text" data-text="message"></span>) <i
-                            class="fas fa-paper-plane"></i></button>
-                </form>
-                <!-- Add a div to display form status messages - Temporarily removed for testing -->
-                <!-- <div id="form-message"></div> -->
-            </div>
+  <div class="container">
+    <h2 class="code-style">
+      <span class="code-function">contact</span>(
+      <span class="code-string typing-text" data-text="us"></span>
+      );
+    </h2>
+    <div class="contact-form-container">
+      <form action="https://formsubmit.co/el/cobozo" method="POST">
+        <!-- Honeypot to catch bots -->
+        <input type="text" name="_honey" style="display:none">
+
+        <!-- (No _captcha field here → reCAPTCHA v3 is enabled by default) -->
+
+        <!-- Redirect after successful submit -->
+        <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
+
+        <!-- Optional: custom email subject -->
+        <input type="hidden" name="_subject" value="New Contact Form Submission">
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
         </div>
-    </section>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="contactType">I'm interested in:</label>
+          <select id="contactType" name="contactType" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="sponsor">Becoming a sponsor (hosting an event)</option>
+            <option value="speaker">Speaking at an event</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <span class="code-function">submit</span>(
+          <span class="code-highlight typing-text" data-text="message"></span>)
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
 
     <footer>
         <div class="container">
