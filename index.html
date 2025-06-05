@@ -402,7 +402,6 @@
         </div>
     </section>
 
-    <!-- Contact Form Section -->
 <!-- Contact Form Section -->
 <section id="contact">
   <div class="container">
@@ -451,7 +450,7 @@
         </button>
       </form>
 
-      <!-- This div will display the success/error message -->
+      <!-- Status message div -->
       <div id="form-message" style="margin-top: 1rem; font-weight: bold;"></div>
     </div>
   </div>
@@ -463,12 +462,16 @@
     const form = e.target;
     const formData = new FormData(form);
 
-    fetch(form.action, {
+    fetch('https://formsubmit.co/ajax/el/cobozo', {
       method: 'POST',
+      headers: {
+        'Accept': 'application/json'
+      },
       body: formData
     })
-    .then(response => {
-      if (response.ok) {
+    .then(response => response.json())
+    .then(data => {
+      if (data.success === 'true' || data.success === true) {
         form.reset();
         document.getElementById('form-message').innerText = 'Thank you! Your message has been sent.';
       } else {
