@@ -185,9 +185,6 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchUpcomingMeetups();
     fetchYouTubeVideos();
 
-    // Initialize marquee fallback for Chrome desktop
-    initMarqueeFallback();
-
     // Initialize form submission handler - TEMPORARILY DISABLED FOR TESTING
     // initFormSubmission();
 });
@@ -1031,72 +1028,5 @@ function initFormSubmission() {
                 submitButton.innerHTML = buttonOriginalText;
             });
         });
-    }
-}
-
-// Marquee fallback for Chrome desktop compatibility
-function initMarqueeFallback() {
-    const marqueeTrack = document.querySelector('.sponsors-track');
-    if (!marqueeTrack) return;
-
-    // Check if CSS animation is working
-    const computedStyle = window.getComputedStyle(marqueeTrack);
-    const animationName = computedStyle.animationName;
-    
-    // If animation is not working or is 'none', use JavaScript fallback
-    if (!animationName || animationName === 'none') {
-        console.log('CSS animation not working, using JavaScript fallback for marquee');
-        
-        let position = 0;
-        const speed = 1; // pixels per frame
-        const trackWidth = marqueeTrack.scrollWidth / 2; // Half because we duplicate content
-        
-        function animateMarquee() {
-            position -= speed;
-            
-            // Reset position when we've scrolled half the content
-            if (Math.abs(position) >= trackWidth) {
-                position = 0;
-            }
-            
-            marqueeTrack.style.transform = `translate3d(${position}px, 0, 0)`;
-            requestAnimationFrame(animateMarquee);
-        }
-        
-        // Start the animation
-        animateMarquee();
-        
-        // Pause on hover
-        const marqueeContainer = document.querySelector('.sponsors-marquee-container');
-        if (marqueeContainer) {
-            let isPaused = false;
-            
-            marqueeContainer.addEventListener('mouseenter', () => {
-                isPaused = true;
-            });
-            
-            marqueeContainer.addEventListener('mouseleave', () => {
-                isPaused = false;
-            });
-            
-            // Modified animation function that respects pause state
-            function animateMarqueeWithPause() {
-                if (!isPaused) {
-                    position -= speed;
-                    
-                    if (Math.abs(position) >= trackWidth) {
-                        position = 0;
-                    }
-                    
-                    marqueeTrack.style.transform = `translate3d(${position}px, 0, 0)`;
-                }
-                requestAnimationFrame(animateMarqueeWithPause);
-            }
-            
-            // Restart with pause functionality
-            animateMarqueeWithPause();
-        }
-    } else {
-        console.log('CSS animation is working for marquee');
     }
 }

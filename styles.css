@@ -1070,8 +1070,6 @@ nav.site-nav.scrolled {
     justify-content: center;
     border: 1px solid var(--accent-glow);
     transition: all 0.3s ease;
-    flex-shrink: 0;
-    min-width: max-content;
 }
 
 .sponsor-text span {
@@ -1096,9 +1094,8 @@ nav.site-nav.scrolled {
     background: rgba(15, 15, 15, 0.3);
     border-radius: 8px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     padding: 15px 0;
-    z-index: 10;
 }
 
 .sponsors-marquee-container::before,
@@ -1125,7 +1122,6 @@ nav.site-nav.scrolled {
 .sponsors-marquee {
     width: 100%;
     overflow: hidden;
-    position: relative;
 }
 
 .sponsors-track {
@@ -1133,51 +1129,21 @@ nav.site-nav.scrolled {
     animation: scroll 30s linear infinite;
     width: max-content;
     padding: 10px 0;
-    will-change: transform;
 }
 
 @keyframes scroll {
     0% {
-        transform: translate3d(0, 0, 0);
+        transform: translateX(0);
     }
 
     100% {
-        transform: translate3d(-50%, 0, 0);
+        transform: translateX(calc(-100% / 2));
     }
 }
 
 /* Pause the animation when the user hovers over the marquee */
 .sponsors-marquee-container:hover .sponsors-track {
     animation-play-state: paused;
-}
-
-/* Chrome desktop specific fixes */
-@media screen and (min-width: 769px) {
-    .sponsors-marquee-container {
-        /* Force hardware acceleration for Chrome desktop */
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        perspective: 1000px;
-        -webkit-perspective: 1000px;
-    }
-    
-    .sponsors-track {
-        /* Ensure proper rendering in Chrome desktop */
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-    }
-}
-
-/* Fallback for browsers that don't support CSS animations */
-@supports not (animation: scroll 30s linear infinite) {
-    .sponsors-track {
-        animation: none;
-        transform: translateX(-50%);
-    }
 }
 
 @keyframes carousel {
