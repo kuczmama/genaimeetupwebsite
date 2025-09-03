@@ -683,7 +683,7 @@ a,
 button,
 .btn,
 .tech-badge,
-.sponsor-carousel-item {
+.company-carousel-item {
     transition: var(--transition-normal);
 }
 
@@ -1053,14 +1053,14 @@ nav.site-nav.scrolled {
     font-family: var(--font-mono);
 }
 
-/* Add sponsor text styles */
+/* Add company text styles */
 @media (max-width: 768px) {
     #sponsors .code-style {
         min-height: 96px;
     }
 }
 
-.sponsor-text {
+.company-text {
     padding: 15px 25px;
     margin: 5px 10px;
     background: rgba(30, 30, 30, 0.7);
@@ -1072,14 +1072,14 @@ nav.site-nav.scrolled {
     transition: all 0.3s ease;
 }
 
-.sponsor-text span {
+.company-text span {
     color: #f0f0f0;
     font-size: 18px;
     font-weight: 500;
     white-space: nowrap;
 }
 
-.sponsor-text:hover {
+.company-text:hover {
     background: rgba(40, 40, 40, 0.9);
     transform: translateY(-3px);
     border: 1px solid var(--primary-color);
@@ -1087,8 +1087,8 @@ nav.site-nav.scrolled {
     z-index: 2;
 }
 
-/* Sponsors Marquee Animation */
-.sponsors-marquee-container {
+/* Companies Marquee Animation */
+.companies-marquee-container {
     width: 100%;
     margin: 3rem 0;
     background: rgba(15, 15, 15, 0.3);
@@ -1098,8 +1098,8 @@ nav.site-nav.scrolled {
     padding: 15px 0;
 }
 
-.sponsors-marquee-container::before,
-.sponsors-marquee-container::after {
+.companies-marquee-container::before,
+.companies-marquee-container::after {
     content: "";
     height: 100%;
     width: 5rem;
@@ -1109,22 +1109,22 @@ nav.site-nav.scrolled {
     pointer-events: none;
 }
 
-.sponsors-marquee-container::before {
+.companies-marquee-container::before {
     left: 0;
     background: linear-gradient(to right, var(--bg-dark), transparent);
 }
 
-.sponsors-marquee-container::after {
+.companies-marquee-container::after {
     right: 0;
     background: linear-gradient(to left, var(--bg-dark), transparent);
 }
 
-.sponsors-marquee {
+.companies-marquee {
     width: 100%;
     overflow: hidden;
 }
 
-.sponsors-track {
+.companies-track {
     display: flex;
     animation: scroll 30s linear infinite;
     width: max-content;
@@ -1142,7 +1142,7 @@ nav.site-nav.scrolled {
 }
 
 /* Pause the animation when the user hovers over the marquee */
-.sponsors-marquee-container:hover .sponsors-track {
+.companies-marquee-container:hover .companies-track {
     animation-play-state: paused;
 }
 
