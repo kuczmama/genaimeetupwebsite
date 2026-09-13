@@ -930,6 +930,17 @@ nav.site-nav.scrolled {
     margin: 2rem 0;
 }
 
+.videos-loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.video-thumbnail-container:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: -3px;
+}
+
 .video-item {
     position: relative;
     border-radius: var(--border-radius-md);

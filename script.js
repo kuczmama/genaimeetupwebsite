@@ -472,109 +472,99 @@ async function fetchUpcomingMeetups() {
     }
 }
 
-// Optimized YouTube video loading - simplified to show 6 real latest videos
-function fetchYouTubeVideos() {
+// Load the channel's latest uploads on every visit instead of keeping a fixed episode list.
+async function fetchYouTubeVideos() {
     const youtubeGallery = document.getElementById('youtube-gallery');
     if (!youtubeGallery) return;
 
-    // Helper function to extract video ID from YouTube URL
-    function getYoutubeVideoId(url) {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : null;
-    }
+    const feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCnQGeStcP1YuF9mmNSue8dw';
+    // YouTube's RSS endpoint does not support browser CORS; RSS2JSON provides the public feed.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
 
-    // Video data array
-    const videos = [
-        {
-            id: 'yWXQUo4zeS0',
-            title: 'Multi-Agent Applications',
-            date: 'April 6, 2025'
-        },
-        {
-            id: 'B3P8dk5INNQ',
-            title: 'Meta releases Llama 4!',
-            date: 'April 6, 2025'
-        },
-        {
-            id: '0eAUt-fyIVM',
-            title: '2025 is the Year of Agents',
-            date: 'April 4, 2025'
-        },
-        {
-            id: 'Zhi1MNa2Y6U',
-            title: 'Building AI Agents Without Code | Interview with Langflow',
-            date: 'April 4, 2025'
-        },
-        {
-            id: 'Hu05nWqEVRc',
-            title: 'What will the world look like in 2035?',
-            date: 'April 2, 2025'
-        },
-        {
-            id: 'FTnR1tpvHNo',
-            title: 'What even is AGI?',
-            date: 'March 28, 2025'
-        }
-    ];
-
-    // Generate HTML with thumbnails that open embedded players when clicked
-    let html = '';
-
-    videos.forEach(video => {
-        html += `
-<div class="video-item">
-    <div class="video-thumbnail-container" data-video-id="${video.id}">
-    <img src="https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg" alt="${video.title}" class="video-thumbnail" loading="lazy">
-    <div class="video-play-button">
-        <i class="fas fa-play"></i>
-    </div>
-    </div>
-    <div class="video-info">
-    <h3 class="video-title">${video.title}</h3>
-    <div class="video-metadata">
-        <div class="video-date">
-        <i class="far fa-calendar-alt"></i>
-        <span>${video.date}</span>
-        </div>
-    </div>
-    </div>
-</div>
-`;
-    });
-
-    youtubeGallery.innerHTML = html;
-
-    // Add click event listeners to all thumbnail containers
-    document.querySelectorAll('.video-thumbnail-container').forEach(container => {
-        container.addEventListener('click', function () {
-            const videoId = this.getAttribute('data-video-id');
-
-            // If there's already an iframe, remove it (toggle behavior)
-            if (this.querySelector('iframe')) {
-                this.innerHTML = `
-        <img src="https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg" alt="YouTube video thumbnail" class="video-thumbnail" loading="lazy">
-        <div class="video-play-button">
-        <i class="fas fa-play"></i>
-        </div>
-    `;
-                return;
-            }
-
-            // Replace thumbnail with embedded iframe
-            this.innerHTML = `
-    <iframe 
-        width="100%" 
-        height="100%" 
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
-        title="YouTube video player" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-    </iframe>
-    `;
+    try {
+        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`, {
+            signal: controller.signal
         });
-    });
+        if (!response.ok) throw new Error(`YouTube feed returned ${response.status}`);
+
+        const feed = await response.json();
+        if (feed.status !== 'ok' || !Array.isArray(feed.items)) {
+            throw new Error('YouTube feed is unavailable');
+        }
+
+        const seen = new Set();
+        const videos = feed.items.map(item => ({
+            id: typeof item.guid === 'string' ? item.guid.match(/^yt:video:([\w-]{11})$/)?.[1] : null,
+            title: typeof item.title === 'string' ? item.title : '',
+            // RSS2JSON supplies publication times in UTC without a timezone suffix.
+            published: new Date(typeof item.pubDate === 'string' ? item.pubDate.replace(' ', 'T') + 'Z' : NaN)
+        })).filter(video => {
+            if (!video.id || !video.title || !Number.isFinite(video.published.getTime()) || seen.has(video.id)) return false;
+            seen.add(video.id);
+            return true;
+        }).sort((a, b) => b.published - a.published).slice(0, 6);
+
+        if (!videos.length) throw new Error('YouTube feed contains no videos');
+
+        const fragment = document.createDocumentFragment();
+        videos.forEach(video => {
+            // Decode feed entities, then insert titles as text so feed content cannot become markup.
+            const title = new DOMParser().parseFromString(video.title, 'text/html').documentElement.textContent;
+            const item = document.createElement('div');
+            item.className = 'video-item';
+            item.innerHTML = `
+                <div class="video-thumbnail-container" role="button" tabindex="0">
+                    <img class="video-thumbnail" loading="lazy">
+                    <div class="video-play-button"><i class="fas fa-play" aria-hidden="true"></i></div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title"></h3>
+                    <div class="video-metadata">
+                        <div class="video-date"><i class="far fa-calendar-alt" aria-hidden="true"></i><time></time></div>
+                    </div>
+                </div>`;
+            item.querySelector('.video-title').textContent = title;
+            const thumbnail = item.querySelector('img');
+            thumbnail.src = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
+            thumbnail.alt = title;
+            const date = item.querySelector('time');
+            date.dateTime = video.published.toISOString();
+            date.textContent = video.published.toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
+            });
+
+            const container = item.querySelector('.video-thumbnail-container');
+            container.setAttribute('aria-label', `Play ${title}`);
+            const play = () => {
+                if (container.querySelector('iframe')) return;
+                const player = document.createElement('iframe');
+                player.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+                player.title = title;
+                player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                player.allowFullscreen = true;
+                container.replaceChildren(player);
+                container.removeAttribute('role');
+                container.removeAttribute('tabindex');
+                container.removeAttribute('aria-label');
+                player.focus();
+            };
+            container.addEventListener('click', play);
+            container.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    play();
+                }
+            });
+            fragment.appendChild(item);
+        });
+        youtubeGallery.replaceChildren(fragment);
+    } catch (error) {
+        console.warn('Unable to load the latest YouTube videos:', error);
+        youtubeGallery.innerHTML = '<p class="videos-loading" role="status">Visit our YouTube channel below to watch the latest episodes.</p>';
+    } finally {
+        clearTimeout(timeout);
+    }
 }
 
 // Initialize particle grabbing effect
