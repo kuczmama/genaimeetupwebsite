@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "source": "https://www.meetup.com/gen-ai/events/ical/",
+  "refreshedAt": "2026-10-24T23:36:12Z",
+  "events": [
+    {
+      "id": "event_316919852@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/316919852/",
+      "startsAt": "2026-10-30T02:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-10-30T04:00:00Z"
+    },
+    {
+      "id": "event_316963851@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/316963851/",
+      "startsAt": "2026-11-06T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-11-06T05:00:00Z"
+    },
+    {
+      "id": "event_317098975@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/317098975/",
+      "startsAt": "2026-11-13T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-11-13T05:00:00Z"
+    },
+    {
+      "id": "event_gwvtxtyjcpbzb@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/gwvtxtyjcpbzb/",
+      "startsAt": "2026-11-20T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-11-20T05:00:00Z"
+    },
+    {
+      "id": "event_gwvtxtyjcpbjc@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/gwvtxtyjcpbjc/",
+      "startsAt": "2026-11-27T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-11-27T05:00:00Z"
+    },
+    {
+      "id": "event_gwvtxtyjcqbfb@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/gwvtxtyjcqbfb/",
+      "startsAt": "2026-12-04T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-12-04T05:00:00Z"
+    },
+    {
+      "id": "event_gwvtxtyjcqbnb@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/gwvtxtyjcqbnb/",
+      "startsAt": "2026-12-11T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-12-11T05:00:00Z"
+    },
+    {
+      "id": "event_gwvtxtyjcqbwb@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/gwvtxtyjcqbwb/",
+      "startsAt": "2026-12-18T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-12-18T05:00:00Z"
+    },
+    {
+      "id": "event_gwvtxtyjcqbgc@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/gwvtxtyjcqbgc/",
+      "startsAt": "2026-12-25T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2026-12-25T05:00:00Z"
+    },
+    {
+      "id": "event_gwvtxtyjcqbpc@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/gwvtxtyjcqbpc/",
+      "startsAt": "2027-01-01T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2027-01-01T05:00:00Z"
+    }
+  ]
+}

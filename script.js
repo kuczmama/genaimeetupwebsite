@@ -1,1022 +1,293 @@
-// Set current year in footer
-document.getElementById('current-year').textContent = new Date().getFullYear();
+"use strict";
 
-// Scroll progress indicator
-window.addEventListener('scroll', function () {
-    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (window.scrollY / windowHeight) * 100;
-    document.querySelector('.scroll-progress').style.width = scrolled + '%';
+document.documentElement.classList.add("js");
+const menuToggle = document.querySelector(".menu-toggle");
+const mainNav = document.querySelector("#main-nav");
+
+function closeMenu() {
+  mainNav.classList.remove("is-open");
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.querySelector("span").textContent = "+";
+}
+menuToggle.addEventListener("click", () => {
+  const open = mainNav.classList.toggle("is-open");
+  menuToggle.setAttribute("aria-expanded", String(open));
+  menuToggle.querySelector("span").textContent = open ? "−" : "+";
 });
-
-// Scroll animation for elements
-const fadeElements = document.querySelectorAll('section h2, .join-options');
-
-// Add fade-in class to elements
-fadeElements.forEach(el => {
-    el.classList.add('fade-in');
+mainNav.addEventListener("click", (event) => {
+  if (event.target.closest("a")) closeMenu();
 });
-
-// Check if elements are in viewport and add visible class
-function checkFadeElements() {
-    fadeElements.forEach(el => {
-        const elementTop = el.getBoundingClientRect().top;
-        const elementVisible = 150;
-
-        if (elementTop < window.innerHeight - elementVisible) {
-            el.classList.add('visible');
-        }
-    });
-}
-
-// Run on scroll and on load
-window.addEventListener('scroll', checkFadeElements);
-window.addEventListener('load', checkFadeElements);
-
-// Initialize
-document.addEventListener('DOMContentLoaded', function () {
-    // Ensure page starts at the top
-    if (!window.location.hash) {
-        window.scrollTo(0, 0);
-    }
-
-    // Run initial check for fade elements
-    checkFadeElements();
-
-    // Initialize counter animation
-    initCounters();
-
-    // Initialize typing animations
-    initTypewriterEffect();
-
-    // Navigation scroll effect
-    window.addEventListener('scroll', function () {
-        const nav = document.querySelector('.site-nav');
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    });
-
-    // Mobile menu toggle
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
-        document.querySelector('.nav-links').classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', function () {
-            document.querySelector('.nav-links').classList.remove('active');
-        });
-    });
-
-    // Enhanced neural network particle animation with monochrome + orange highlight
-    particlesJS('particles-js', {
-        "particles": {
-            "number": {
-                "value": 180,
-                "density": {
-                    "enable": true,
-                    "value_area": 800
-                }
-            },
-            "color": {
-                "value": ["#888888", "#aaaaaa", "#ff4081", "#cccccc"]
-            },
-            "shape": {
-                "type": "circle",
-                "stroke": {
-                    "width": 0,
-                    "color": "#000000"
-                }
-            },
-            "opacity": {
-                "value": 0.6,
-                "random": true,
-                "anim": {
-                    "enable": true,
-                    "speed": 1,
-                    "opacity_min": 0.2,
-                    "sync": false
-                }
-            },
-            "size": {
-                "value": 3,
-                "random": true,
-                "anim": {
-                    "enable": false,
-                    "speed": 40,
-                    "size_min": 0.1,
-                    "sync": false
-                }
-            },
-            "line_linked": {
-                "enable": true,
-                "distance": 200,
-                "color": "#888888",
-                "opacity": 0.5,
-                "width": 1
-            },
-            "move": {
-                "enable": true,
-                "speed": 2.5,
-                "direction": "none",
-                "random": true,
-                "straight": false,
-                "out_mode": "out",
-                "bounce": false,
-                "attract": {
-                    "enable": true,
-                    "rotateX": 600,
-                    "rotateY": 1200
-                }
-            }
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-                "onhover": {
-                    "enable": true,
-                    "mode": "grab"
-                },
-                "onclick": {
-                    "enable": true,
-                    "mode": "push"
-                },
-                "resize": true
-            },
-            "modes": {
-                "grab": {
-                    "distance": 180,
-                    "line_linked": {
-                        "opacity": 1,
-                        "color": "#ff4081"
-                    }
-                },
-                "bubble": {
-                    "distance": 100,
-                    "size": 5,
-                    "duration": 0.4,
-                    "opacity": 1,
-                    "speed": 3
-                },
-                "repulse": {
-                    "distance": 100,
-                    "duration": 0.4
-                },
-                "push": {
-                    "particles_nb": 8
-                },
-                "remove": {
-                    "particles_nb": 2
-                }
-            }
-        },
-        "retina_detect": true
-    });
-
-    // Initialize particle grabbing effect
-    initializeParticleGrabbing();
-
-    // Create additional neural network layer effect
-    setTimeout(createNeuralNetworkLayers, 500);
-
-    // Fetch content
-    fetchUpcomingMeetups();
-    fetchYouTubeVideos();
-
-    // Initialize form submission handler - TEMPORARILY DISABLED FOR TESTING
-    // initFormSubmission();
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && mainNav.classList.contains("is-open")) {
+    closeMenu();
+    menuToggle.focus();
+  }
 });
+document.addEventListener("click", (event) => {
+  if (!event.target.closest(".site-header")) closeMenu();
+});
+window.matchMedia("(min-width: 621px)").addEventListener("change", closeMenu);
+document.querySelector("#current-year").textContent = new Date().getFullYear();
 
-// Typewriter effect for code-styled text
-function initTypewriterEffect() {
-    // Type the main tagline immediately
-    const taglineElement = document.querySelector('#tagline .typing-text');
-    if (taglineElement) {
-        typeText(taglineElement, 0, 30);
-    }
-
-    // Find elements that need alternating text animation
-    const alternatingElements = document.querySelectorAll('.typing-text[data-animate-alternate="true"]');
-    alternatingElements.forEach(element => {
-        startAlternatingTextAnimation(element);
-    });
-
-    // Set up intersection observer for other typing elements
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Start typing when the element is visible
-                const typingElement = entry.target;
-
-                // Skip elements with alternating animation
-                if (!typingElement.hasAttribute('data-animate-alternate')) {
-                    typeText(typingElement, 0, 50);
-                }
-
-                // Unobserve after starting the animation
-                observer.unobserve(typingElement);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    // Observe all typing-text elements except the main tagline and alternating ones
-    document.querySelectorAll('.typing-text:not(#tagline .typing-text):not([data-animate-alternate="true"])').forEach(elem => {
-        observer.observe(elem);
-    });
+// Preserve links to sections of the old homepage.
+const legacySections = {
+  "#youtube": "#watch",
+  "#upcoming-meetups": "#events",
+  "#about": "#events",
+};
+function followLegacyAnchor() {
+  const target = legacySections[window.location.hash];
+  if (target) document.querySelector(target)?.scrollIntoView();
 }
+followLegacyAnchor();
+window.addEventListener("hashchange", followLegacyAnchor);
 
-// Function to handle alternating text animation with backspace effect
-function startAlternatingTextAnimation(element) {
-    const text1 = element.getAttribute('data-text');
-    const text2 = element.getAttribute('data-alternate-text');
-    let currentText = text1;
-    let isTyping = true;
-    let charIndex = 0;
+// One featured destination at a time. Manual interaction stops rotation;
+// hovering and background tabs temporarily suspend it. Respect reduced motion.
+const carousel = document.querySelector(".feature-carousel");
+const slides = [...carousel.querySelectorAll(".feature-slide")];
+const selectors = [...carousel.querySelectorAll("[data-slide]")];
+const slideRegion = carousel.querySelector(".feature-slides");
+const pauseButton = carousel.querySelector("[data-carousel-pause]");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+let activeSlide = 0;
+let rotating = !reducedMotion.matches;
+let rotationTimer;
+let hovered = false;
 
-    // Clear any existing content and remove cursor if exists
-    element.innerHTML = '';
-    const cursor = document.createElement('span');
-    cursor.className = 'cursor';
-    element.appendChild(cursor);
-
-    function animateText() {
-        if (isTyping) {
-            // Typing phase
-            if (charIndex < currentText.length) {
-                element.insertBefore(document.createTextNode(currentText.charAt(charIndex)), cursor);
-                charIndex++;
-                setTimeout(animateText, 100); // Typing speed
-            } else {
-                // Typing complete, wait before backspacing
-                isTyping = false;
-                setTimeout(animateText, 2000); // Wait 2 seconds before backspacing
-            }
-        } else {
-            // Backspacing phase
-            if (charIndex > 0) {
-                // Remove the last character
-                charIndex--;
-                element.textContent = currentText.substring(0, charIndex);
-                element.appendChild(cursor);
-                setTimeout(animateText, 50); // Backspacing speed (faster than typing)
-            } else {
-                // Backspacing complete, switch text and start typing
-                isTyping = true;
-                currentText = currentText === text1 ? text2 : text1;
-                setTimeout(animateText, 200); // Small pause before typing new word
-            }
-        }
-    }
-
-    // Start the animation
-    animateText();
+function scheduleRotation() {
+  clearTimeout(rotationTimer);
+  if (rotating && !hovered && !document.hidden && (!carousel.contains(document.activeElement) || document.activeElement === pauseButton)) {
+    rotationTimer = setTimeout(() => {
+      showSlide(activeSlide + 1);
+      scheduleRotation();
+    }, 7000);
+  }
 }
-
-function typeText(element, index, speed) {
-    const text = element.getAttribute('data-text');
-
-    // Clear any existing content and remove cursor if exists
-    if (index === 0) {
-        element.innerHTML = '';
-        const oldCursor = element.querySelector('.cursor');
-        if (oldCursor) oldCursor.remove();
-    }
-
-    if (index < text.length) {
-        element.innerHTML += text.charAt(index);
-        index++;
-        setTimeout(() => typeText(element, index, speed), speed);
-    } else {
-        // Add blinking cursor after typing finishes, but only if not inside a button
-        const isInsideButton = element.closest('.btn') !== null;
-        if (!isInsideButton) {
-            const cursor = document.createElement('span');
-            cursor.className = 'cursor';
-            element.appendChild(cursor);
-        }
-    }
+function setRotation(enabled) {
+  rotating = enabled;
+  pauseButton.textContent = enabled ? "Ⅱ" : "▶";
+  pauseButton.setAttribute("aria-label", enabled ? "Pause highlight rotation" : "Start highlight rotation");
+  slideRegion.setAttribute("aria-live", enabled ? "off" : "polite");
+  scheduleRotation();
 }
-
-// Counter animation for stat values
-function initCounters() {
-    const counters = document.querySelectorAll('.stat-value[data-counter]');
-
-    counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-counter'));
-        const duration = 2000; // Animation duration in milliseconds
-        const startTime = performance.now();
-        const startValue = 0;
-
-        function updateCounter(currentTime) {
-            const elapsedTime = currentTime - startTime;
-
-            if (elapsedTime < duration) {
-                const progress = elapsedTime / duration;
-                // Use easeOutQuart for a more natural feel
-                const easedProgress = 1 - Math.pow(1 - progress, 4);
-                const currentValue = Math.floor(easedProgress * target);
-
-                // Format with commas for thousands
-                counter.textContent = currentValue >= 1000 ?
-                    currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "+" :
-                    currentValue + "+";
-
-                requestAnimationFrame(updateCounter);
-            } else {
-                // Ensure we end exactly at the target value
-                counter.textContent = target >= 1000 ?
-                    target.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "+" :
-                    target + "+";
-            }
-        }
-
-        requestAnimationFrame(updateCounter);
-    });
+function showSlide(index) {
+  activeSlide = (index + slides.length) % slides.length;
+  slides.forEach((slide, i) => { slide.hidden = i !== activeSlide; });
+  selectors.forEach((button, i) => button.setAttribute("aria-pressed", String(i === activeSlide)));
 }
-
-// Fetch upcoming meetups from iCal feed with widget-like display
-async function fetchUpcomingMeetups() {
-    const eventsContainer = document.getElementById('upcoming-events-row');
-
-    try {
-        // Show loading message
-        eventsContainer.innerHTML = '<div class="events-loading">Loading upcoming events...</div>';
-
-        // Use a reliable CORS proxy to access the meetup iCal feed
-        const corsProxy = 'https://corsproxy.io/?';
-        const icalUrl = encodeURIComponent('https://www.meetup.com/gen-ai/events/ical/');
-
-        const response = await fetch(corsProxy + icalUrl);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch: ${response.status}`);
-        }
-
-        const data = await response.text();
-
-        // Parse the ICS data using ical.js
-        const jcalData = ICAL.parse(data);
-        const comp = new ICAL.Component(jcalData);
-        const vevents = comp.getAllSubcomponents('vevent');
-
-        // Clear loading message
-        eventsContainer.innerHTML = '';
-
-        // Process events - display 3 upcoming events
-        const today = new Date();
-        let upcomingEvents = [];
-
-        vevents.forEach(vevent => {
-            const event = new ICAL.Event(vevent);
-            const eventDate = event.startDate.toJSDate();
-
-            const vEvent = vevent.jCal[1]; // Assuming the first (and likely only) VEVENT
-
-            let eventUrl = null;
-            if (vEvent && Array.isArray(vEvent)) {
-                for (const property of vEvent) {
-                    if (Array.isArray(property) && property[0] === 'url') {
-                        eventUrl = property[3]; // The URL is at index 3
-                        break; // Found the URL, so exit the loop
-                    }
-                }
-            }
-
-            // Only add future events or events today
-            if (eventDate >= today) {
-                upcomingEvents.push({
-                    title: event.summary,
-                    link: eventUrl ? eventUrl : '#',
-                    date: eventDate,
-                    month: eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase(),
-                    day: eventDate.getDate(),
-                    formattedDate: eventDate.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    }),
-                    formattedTime: eventDate.toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    })
-                });
-            }
-        });
-
-        // Sort by date (nearest first)
-        upcomingEvents.sort((a, b) => a.date - b.date);
-
-        // Take first 5 events
-        upcomingEvents = upcomingEvents.slice(0, 5);
-
-        if (upcomingEvents.length > 0) {
-            // Create a widget-like container
-            const widgetContainer = document.createElement('div');
-            widgetContainer.className = 'meetup-events-widget';
-
-            upcomingEvents.forEach(event => {
-                const eventCard = document.createElement('div');
-                eventCard.className = 'event-card-widget';
-                eventCard.style.cursor = 'pointer';
-                
-                // Add event listener to navigate to the event page when clicked
-                eventCard.addEventListener('click', function() {
-                    console.log(event);
-                    console.log(event.link);
-                    if (event.link && event.link !== '#') {
-                        window.open(event.link, '_blank', 'noopener,noreferrer');
-                    }
-                });
-                
-                eventCard.innerHTML = `
-                    <div class="event-date-widget">
-                        <span class="month">${event.month}</span>
-                        <span class="day">${event.day}</span>
-                    </div>
-                    <div class="event-details-widget">
-                        <h4>${event.title}</h4>
-                        <p>
-                            <i class="far fa-clock"></i> ${event.formattedTime}<br>
-                            <i class="far fa-calendar-alt"></i> ${event.formattedDate}</p>
-                    </div>
-                `;
-
-                widgetContainer.appendChild(eventCard);
-            });
-
-            eventsContainer.appendChild(widgetContainer);
-
-            // Initialize typing effect for newly added elements
-            document.querySelectorAll('.event-card-widget .typing-text').forEach(elem => {
-                typeText(elem, 0, 50);
-            });
-        } else {
-            // No upcoming events
-            eventsContainer.innerHTML = `
-    <div class="no-events">
-        <p>No upcoming events currently scheduled. Check back soon!</p>
-        <a href="https://www.meetup.com/gen-ai/events/" class="btn btn-secondary btn-sm" target="_blank" rel="noopener noreferrer">
-        Check Meetup Page
-        </a>
-    </div>
-    `;
-        }
-    } catch (error) {
-        console.error('Error fetching meetup events:', error);
-        eventsContainer.innerHTML = `
-    <div class="events-error">
-    <p>Couldn't load upcoming events. Please check the <a href="https://www.meetup.com/gen-ai/events/" target="_blank" rel="noopener noreferrer">Meetup page</a> for the latest events.</p>
-    </div>
-`;
-    }
+function chooseSlide(index) {
+  setRotation(false);
+  showSlide(index);
 }
+selectors.forEach(button => button.addEventListener("click", () => chooseSlide(Number(button.dataset.slide))));
+carousel.querySelector("[data-carousel-prev]").addEventListener("click", () => chooseSlide(activeSlide - 1));
+carousel.querySelector("[data-carousel-next]").addEventListener("click", () => chooseSlide(activeSlide + 1));
+pauseButton.addEventListener("click", () => setRotation(!rotating));
+carousel.addEventListener("mouseenter", () => { hovered = true; scheduleRotation(); });
+carousel.addEventListener("mouseleave", () => { hovered = false; scheduleRotation(); });
+carousel.addEventListener("focusin", (event) => {
+  if (event.target !== pauseButton) setRotation(false);
+});
+carousel.addEventListener("focusout", scheduleRotation);
+carousel.querySelector(".feature-controls").addEventListener("keydown", event => {
+  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  event.preventDefault();
+  const index = event.key === "Home" ? 0 : event.key === "End" ? slides.length - 1 : activeSlide + (event.key === "ArrowRight" ? 1 : -1);
+  chooseSlide(index);
+  selectors[activeSlide].focus();
+});
+reducedMotion.addEventListener("change", () => { if (reducedMotion.matches) setRotation(false); });
+document.addEventListener("visibilitychange", scheduleRotation);
+carousel.querySelector(".feature-controls").hidden = false;
+setRotation(rotating);
 
-// Load the channel's latest uploads on every visit instead of keeping a fixed episode list.
-async function fetchYouTubeVideos() {
-    const youtubeGallery = document.getElementById('youtube-gallery');
-    if (!youtubeGallery) return;
+// Each logo rotates inside its own fixed tile. Reduced-motion and no-JavaScript
+// visitors get the full static set; the default two-row grid rotates automatically.
+(() => {
+  const section = document.querySelector(".partners-section");
+  const grid = section.querySelector(".partner-grid");
+  const partners = [...grid.querySelectorAll("img")].map(image => ({
+    src: image.getAttribute("src"), name: image.alt, href: image.closest("a").href,
+  }));
+  let visible = [];
+  let tileOrder = [];
+  let lastTile = -1;
+  let waiting = [];
+  let inView = false;
+  let timer;
+  let pendingSwap;
+  let columns;
 
-    const feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCnQGeStcP1YuF9mmNSue8dw';
-    // YouTube's RSS endpoint does not support browser CORS; RSS2JSON provides the public feed.
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
-
-    try {
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`, {
-            signal: controller.signal
-        });
-        if (!response.ok) throw new Error(`YouTube feed returned ${response.status}`);
-
-        const feed = await response.json();
-        if (feed.status !== 'ok' || !Array.isArray(feed.items)) {
-            throw new Error('YouTube feed is unavailable');
-        }
-
-        const seen = new Set();
-        const videos = feed.items.map(item => ({
-            id: typeof item.guid === 'string' ? item.guid.match(/^yt:video:([\w-]{11})$/)?.[1] : null,
-            title: typeof item.title === 'string' ? item.title : '',
-            // RSS2JSON supplies publication times in UTC without a timezone suffix.
-            published: new Date(typeof item.pubDate === 'string' ? item.pubDate.replace(' ', 'T') + 'Z' : NaN)
-        })).filter(video => {
-            if (!video.id || !video.title || !Number.isFinite(video.published.getTime()) || seen.has(video.id)) return false;
-            seen.add(video.id);
-            return true;
-        }).sort((a, b) => b.published - a.published).slice(0, 6);
-
-        if (!videos.length) throw new Error('YouTube feed contains no videos');
-
-        const fragment = document.createDocumentFragment();
-        videos.forEach(video => {
-            // Decode feed entities, then insert titles as text so feed content cannot become markup.
-            const title = new DOMParser().parseFromString(video.title, 'text/html').documentElement.textContent;
-            const item = document.createElement('div');
-            item.className = 'video-item';
-            item.innerHTML = `
-                <div class="video-thumbnail-container" role="button" tabindex="0">
-                    <img class="video-thumbnail" loading="lazy">
-                    <div class="video-play-button"><i class="fas fa-play" aria-hidden="true"></i></div>
-                </div>
-                <div class="video-info">
-                    <h3 class="video-title"></h3>
-                    <div class="video-metadata">
-                        <div class="video-date"><i class="far fa-calendar-alt" aria-hidden="true"></i><time></time></div>
-                    </div>
-                </div>`;
-            item.querySelector('.video-title').textContent = title;
-            const thumbnail = item.querySelector('img');
-            thumbnail.src = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
-            thumbnail.alt = title;
-            const date = item.querySelector('time');
-            date.dateTime = video.published.toISOString();
-            date.textContent = video.published.toLocaleDateString('en-US', {
-                year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
-            });
-
-            const container = item.querySelector('.video-thumbnail-container');
-            container.setAttribute('aria-label', `Play ${title}`);
-            const play = () => {
-                if (container.querySelector('iframe')) return;
-                const player = document.createElement('iframe');
-                player.src = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
-                player.title = title;
-                player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-                player.allowFullscreen = true;
-                container.replaceChildren(player);
-                container.removeAttribute('role');
-                container.removeAttribute('tabindex');
-                container.removeAttribute('aria-label');
-                player.focus();
-            };
-            container.addEventListener('click', play);
-            container.addEventListener('keydown', event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    play();
-                }
-            });
-            fragment.appendChild(item);
-        });
-        youtubeGallery.replaceChildren(fragment);
-    } catch (error) {
-        console.warn('Unable to load the latest YouTube videos:', error);
-        youtubeGallery.innerHTML = '<p class="videos-loading" role="status">Visit our YouTube channel below to watch the latest episodes.</p>';
-    } finally {
-        clearTimeout(timeout);
+  function shuffle(items) {
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
     }
-}
-
-// Initialize particle grabbing effect
-function initializeParticleGrabbing() {
-    // Get canvas and pJS instance
-    const canvas = document.querySelector('#particles-js canvas');
-    if (!canvas || !pJSDom || !pJSDom[0]) {
-        console.error('Particles.js not initialized properly');
-        return;
+    return items;
+  }
+  function logo(index) {
+    const panel = document.createElement("div");
+    panel.className = "partner-logo";
+    const image = new Image(180, 65);
+    image.alt = partners[index].name;
+    image.src = partners[index].src;
+    image.addEventListener("error", () => {
+      const name = document.createElement("span");
+      name.textContent = partners[index].name;
+      panel.replaceChildren(name);
+    }, { once: true });
+    panel.append(image);
+    return panel;
+  }
+  function setDestination(link, index) {
+    link.href = partners[index].href;
+    link.setAttribute("aria-label", `Visit ${partners[index].name} website`);
+  }
+  function finishSwap() {
+    if (!pendingSwap) return;
+    const swap = pendingSwap;
+    pendingSwap = null;
+    swap.animations.forEach(animation => animation.cancel());
+    swap.previous.remove();
+    swap.next.removeAttribute("aria-hidden");
+    setDestination(swap.link, swap.replacement);
+  }
+  function schedule() {
+    clearTimeout(timer);
+    if (reducedMotion.matches || !inView || document.hidden || grid.matches(":hover, :focus-within") || visible.length >= partners.length) return;
+    timer = setTimeout(rotateOne, 1700 + Math.random() * 900);
+  }
+  function render() {
+    clearTimeout(timer);
+    finishSwap();
+    columns = Number(getComputedStyle(grid).getPropertyValue("--partner-columns")) || 5;
+    const count = reducedMotion.matches ? partners.length : Math.min(columns * 2, partners.length);
+    visible = partners.map((_, index) => index).slice(0, count);
+    waiting = shuffle(partners.map((_, index) => index).slice(count));
+    tileOrder = [];
+    lastTile = -1;
+    grid.replaceChildren(...visible.map(index => {
+      const tile = document.createElement("li");
+      tile.className = "partner-tile";
+      const link = document.createElement("a");
+      link.className = "partner-link";
+      setDestination(link, index);
+      link.append(logo(index));
+      tile.append(link);
+      return tile;
+    }));
+    schedule();
+  }
+  async function rotateOne() {
+    if (!tileOrder.length) {
+      tileOrder = shuffle(visible.map((_, index) => index));
+      if (tileOrder.length > 1 && tileOrder[0] === lastTile) [tileOrder[0], tileOrder[1]] = [tileOrder[1], tileOrder[0]];
     }
-
-    const pJS = pJSDom[0].pJS;
-    if (!pJS) {
-        console.error('Cannot access pJS instance');
-        return;
-    }
-
-    // Variables to track grabbed particles
-    let grabbedParticles = [];
-    let mousePosition = { x: 0, y: 0 };
-    let isMouseOnCanvas = false;
-
-    // Store initial properties for each particle
-    pJS.particles.array.forEach(p => {
-        p.original = {
-            x: p.x,
-            y: p.y,
-            vx: p.vx,
-            vy: p.vy,
-            color: JSON.parse(JSON.stringify(p.color))
-        };
-    });
-
-    // Track mouse position
-    canvas.addEventListener('mouseenter', function () {
-        isMouseOnCanvas = true;
-    });
-
-    canvas.addEventListener('mouseleave', function () {
-        isMouseOnCanvas = false;
-        // Release all particles
-        grabbedParticles.forEach(p => {
-            p.grabbed = false;
-            p.color.rgb = p.original.color.rgb;
-
-            // Set velocity to return to original position
-            const returnFactor = 0.05;
-            p.vx = (p.original.x - p.x) * returnFactor;
-            p.vy = (p.original.y - p.y) * returnFactor;
-            p.returning = true;
-        });
-
-        grabbedParticles = [];
-    });
-
-    canvas.addEventListener('mousemove', function (event) {
-        const rect = canvas.getBoundingClientRect();
-        mousePosition.x = event.clientX - rect.left;
-        mousePosition.y = event.clientY - rect.top;
-
-        if (!isMouseOnCanvas) return;
-
-        // Check for particles to grab
-        pJS.particles.array.forEach(p => {
-            const dx = p.x - mousePosition.x;
-            const dy = p.y - mousePosition.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            // Within grabbing distance
-            if (distance < 120) {
-                if (!p.grabbed) {
-                    p.grabbed = true;
-                    p.color.rgb = {
-                        r: 255,
-                        g: 123,
-                        b: 0
-                    };
-                    grabbedParticles.push(p);
-                }
-
-                // Calculate elastic effect for grabbed particles
-                // Stronger pull when closer to cursor
-                const elasticFactor = Math.min(0.3, 0.5 * (1 - distance / 120));
-                const targetX = mousePosition.x;
-                const targetY = mousePosition.y;
-
-                // Direct position adjustment for closer particles (snap effect)
-                if (distance < 30) {
-                    p.x += (targetX - p.x) * 0.2;
-                    p.y += (targetY - p.y) * 0.2;
-                } else {
-                    p.vx = (targetX - p.x) * elasticFactor;
-                    p.vy = (targetY - p.y) * elasticFactor;
-                }
-            }
-            // If particle is grabbed but now too far, release it
-            else if (p.grabbed && distance > 150) {
-                p.grabbed = false;
-                // Restore original color
-                p.color.rgb = p.original.color.rgb;
-                // Remove from grabbed particles
-                grabbedParticles = grabbedParticles.filter(gp => gp !== p);
-
-                // Set velocity to return to original position with stronger return force
-                const returnFactor = 0.08;
-                p.vx = (p.original.x - p.x) * returnFactor;
-                p.vy = (p.original.y - p.y) * returnFactor;
-                p.returning = true;
-            }
-        });
-    });
-
-    // Override the particlesUpdate function
-    const originalParticlesUpdate = pJS.fn.particlesUpdate;
-    pJS.fn.particlesUpdate = function () {
-        for (let i = 0; i < pJS.particles.array.length; i++) {
-            const p = pJS.particles.array[i];
-
-            if (p.grabbed) {
-                // Already handled in mousemove
-            } else if (p.returning) {
-                // Check if particle has returned close enough to original position
-                const dx = p.x - p.original.x;
-                const dy = p.y - p.original.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < 1) {
-                    p.returning = false;
-                    p.x = p.original.x;
-                    p.y = p.original.y;
-                    p.vx = p.original.vx;
-                    p.vy = p.original.vy;
-                }
-            } else {
-                // Regular particle movement
-                if (pJS.particles.move.enable) {
-                    const ms = pJS.particles.move.speed / 2;
-                    p.x += p.vx * ms;
-                    p.y += p.vy * ms;
-                }
-            }
-        }
-
-        // Check for and draw connections between particles
-        if (pJS.particles.line_linked.enable || pJS.particles.move.attract.enable) {
-            for (let i = 0; i < pJS.particles.array.length; i++) {
-                const p1 = pJS.particles.array[i];
-
-                // Connect with other particles
-                for (let j = i + 1; j < pJS.particles.array.length; j++) {
-                    const p2 = pJS.particles.array[j];
-                    const dx = p1.x - p2.x;
-                    const dy = p1.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    // If particles are close enough, draw a line between them
-                    if (dist <= pJS.particles.line_linked.distance) {
-                        if (pJS.particles.line_linked.enable) {
-                            const opacity_line = pJS.particles.line_linked.opacity - (dist / pJS.particles.line_linked.distance);
-
-                            if (opacity_line > 0) {
-                                // Check if either particle is grabbed - if so, color the line
-                                let lineColor = pJS.particles.line_linked.color_rgb_line;
-
-                                if (p1.grabbed || p2.grabbed) {
-                                    lineColor = {
-                                        r: 255,
-                                        g: 123,
-                                        b: 0
-                                    };
-                                }
-
-                                pJS.canvas.ctx.strokeStyle = `rgba(${lineColor.r},${lineColor.g},${lineColor.b},${opacity_line})`;
-                                pJS.canvas.ctx.lineWidth = pJS.particles.line_linked.width;
-                                pJS.canvas.ctx.beginPath();
-                                pJS.canvas.ctx.moveTo(p1.x, p1.y);
-                                pJS.canvas.ctx.lineTo(p2.x, p2.y);
-                                pJS.canvas.ctx.stroke();
-                                pJS.canvas.ctx.closePath();
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    const tileIndex = tileOrder.shift();
+    lastTile = tileIndex;
+    // Show every waiting company before bringing back a displaced logo.
+    const replacement = waiting.shift();
+    waiting.push(visible[tileIndex]);
+    const tile = grid.children[tileIndex];
+    const link = tile.firstElementChild;
+    const previous = link.firstElementChild;
+    const next = logo(replacement);
+    next.setAttribute("aria-hidden", "true");
+    link.append(next);
+    visible[tileIndex] = replacement;
+    const timing = { duration: 750, easing: "cubic-bezier(.22, .68, .24, 1)", fill: "forwards" };
+    const swap = {
+      previous, next, link, replacement,
+      animations: [
+        previous.animate([{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], timing),
+        next.animate([{ transform: "translateY(100%)" }, { transform: "translateY(0)" }], timing),
+      ],
     };
+    pendingSwap = swap;
+    await Promise.allSettled(swap.animations.map(animation => animation.finished));
+    if (pendingSwap !== swap) return;
+    finishSwap();
+    schedule();
+  }
+  reducedMotion.addEventListener("change", render);
+  // Keep destinations steady while visitors point at or keyboard-focus a logo.
+  grid.addEventListener("pointerenter", () => { finishSwap(); schedule(); });
+  grid.addEventListener("pointerleave", schedule);
+  grid.addEventListener("focusin", () => { finishSwap(); schedule(); });
+  grid.addEventListener("focusout", () => { queueMicrotask(schedule); });
+  document.addEventListener("visibilitychange", () => { finishSwap(); schedule(); });
+  new IntersectionObserver(entries => {
+    inView = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.2;
+    if (!inView) finishSwap();
+    schedule();
+  }, { threshold: 0.2 }).observe(grid);
+  new ResizeObserver(() => {
+    const updated = Number(getComputedStyle(grid).getPropertyValue("--partner-columns"));
+    if (updated !== columns) render();
+  }).observe(grid);
+  // Warm the small, locally hosted logo pool before the first replacement.
+  partners.forEach(partner => { const image = new Image(); image.src = partner.src; });
+  render();
+})();
 
-    console.log('Enhanced particle grab effect initialized');
-}
-
-// Create additional neural network layers for a deeper effect
-function createNeuralNetworkLayers() {
-    const canvas = document.querySelector('#particles-js canvas');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Get the background particles instance
-    const pJS = pJSDom[0].pJS;
-    if (!pJS) return;
-
-    // Create additional connection points that act as hidden layers
-    const hiddenNodes = [];
-    const numHiddenNodes = 12;
-
-    // Create hidden layer nodes
-    for (let i = 0; i < numHiddenNodes; i++) {
-        hiddenNodes.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: 1 + Math.random() * 2,
-            xSpeed: (Math.random() - 0.5) * 0.8,
-            ySpeed: (Math.random() - 0.5) * 0.8,
-            connections: []
-        });
-    }
-
-    // Randomly connect hidden nodes to create a neural network structure
-    hiddenNodes.forEach(node => {
-        // Each node connects to 2-4 other nodes
-        const numConnections = 2 + Math.floor(Math.random() * 3);
-
-        // Create random connections to other nodes
-        for (let i = 0; i < numConnections; i++) {
-            const targetIndex = Math.floor(Math.random() * hiddenNodes.length);
-            if (hiddenNodes[targetIndex] !== node) {
-                node.connections.push(targetIndex);
-            }
+// Refresh from the same-origin snapshot generated from YouTube's official feed.
+// Keep complete local cards if the refresh or a replacement image is unavailable.
+async function refreshVideos() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch("data/videos.json", { signal: controller.signal });
+    if (!response.ok) return;
+    const data = await response.json();
+    if (!Array.isArray(data.videos)) return;
+    const seen = new Set();
+    const videos = data.videos.filter(video => {
+      const published = new Date(video.published);
+      if (video.isShort || !/^[\w-]{11}$/.test(video.id) || typeof video.title !== "string" || !video.title.trim() || !Number.isFinite(published.getTime()) || published > new Date() || seen.has(video.id)) return false;
+      seen.add(video.id);
+      return true;
+    }).sort((a, b) => new Date(b.published) - new Date(a.published)).slice(0, 2);
+    const cards = document.querySelectorAll(".video-card");
+    videos.forEach((video, index) => {
+      const card = cards[index];
+      if (!card) return;
+      const title = video.title.trim();
+      const url = `https://www.youtube.com/watch?v=${video.id}`;
+      const published = new Date(video.published);
+      const dateText = published.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).toUpperCase();
+      const cover = new Image();
+      cover.onload = () => {
+        card.querySelector("img").src = cover.src;
+        card.querySelector("img").alt = `${title} video thumbnail.`;
+        card.querySelector(".video-link").href = url;
+        const arrow = document.createElement("span");
+        arrow.textContent = "↗";
+        arrow.setAttribute("aria-hidden", "true");
+        card.querySelector("h3").replaceChildren(document.createTextNode(title + " "), arrow);
+        const date = card.querySelector("time");
+        date.dateTime = video.published;
+        date.textContent = dateText;
+        if (index === 0) {
+          document.querySelectorAll("[data-feature-video-link]").forEach(link => { link.href = url; });
+          const imageLink = document.querySelector(".feature-cover[data-feature-video-link]");
+          imageLink.setAttribute("aria-label", `Watch ${title}`);
+          document.querySelector("[data-feature-video-title]").textContent = title;
+          const heroImage = document.querySelector("[data-feature-video-image]");
+          heroImage.src = cover.src;
+          heroImage.alt = `${title} video thumbnail.`;
+          const heroDate = document.querySelector("[data-feature-video-date]");
+          heroDate.dateTime = video.published;
+          heroDate.textContent = dateText;
         }
+      };
+      cover.src = typeof video.localThumbnail === "string" && /^assets\/editorial\/[a-zA-Z0-9_-]+\.jpg$/.test(video.localThumbnail)
+        ? video.localThumbnail : `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
     });
-
-    // Function to animate additional neural connections
-    function animateNeuralLayers() {
-        if (!document.querySelector('#particles-js')) return;
-
-        // Move hidden nodes
-        hiddenNodes.forEach(node => {
-            node.x += node.xSpeed;
-            node.y += node.ySpeed;
-
-            // Bounce off edges
-            if (node.x < 0 || node.x > canvas.width) node.xSpeed *= -1;
-            if (node.y < 0 || node.y > canvas.height) node.ySpeed *= -1;
-        });
-
-        // Draw connections between hidden nodes
-        ctx.save();
-
-        // Draw hidden node connections behind the regular particles
-        hiddenNodes.forEach((node, idx) => {
-            node.connections.forEach(targetIdx => {
-                const target = hiddenNodes[targetIdx];
-                const dx = node.x - target.x;
-                const dy = node.y - target.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                // Only draw if within reasonable distance
-                if (dist < 250) {
-                    const opacity = 0.15 * (1 - dist / 250);
-
-                    ctx.strokeStyle = `rgba(170, 170, 170, ${opacity})`;
-                    ctx.lineWidth = 0.6;
-                    ctx.beginPath();
-                    ctx.moveTo(node.x, node.y);
-                    ctx.lineTo(target.x, target.y);
-                    ctx.stroke();
-                }
-            });
-        });
-
-        // Occasionally create additional "signal" pulses traveling along connections
-        if (Math.random() < 0.02) {
-            const sourceNodeIdx = Math.floor(Math.random() * hiddenNodes.length);
-            const sourceNode = hiddenNodes[sourceNodeIdx];
-
-            if (sourceNode.connections.length > 0) {
-                const targetNodeIdx = sourceNode.connections[Math.floor(Math.random() * sourceNode.connections.length)];
-                const targetNode = hiddenNodes[targetNodeIdx];
-
-                // Create pulse animation along this connection
-                let progress = 0;
-
-                const animatePulse = () => {
-                    if (progress >= 1) return;
-
-                    progress += 0.03;
-
-                    // Calculate position along the line
-                    const x = sourceNode.x + (targetNode.x - sourceNode.x) * progress;
-                    const y = sourceNode.y + (targetNode.y - sourceNode.y) * progress;
-
-                    // Draw pulse
-                    ctx.fillStyle = '#ff4081';
-                    ctx.beginPath();
-                    ctx.arc(x, y, 2, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    requestAnimationFrame(animatePulse);
-                };
-
-                animatePulse();
-            }
-        }
-
-        ctx.restore();
-
-        requestAnimationFrame(animateNeuralLayers);
-    }
-
-    // Start the animation
-    animateNeuralLayers();
+  } catch {
+    // Static content is always available, including when opened without a server.
+  } finally {
+    clearTimeout(timeout);
+  }
 }
-
-// Handle navigation highlighting based on scroll position
-function highlightNavOnScroll() {
-    const sections = document.querySelectorAll('section, #hero');
-    const navLinks = document.querySelectorAll('.nav-links a');
-
-    // Get current scroll position
-    let scrollY = window.scrollY;
-
-    // Find which section is currently in view
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100; // Offset for header
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-
-        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-            // Remove active class from all links
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-
-            // Add active class to current section link
-            const activeLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-        }
-    });
-}
-
-// Add scroll event listener for navigation highlighting
-window.addEventListener('scroll', highlightNavOnScroll);
-
-// Initialize navigation highlighting
-document.addEventListener('DOMContentLoaded', function () {
-    highlightNavOnScroll();
-});
-
-// Handle smooth scrolling with offset for navigation links
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all navigation links that link to an ID
-    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-    
-    // Add click event listener to each link
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Prevent default anchor behavior
-            e.preventDefault();
-            
-            // Get the target element
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                // Calculate header height based on screen width
-                const headerOffset = window.innerWidth > 768 ? 74 : 52;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
-                // Scroll to the target with offset
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-});
-
-// Function to handle form submission asynchronously
-function initFormSubmission() {
-    const form = document.getElementById('contactForm');
-    const messageDiv = document.getElementById('form-message');
-
-    if (form) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const formData = new FormData(form);
-            const submitButton = form.querySelector('button[type="submit"]');
-            const buttonOriginalText = submitButton.innerHTML;
-
-            // Log form data entries for debugging
-            console.log("Form data being sent:");
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-
-            // Disable button and show loading state
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            messageDiv.textContent = '';
-            messageDiv.className = ''; // Reset classes
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json' // Request JSON response from FormSubmit
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json(); // Expect JSON response on success
-                } else {
-                    // Attempt to get more specific error from FormSubmit JSON response
-                    return response.json().then(errorData => {
-                        // FormSubmit might return errors in a specific format
-                        // Check for common error structures
-                        let errorMessage = 'Submission failed. Please try again.';
-                        if (errorData && errorData.error) {
-                            errorMessage = `Error: ${errorData.error}`;
-                        } else if (errorData && errorData.message) {
-                            errorMessage = `Error: ${errorData.message}`;
-                        }
-                        throw new Error(errorMessage);
-                    }).catch(jsonError => {
-                        // If parsing JSON fails or the structure is unexpected, use status text
-                        console.error("Error parsing JSON response:", jsonError);
-                        throw new Error(`Submission failed: ${response.statusText} (Status: ${response.status})`);
-                    });
-                }
-            })
-            .then(data => {
-                // Success handling
-                messageDiv.textContent = 'Thanks for your message! We\'ll get back to you soon.';
-                messageDiv.className = 'success';
-                form.reset(); // Clear the form fields
-            })
-            .catch(error => {
-                // Error handling
-                messageDiv.textContent = `Error: ${error.message || 'Could not send message. Please try again.'}`;
-                messageDiv.className = 'error';
-            })
-            .finally(() => {
-                // Re-enable button and restore original text
-                submitButton.disabled = false;
-                submitButton.innerHTML = buttonOriginalText;
-            });
-        });
-    }
-}
+refreshVideos();

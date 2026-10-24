@@ -1,0 +1,76 @@
+name: Refresh homepage feeds
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: refresh-homepage-feeds
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Check calendar parsing
+        run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Fetch the public calendar
+        id: calendar
+        continue-on-error: true
+        run: python scripts/refresh_events.py
+      - name: Fetch the latest YouTube episodes
+        id: videos
+        continue-on-error: true
+        run: python scripts/update-videos.py
+      - name: Save the successful snapshot
+        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- data/events.json data/videos.json 'assets/editorial/youtube-*.jpg'
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh homepage feeds"
+            git push origin HEAD:main
+          fi
+      # GITHUB_TOKEN pushes do not automatically start a Pages build. Explicitly
+      # request one for this repository's existing main-branch Pages source.
+      - name: Request the GitHub Pages rebuild
+        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" --silent
+          expected_commit=$(git rev-parse HEAD)
+          for attempt in {1..30}; do
+            read -r build_commit build_status < <(gh api "repos/$GITHUB_REPOSITORY/pages/builds/latest" --jq '[.commit, .status] | @tsv')
+            if [[ "$build_commit" == "$expected_commit" ]]; then
+              if [[ "$build_status" == "built" ]]; then
+                echo "GitHub Pages published $expected_commit"
+                exit 0
+              fi
+              if [[ "$build_status" == "errored" ]]; then
+                echo "GitHub Pages failed to publish $expected_commit"
+                exit 1
+              fi
+            fi
+            sleep 10
+          done
+          echo "Timed out waiting for GitHub Pages to publish $expected_commit"
+          exit 1
+      - name: Report an upstream failure
+        if: steps.calendar.outcome == 'failure' || steps.videos.outcome == 'failure'
+        run: |
+          echo "A feed refresh failed. Its last successful snapshot was preserved."
+          exit 1
