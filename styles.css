@@ -283,24 +283,34 @@ button:focus-visible {
   padding: 14px 22px;
   border-bottom: 1px solid var(--line);
 }
-.substack-label {
+.feature-platform {
   font-size: 11px;
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  flex-shrink: 0;
+  white-space: nowrap;
   color: var(--pink);
 }
+.feature-platform-icon {
+  width: 34px;
+  height: 24px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feature-platform-icon img { width: 24px; height: auto; max-width: none; flex: none; }
+/* Account for the transparent clear space in the original brand assets. */
+.feature-platform-icon .feature-platform-youtube { width: 52px; }
+.feature-platform-icon .feature-platform-substack { width: 40px; }
 .icon {
   width: 20px;
   height: 20px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.7;
-}
-.substack-label .icon {
-  width: 15px;
-  height: 15px;
 }
 .feature-cover {
   display: block;
@@ -916,7 +926,7 @@ button:focus-visible {
   .feature-topline {
     padding: 12px 15px;
   }
-  .substack-label {
+  .feature-platform {
     font-size: 10px;
   }
   .feature-copy {
@@ -1660,7 +1670,7 @@ button:focus-visible {
 .feature-controls button { min-width: 44px; min-height: 44px; font-size: 14px; }
 .feature-navigation button { font-size: 20px; }
 .feature-topline .eyebrow { font-size: 10px; letter-spacing: .8px; }
-.feature-topline .substack-label { font-size: 12px; }
+.feature-topline .feature-platform { font-size: 12px; }
 .feature-event-cover { display: block; position: relative; padding: 0; overflow: hidden; background: #e6dcc9; }
 .feature-event-photo { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; }
 .feature-event-cover::after { content: ""; position: absolute; inset: 50% 0 0; background: linear-gradient(transparent, rgb(0 0 0 / .62)); pointer-events: none; }

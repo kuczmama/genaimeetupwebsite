@@ -95,3 +95,13 @@ Each photo was auto-oriented, resized proportionally to 1440 and 720 pixels wide
 | --- | --- |
 | `platforms/spotify.svg` | Unchanged `Primary_Logo_Black_RGB.svg` from Spotify's [official icon package](https://developer.spotify.com/images/guidelines/design/2024-spotify-logo-icon.zip), linked by its [design guidelines](https://developer.spotify.com/documentation/design). Black artwork is used on the site's light cream background. |
 | `platforms/apple-podcasts.png` | Unchanged 80 × 80 transparent [Apple Podcasts icon](https://marketing.services.apple/mdsa/assets/storage/blobs/images/6aab2064a5b37b0feb424887/en-us-large@1x.png) from the [official identity guidelines](https://marketing.services.apple/apple-podcasts-identity-guidelines). Original purple artwork, displayed at 24 × 24 pixels beside the text label. |
+
+## Hero platform logos — October 24, 2026
+
+Official artwork is saved unchanged and shown beside the platform names in the hero carousel. CSS accounts for the original transparent margins so the visible marks have similar sizes without cropping or redrawing the source files.
+
+| Local asset | Official source |
+| --- | --- |
+| `platforms/youtube.png` | Original `YouTube_Icon/Digital/01 Red/yt_icon_red_digital.png` from the [official YouTube icon package](https://www.gstatic.com/marketing-cms/78/29/3e68a1414bb28d0b7e47b44c3c91/youtube-icon.zip), linked by [YouTube's brand page](https://brand.youtube/youtube-icon/). Transparent 1255 × 1075 PNG, original red and white artwork. |
+| `platforms/substack.png` | Original transparent 1000 × 1000 [orange Substack logo](https://substack.com/img/substack.png), linked by the [official brand page](https://substack.com/brand). Replaces the previous hand-drawn outline. |
+| `platforms/meetup.svg` | Original `Meetup Logo Symbol/meetup-logo-symbol-red.svg` from the [official symbol package](https://s3.amazonaws.com/com.meetup.prod.brand/meetup-logo-symbol-redesign-package.zip), linked by [Meetup's media page](https://www.meetup.com/media/). Transparent 185 × 185 SVG, native red artwork. |
