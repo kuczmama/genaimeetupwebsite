@@ -133,3 +133,7 @@ The social exports were updated at the user’s request to capitalize `Gen AI.` 
 ## Procopio — October 24, 2026
 
 `partners/procopio.svg` is the unchanged transparent horizontal [official Procopio wordmark](https://www.procopio.com/_next/static/media/logo-procopio.221ded12.svg), used in the header of its [Latin America practice page](https://www.procopio.com/services-and-sectors/latin-america). The original 121.484 × 27.257 SVG viewBox and dark gray (`#555`) artwork are retained without recoloring, cropping, or generation. The logo was visually checked on the site's cream background. Procopio is included as the user-confirmed sponsor of [Gen AI Demos & Tech Talk, July 20, 2023](https://www.meetup.com/gen-ai/events/293654682/).
+
+## CodeRabbit icon update — October 24, 2026
+
+`partners/coderabbit.svg` retains the existing official horizontal wordmark lettering, clip, spacing, and 2814 × 513 viewBox. At the user’s request, its previous black symbol and cutout mask were replaced by the two exact SVG path definitions from the [current official CodeRabbit homepage header](https://www.coderabbit.ai/) (`viewBox="0 0 29 29"`). The header’s computed colors were verified in Chrome: `fill-orange-500` is `rgb(255, 87, 10)` (`#FF570A`), and `fill-white` is `#FFFFFF`. These native colors are encoded explicitly so the standalone asset does not depend on CodeRabbit’s stylesheet. The two paths are uniformly scaled by 17.905855788153 to preserve the original symbol’s 512.274 × 512.274 bounds; the unused old mask was removed. No lettering or icon path was redrawn.
