@@ -109,3 +109,7 @@ Official artwork is saved unchanged and shown beside the platform names in the h
 ## Podcast cover — October 24, 2026
 
 `editorial/podcast-cover.jpg` is the unchanged 1600 × 1600 [published podcast cover](https://pbcdn1.podbean.com/imglogo/image-logo/17891792/gen-ai-podcast-cover-1600.jpg), linked by both image fields in the [official podcast RSS feed](https://podcast.genaimeetup.com/feed.xml). It shows the cream Gen AI Podcast wordmark and pink robot on a black grid background.
+
+## DSPy framework — October 24, 2026
+
+`partners/dspy.png` is the unchanged transparent 609 × 196 PNG wordmark from the official [stanfordnlp/dspy repository](https://github.com/stanfordnlp/dspy/blob/98830391be6fbf81523757271432bba1c6c4eb80/docs/docs/static/img/dspy_logo.png) ([original asset](https://raw.githubusercontent.com/stanfordnlp/dspy/98830391be6fbf81523757271432bba1c6c4eb80/docs/docs/static/img/dspy_logo.png)). Native red puzzle artwork and black DSPy lettering are retained, with no cropping, recoloring, or generation. The repository credits Chuyi Zhang as the logo designer. The framework is included for the community's [DSPy event at Databricks](https://www.meetup.com/gen-ai/events/302305291/), not as a corporate sponsor.
