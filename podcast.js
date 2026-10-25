@@ -29,6 +29,27 @@
     }
   }
 
+  function safeEmbedUrl(value) {
+    if (typeof value !== "string" || value !== value.trim()) return null;
+    try {
+      const url = new URL(value);
+      if (url.origin !== "https://www.podbean.com" || url.pathname !== "/player-v2/"
+        || url.username || url.password || url.hash) return null;
+      const params = {
+        i: url.searchParams.get("i"), share: "0", download: "0", rtl: "0",
+        fonts: "Arial", skin: "1", "font-color": "auto", logo_link: "none",
+        "btn-skin": "b92358", size: "150",
+      };
+      if (!/^[a-z0-9]{1,32}-[a-z0-9]{1,32}$/.test(params.i || "")
+        || [...url.searchParams].length !== Object.keys(params).length
+        || Object.entries(params).some(([key, value]) => url.searchParams.get(key) !== value)) return null;
+      // Normalize approved parameters so query ordering alone never reloads audio.
+      return `https://www.podbean.com/player-v2/?${new URLSearchParams(params)}`;
+    } catch {
+      return null;
+    }
+  }
+
   function parseLatestEpisode(snapshot, now = Date.now()) {
     if (!snapshot || typeof snapshot !== "object" || snapshot.sourceUrl !== sourceUrl) return null;
     const updated = timestamp(snapshot.updatedAt);
@@ -37,7 +58,8 @@
       || !episode || typeof episode !== "object") return null;
     const published = timestamp(episode.publishedAt);
     const url = safeEpisodeUrl(episode.url);
-    if (!url || !Number.isFinite(published) || published > now || published > updated
+    const embedUrl = safeEmbedUrl(episode.embedUrl);
+    if (!url || !embedUrl || !Number.isFinite(published) || published > now || published > updated
       || typeof episode.title !== "string" || !episode.title.trim()
       || typeof episode.description !== "string"
       || (episode.durationSeconds !== null && (!Number.isSafeInteger(episode.durationSeconds) || episode.durationSeconds < 0))) return null;
@@ -46,6 +68,7 @@
     return {
       title: episode.title.trim(),
       url,
+      embedUrl,
       publishedAt: new Date(published).toISOString(),
       durationSeconds: episode.durationSeconds,
       description: episode.description.trim(),
@@ -66,15 +89,20 @@
     module.exports = { parseLatestEpisode, formatDuration };
   }
   if (typeof document === "undefined"
-    || !document.querySelector("[data-podcast-link], [data-podcast-title], [data-podcast-date], [data-podcast-duration], [data-podcast-description]")) return;
+    || !document.querySelector("[data-podcast-link], [data-podcast-title], [data-podcast-date], [data-podcast-duration], [data-podcast-description], [data-podcast-player]")) return;
 
+  const player = document.querySelector("iframe[data-podcast-player]");
   let refreshInFlight = false;
+  let episodePinned = false;
+  let pendingEpisode = null;
 
   function setText(selector, value) {
     document.querySelectorAll(selector).forEach(node => { node.textContent = value; });
   }
 
   function renderEpisode(episode) {
+    // Assigning even the same src reloads an iframe and resets its audio position.
+    if (player && safeEmbedUrl(player.src) !== episode.embedUrl) player.src = episode.embedUrl;
     document.querySelectorAll("[data-podcast-link]").forEach(link => { link.href = episode.url; });
     setText("[data-podcast-title]", episode.title);
     setText("[data-podcast-description]", episode.description);
@@ -97,7 +125,10 @@
       const response = await fetch("data/podcast.json", { signal: controller.signal, cache: "no-cache" });
       if (!response.ok) return;
       const episode = parseLatestEpisode(await response.json());
-      if (episode) renderEpisode(episode);
+      if (episode) {
+        if (episodePinned) pendingEpisode = episode;
+        else renderEpisode(episode);
+      }
     } catch {
       // Keep the generic archive link or a previously loaded episode intact.
     } finally {
@@ -105,6 +136,24 @@
       refreshInFlight = false;
     }
   }
+
+  window.addEventListener("message", event => {
+    if (!player?.contentWindow || event.origin !== "https://www.podbean.com"
+      || event.source !== player.contentWindow || !safeEmbedUrl(player.src)
+      || !event.data || typeof event.data !== "object") return;
+    if (event.data.event === "PB.Widget.Events.PLAY") {
+      episodePinned = true;
+      document.dispatchEvent(new CustomEvent("podcast:play"));
+    } else if (event.data.event === "PB.Widget.Events.FINISH") {
+      episodePinned = false;
+      if (pendingEpisode) {
+        const episode = pendingEpisode;
+        pendingEpisode = null;
+        renderEpisode(episode);
+      }
+    }
+    // PAUSE deliberately keeps the episode pinned so resuming never changes it.
+  });
 
   refreshPodcast();
   setInterval(() => { if (!document.hidden) refreshPodcast(); }, 5 * 60 * 1000);

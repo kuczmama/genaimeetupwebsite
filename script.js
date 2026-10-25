@@ -72,7 +72,13 @@ function setRotation(enabled) {
   scheduleRotation();
 }
 function showSlide(index) {
-  activeSlide = (index + slides.length) % slides.length;
+  const nextSlide = (index + slides.length) % slides.length;
+  if (nextSlide !== activeSlide) {
+    // Podbean's player API pauses audio when its slide is deliberately left.
+    slides[activeSlide].querySelector("[data-podcast-player]")?.contentWindow
+      ?.postMessage({ action: "PB.Widget.API.PAUSE" }, "https://www.podbean.com");
+  }
+  activeSlide = nextSlide;
   slides.forEach((slide, i) => { slide.hidden = i !== activeSlide; });
   selectors.forEach((button, i) => button.setAttribute("aria-pressed", String(i === activeSlide)));
 }
@@ -90,6 +96,9 @@ carousel.addEventListener("focusin", (event) => {
   if (event.target !== pauseButton) setRotation(false);
 });
 carousel.addEventListener("focusout", scheduleRotation);
+// podcast.js validates the Podbean message origin and iframe before emitting this.
+document.addEventListener("podcast:play", () => setRotation(false));
+carousel.querySelector("[data-podcast-player]")?.addEventListener("pointerenter", () => setRotation(false));
 carousel.querySelector(".feature-controls").addEventListener("keydown", event => {
   if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
   event.preventDefault();

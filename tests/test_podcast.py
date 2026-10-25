@@ -37,6 +37,14 @@ def feed(*items):
       {''.join(items)}</channel></rss>""".encode()
 
 
+def episode_page(slug="latest", player_id="tniji-1b8c456", **options):
+    player_url = options.get("player_url", f"{podcast.PLAYER_BASE}?i={player_id}&amp;square=1")
+    return f"""<!doctype html><html><head>
+      <link rel="canonical" href="https://podcast.genaimeetup.com/e/{slug}/">
+      <meta name="twitter:player" content="{player_url}">
+      </head><body></body></html>""".encode()
+
+
 class PodcastSnapshotTests(unittest.TestCase):
     def test_selects_newest_published_audio_regardless_of_feed_order(self):
         result = podcast.parse_latest_episode(feed(
@@ -93,6 +101,30 @@ class PodcastSnapshotTests(unittest.TestCase):
         result = podcast.parse_latest_episode(feed(item(duration="")), NOW)
         self.assertIsNone(result["durationSeconds"])
 
+    def test_extracts_official_episode_id_and_classic_player_settings(self):
+        url = podcast.parse_episode_embed(episode_page(), "https://podcast.genaimeetup.com/e/latest/")
+        self.assertEqual(url, "https://www.podbean.com/player-v2/?i=tniji-1b8c456&share=0&download=0&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=none&btn-skin=b92358&size=150")
+        self.assertNotIn("square=1", url)
+        self.assertNotIn("auto=1", url)
+
+    def test_rejects_missing_malformed_and_foreign_embeds(self):
+        episode_url = "https://podcast.genaimeetup.com/e/latest/"
+        for html in (
+            b"<html>No player metadata</html>",
+            episode_page(slug="different-episode"),
+            episode_page(player_id="pbblog-daq9r-11101d0-playlist"),
+            episode_page(player_url="https://example.com/player-v2/?i=tniji-1b8c456"),
+            episode_page(player_url="https://www.podbean.com.evil/player-v2/?i=tniji-1b8c456"),
+            episode_page(player_url="http://www.podbean.com/player-v2/?i=tniji-1b8c456"),
+            episode_page(player_url="https://www.podbean.com/player-v2/?i=tniji-1b8c456&amp;i=other-123"),
+            episode_page(player_url="https://www.podbean.com/player-v2/?i=tniji-1b8c456&amp;auto=1"),
+            episode_page(player_url="https://www.podbean.com/player-v2/?i=tniji-1b8c456&amp;redirect=https://evil.com"),
+            episode_page(player_url="https://www.podbean.com/player-v2/?i=tniji-1b8c456#fragment"),
+            episode_page(player_url="https://www.podbean.com/player-v2/?missing-equals"),
+        ):
+            with self.subTest(html=html), self.assertRaises(ValueError):
+                podcast.parse_episode_embed(html, episode_url)
+
     def test_failed_fetch_invalid_feed_or_failed_write_preserves_snapshot(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "podcast.json"
@@ -100,11 +132,15 @@ class PodcastSnapshotTests(unittest.TestCase):
             output.write_bytes(saved)
             for replacement in ({"side_effect": OSError("offline")},
                                 {"return_value": b"<invalid"},
-                                {"return_value": feed(item("future", "Tue, 27 Oct 2099 05:54:20 -0700"))}):
+                                {"return_value": feed(item("future", "Tue, 27 Oct 2099 05:54:20 -0700"))},
+                                {"side_effect": [feed(item()), OSError("episode page offline")]},
+                                {"side_effect": [feed(item()), b"<html>Missing player</html>"]},
+                                {"side_effect": [feed(item()), episode_page(slug="other")]},
+                                {"side_effect": [feed(item()), episode_page(player_id="invalid")]}):
                 with patch.object(podcast, "OUTPUT", output), patch.object(podcast, "fetch", **replacement), contextlib.redirect_stderr(io.StringIO()):
                     self.assertEqual(podcast.main(), 1)
                 self.assertEqual(output.read_bytes(), saved)
-            with patch.object(podcast, "OUTPUT", output), patch.object(podcast, "fetch", return_value=feed(item())), patch.object(Path, "replace", side_effect=OSError("read-only")), contextlib.redirect_stderr(io.StringIO()):
+            with patch.object(podcast, "OUTPUT", output), patch.object(podcast, "fetch", side_effect=[feed(item()), episode_page()]), patch.object(Path, "replace", side_effect=OSError("read-only")), contextlib.redirect_stderr(io.StringIO()):
                 self.assertEqual(podcast.main(), 1)
             self.assertEqual(output.read_bytes(), saved)
             self.assertEqual(list(Path(directory).iterdir()), [output])
@@ -112,12 +148,15 @@ class PodcastSnapshotTests(unittest.TestCase):
     def test_success_writes_expected_snapshot_contract(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "podcast.json"
-            with patch.object(podcast, "OUTPUT", output), patch.object(podcast, "fetch", return_value=feed(item())), contextlib.redirect_stdout(io.StringIO()):
+            with patch.object(podcast, "OUTPUT", output), patch.object(podcast, "fetch", side_effect=[feed(item("new-episode")), episode_page("new-episode", "new01-abc1234")]) as fetch, contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(podcast.main(), 0)
+            self.assertEqual([call.args[0] for call in fetch.call_args_list],
+                             [podcast.FEED_URL, "https://podcast.genaimeetup.com/e/new-episode/"])
             snapshot = json.loads(output.read_text())
             self.assertEqual(set(snapshot), {"sourceUrl", "updatedAt", "latestEpisode"})
             self.assertEqual(snapshot["sourceUrl"], podcast.FEED_URL)
-            self.assertEqual(set(snapshot["latestEpisode"]), {"title", "url", "publishedAt", "durationSeconds", "description"})
+            self.assertEqual(set(snapshot["latestEpisode"]), {"title", "url", "publishedAt", "durationSeconds", "description", "embedUrl"})
+            self.assertIn("?i=new01-abc1234&", snapshot["latestEpisode"]["embedUrl"])
             self.assertTrue(snapshot["updatedAt"].endswith("Z"))
 
 

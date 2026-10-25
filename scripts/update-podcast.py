@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qsl, urlencode, urlparse
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +23,13 @@ OUTPUT = ROOT / "data/podcast.json"
 FEED_URL = "https://podcast.genaimeetup.com/feed.xml"
 PODCAST_HOST = "podcast.genaimeetup.com"
 ITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
+PLAYER_BASE = "https://www.podbean.com/player-v2/"
+# Classic audio settings from Podbean's official embed builder. The player
+# initializes audio with autoplay:false; do not enable autoplay in the iframe.
+PLAYER_OPTIONS = {
+    "share": "0", "download": "0", "rtl": "0", "fonts": "Arial", "skin": "1",
+    "font-color": "auto", "logo_link": "none", "btn-skin": "b92358", "size": "150",
+}
 
 
 def fetch(url):
@@ -148,6 +155,50 @@ def parse_latest_episode(xml, now):
     return max(candidates, key=lambda episode: episode["publishedAt"])
 
 
+class EpisodeMetadata(HTMLParser):
+    """Read Podbean's published player URL without executing page scripts."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.canonicals = set()
+        self.players = set()
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "link" and "canonical" in (attrs.get("rel") or "").lower().split():
+            self.canonicals.add(attrs.get("href") or "")
+        if tag == "meta" and (attrs.get("name") or attrs.get("property") or "").lower() == "twitter:player":
+            self.players.add(attrs.get("content") or "")
+
+
+def parse_episode_embed(html, episode_url):
+    if not official_url(episode_url, episode=True):
+        raise ValueError("Cannot read an embed from an unofficial episode URL")
+    metadata = EpisodeMetadata()
+    metadata.feed(html.decode("utf-8"))
+    metadata.close()
+    if metadata.canonicals != {episode_url}:
+        raise ValueError("Episode page canonical URL does not match the selected RSS episode")
+    if len(metadata.players) != 1:
+        raise ValueError("Episode page must publish exactly one player URL")
+    source_url = next(iter(metadata.players))
+    parsed = urlparse(source_url)
+    if (any(ord(character) <= 32 for character in source_url)
+            or parsed.scheme != "https" or parsed.netloc != "www.podbean.com"
+            or parsed.path != "/player-v2/" or parsed.params or parsed.fragment):
+        raise ValueError("Episode page player URL is not an official Podbean player")
+    pairs = parse_qsl(parsed.query, keep_blank_values=True, strict_parsing=True)
+    query = dict(pairs)
+    if (len(query) != len(pairs) or set(query) - {"i", "square", "auto"}
+            or not re.fullmatch(r"[a-z0-9]{1,32}-[a-z0-9]{1,32}", query.get("i", ""))
+            or query.get("square", "0") not in {"0", "1"}
+            or query.get("auto", "0") != "0"):
+        raise ValueError("Episode page contains invalid or autoplay-enabled player settings")
+    # The official episode page advertises its square social-card player. Keep
+    # that exact episode identifier, using the official Classic embed options.
+    return PLAYER_BASE + "?" + urlencode({"i": query["i"], **PLAYER_OPTIONS})
+
+
 def atomic_write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
@@ -165,6 +216,7 @@ def main():
     try:
         now = datetime.now(timezone.utc)
         latest = parse_latest_episode(fetch(FEED_URL), now)
+        latest["embedUrl"] = parse_episode_embed(fetch(latest["url"]), latest["url"])
         snapshot = {
             "sourceUrl": FEED_URL,
             "updatedAt": now.isoformat(timespec="seconds").replace("+00:00", "Z"),

@@ -7,6 +7,7 @@ const { parseLatestEpisode, formatDuration } = require("../podcast.js");
 
 const source = fs.readFileSync(path.join(__dirname, "../podcast.js"), "utf8");
 const now = Date.parse("2026-10-24T23:00:00Z");
+const embed = (id = "tniji-1b8c456") => `https://www.podbean.com/player-v2/?i=${id}&share=0&download=0&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=none&btn-skin=b92358&size=150`;
 function snapshot() {
   return {
     sourceUrl: "https://podcast.genaimeetup.com/feed.xml",
@@ -14,6 +15,7 @@ function snapshot() {
     latestEpisode: {
       title: "Mario plus Red Dead Redemption?! Reverse Engineering AI",
       url: "https://podcast.genaimeetup.com/e/mario-plus-red-dead-redemption-reverse-engineering-ai/",
+      embedUrl: embed(),
       publishedAt: "2026-10-20T12:54:20Z",
       durationSeconds: 5735,
       description: "A conversation about building with AI.",
@@ -43,6 +45,29 @@ test("episode links cannot navigate outside the official episode archive", () =>
     const data = snapshot();
     data.latestEpisode.url = url;
     assert.equal(parseLatestEpisode(data, now), null, url);
+  }
+});
+
+test("only the approved Podbean episode embed and exact player options are accepted", () => {
+  const invalid = [
+    "javascript:alert(1)",
+    embed().replace("https:", "http:"),
+    embed().replace("www.podbean.com", "www.podbean.com.evil.example"),
+    embed().replace("www.podbean.com", "user:password@www.podbean.com"),
+    embed().replace("www.podbean.com", "www.podbean.com:8443"),
+    embed().replace("player-v2/", "player/"),
+    embed("daq9r-11101d0-pbblog-playlist"),
+    embed().replace("&share=0", ""),
+    embed().replace("&share=0", "&share=0&share=0"),
+    embed().replace("logo_link=none", "logo_link=episode_page"),
+    embed().replace("size=150", "size=500"),
+    `${embed()}&autoplay=1`,
+    `${embed()}#fragment`,
+  ];
+  for (const embedUrl of invalid) {
+    const data = snapshot();
+    data.latestEpisode.embedUrl = embedUrl;
+    assert.equal(parseLatestEpisode(data, now), null, embedUrl);
   }
 });
 
@@ -80,10 +105,18 @@ test("duration labels round naturally without displaying zero or unknown duratio
   assert.equal(parseLatestEpisode(data, now).durationSeconds, null);
 });
 
-function setup(fetchResponse) {
+function setup(fetchResponse, initialSrc = embed()) {
   const listeners = new Map();
   const intervals = [];
   const requests = [];
+  const srcWrites = [];
+  const emitted = [];
+  let src = initialSrc;
+  const player = {
+    contentWindow: {},
+    get src() { return src; },
+    set src(value) { srcWrites.push(value); src = value; },
+  };
   const nodes = new Map();
   for (const key of ["link", "title", "date", "duration", "description"]) {
     const node = { textContent: `Fallback ${key}`, href: "https://podcast.genaimeetup.com/", dateTime: "" };
@@ -93,18 +126,20 @@ function setup(fetchResponse) {
   nodes.get("[data-podcast-link]").push({ href: "https://podcast.genaimeetup.com/" });
   const document = {
     hidden: false,
-    querySelector: () => nodes.get("[data-podcast-link]")[0],
+    querySelector: selector => selector === "iframe[data-podcast-player]" ? player : nodes.get("[data-podcast-link]")[0],
     querySelectorAll: selector => nodes.get(selector) || [],
     addEventListener: (type, listener) => listeners.set(type, listener),
+    dispatchEvent: event => { emitted.push(event); return true; },
   };
   const window = { addEventListener: (type, listener) => listeners.set(type, listener) };
   vm.runInNewContext(source, {
-    document, window, URL, AbortController,
+    document, window, URL, URLSearchParams, AbortController,
+    CustomEvent: class { constructor(type) { this.type = type; } },
     fetch: (...args) => { requests.push(args); return fetchResponse(...args); },
     setTimeout: () => 1, clearTimeout() {},
     setInterval: (callback, delay) => intervals.push({ callback, delay }),
   });
-  return { nodes, document, requests, intervals, dispatch: (type, event = {}) => listeners.get(type)?.(event) };
+  return { nodes, player, srcWrites, emitted, document, requests, intervals, dispatch: (type, event = {}) => listeners.get(type)?.(event) };
 }
 const flush = () => new Promise(resolve => setImmediate(resolve));
 const response = data => ({ ok: true, json: async () => data });
@@ -152,6 +187,100 @@ test("a later failed refresh retains the already loaded episode", async () => {
   await flush();
   assert.equal(app.nodes.get("[data-podcast-title]")[0].textContent, snapshot().latestEpisode.title);
   assert.equal(app.nodes.get("[data-podcast-link]")[0].href, snapshot().latestEpisode.url);
+});
+
+test("the old schema leaves static player and generic metadata unchanged", async () => {
+  const data = snapshot();
+  delete data.latestEpisode.embedUrl;
+  assert.equal(parseLatestEpisode(data, now), null);
+  const app = setup(async () => response(data));
+  await flush();
+  assert.equal(app.nodes.get("[data-podcast-title]")[0].textContent, "Fallback title");
+  assert.ok(app.nodes.get("[data-podcast-link]").every(node => node.href === "https://podcast.genaimeetup.com/"));
+  assert.deepEqual(app.srcWrites, []);
+});
+
+test("repeated refreshes preserve the iframe, including equivalent query ordering", async () => {
+  const initial = embed().replace("i=tniji-1b8c456&", "") + "&i=tniji-1b8c456";
+  const app = setup(async () => response(snapshot()), initial);
+  await flush();
+  app.intervals[0].callback();
+  await flush();
+  assert.deepEqual(app.srcWrites, []);
+  assert.equal(app.player.src, initial);
+});
+
+function widgetEvent(app, name, overrides = {}) {
+  app.dispatch("message", {
+    origin: "https://www.podbean.com",
+    source: app.player.contentWindow,
+    data: { event: `PB.Widget.Events.${name}` },
+    ...overrides,
+  });
+}
+function nextEpisode(id, title) {
+  const data = snapshot();
+  data.latestEpisode.url = `https://podcast.genaimeetup.com/e/${title.toLowerCase().replaceAll(" ", "-")}/`;
+  data.latestEpisode.embedUrl = embed(id);
+  data.latestEpisode.title = title;
+  return data;
+}
+
+test("PLAY and PAUSE pin the episode until FINISH applies the newest pending update", async () => {
+  let data = snapshot();
+  const app = setup(async () => response(data));
+  await flush();
+  widgetEvent(app, "PLAY");
+  assert.deepEqual(app.emitted.map(event => event.type), ["podcast:play"]);
+  data = nextEpisode("abcde-12345", "A new conversation");
+  app.intervals[0].callback();
+  await flush();
+  assert.equal(app.nodes.get("[data-podcast-title]")[0].textContent, snapshot().latestEpisode.title);
+  assert.equal(app.nodes.get("[data-podcast-link]")[0].href, snapshot().latestEpisode.url);
+  assert.deepEqual(app.srcWrites, []);
+  widgetEvent(app, "PAUSE");
+  data = nextEpisode("fghij-67890", "The newest conversation");
+  app.intervals[0].callback();
+  await flush();
+  assert.deepEqual(app.srcWrites, []);
+  assert.equal(app.nodes.get("[data-podcast-title]")[0].textContent, snapshot().latestEpisode.title);
+  widgetEvent(app, "FINISH");
+  assert.deepEqual(app.srcWrites, [data.latestEpisode.embedUrl]);
+  assert.equal(app.nodes.get("[data-podcast-title]")[0].textContent, data.latestEpisode.title);
+  assert.equal(app.nodes.get("[data-podcast-link]")[0].href, data.latestEpisode.url);
+  widgetEvent(app, "FINISH");
+  assert.equal(app.srcWrites.length, 1);
+});
+
+test("forged widget messages cannot pin playback, release it, or stop the carousel", async () => {
+  const forgeries = [
+    { origin: "https://evil.example" },
+    { origin: "https://www.podbean.com.evil.example" },
+    { source: {} },
+    { source: null },
+    { data: { event: "PLAY" } },
+    { data: "PB.Widget.Events.PLAY" },
+    { data: null },
+  ];
+  let data = snapshot();
+  const app = setup(async () => response(data));
+  await flush();
+  for (const forgery of forgeries) widgetEvent(app, "PLAY", forgery);
+  assert.equal(app.emitted.length, 0);
+  data = nextEpisode("abcde-12345", "A new conversation");
+  app.intervals[0].callback();
+  await flush();
+  assert.equal(app.player.src, data.latestEpisode.embedUrl);
+  widgetEvent(app, "PLAY");
+  data = nextEpisode("fghij-67890", "The newest conversation");
+  app.intervals[0].callback();
+  await flush();
+  widgetEvent(app, "FINISH", { origin: "https://evil.example" });
+  widgetEvent(app, "FINISH", { source: {} });
+  assert.equal(app.srcWrites.length, 1);
+  assert.equal(app.nodes.get("[data-podcast-title]")[0].textContent, "A new conversation");
+  widgetEvent(app, "FINISH");
+  assert.equal(app.player.src, data.latestEpisode.embedUrl);
 });
 
 test("tab and history refreshes never duplicate an in-flight request, and hidden tabs stay idle", async () => {
