@@ -1491,10 +1491,12 @@ button:focus-visible {
 .partner-tile { position: relative; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); height: 140px; overflow: hidden; background: var(--white); min-width: 0; }
 .partner-link { position: absolute; inset: 0; display: block; color: inherit; }
 .partner-link:focus-visible { outline: 3px solid var(--pink); outline-offset: -4px; }
-.partner-logo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 28px; }
+.partner-logo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px 24px; }
 .partner-logo img { width: 100%; max-width: 180px; height: 65px; object-fit: contain; }
 .partner-logo img[src$="/merlin-transparent.png"] { max-width: 132px; }
 .partner-logo span { font-size: 18px; font-weight: 700; text-align: center; }
+.partner-logo .partner-action { font-size: 11px; font-weight: 400; line-height: 1.4; color: var(--muted); white-space: nowrap; }
+.partner-link:hover .partner-action, .partner-link:focus-visible .partner-action { color: var(--pink); }
 .crew-section .section-intro p { margin: 0; }
 .crew-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; }
 .crew-card { min-width: 0; }
@@ -1600,8 +1602,8 @@ button:focus-visible {
   .partners-heading > p { font-size: 13px; }
   .partner-grid { --partner-columns: 2; }
   .partner-tile { height: 112px; }
-  .partner-logo { padding: 22px; }
-  .partner-logo img { height: 54px; }
+  .partner-logo { padding: 14px 18px; gap: 5px; }
+  .partner-logo img { height: 44px; }
   .crew-grid { grid-template-columns: repeat(2, 1fr); gap: 25px 20px; }
   .crew-card h3 { font-size: 17px; }
   .crew-invite { display: block; }

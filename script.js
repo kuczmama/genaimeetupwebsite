@@ -116,9 +116,14 @@ setRotation(rotating);
 (() => {
   const section = document.querySelector(".partners-section");
   const grid = section.querySelector(".partner-grid");
-  const partners = [...grid.querySelectorAll("img")].map(image => ({
-    src: image.getAttribute("src"), name: image.alt, href: image.closest("a").href,
-  }));
+  const partners = [...grid.querySelectorAll("img")].map(image => {
+    const link = image.closest("a");
+    return {
+      src: image.getAttribute("src"), name: image.alt, href: link.href,
+      label: link.getAttribute("aria-label"), title: link.title,
+      action: link.querySelector(".partner-action")?.textContent || "Visit website ↗",
+    };
+  });
   let visible = [];
   let tileOrder = [];
   let lastTile = -1;
@@ -144,16 +149,20 @@ setRotation(rotating);
     image.addEventListener("error", () => {
       const name = document.createElement("span");
       name.textContent = partners[index].name;
-      panel.replaceChildren(name);
+      image.replaceWith(name);
     }, { once: true });
-    panel.append(image);
+    const action = document.createElement("span");
+    action.className = "partner-action";
+    action.textContent = partners[index].action;
+    panel.append(image, action);
     return panel;
   }
   function setDestination(link, index) {
     link.href = partners[index].href;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
-    link.setAttribute("aria-label", `Visit ${partners[index].name} website (opens in a new tab)`);
+    link.setAttribute("aria-label", partners[index].label);
+    link.title = partners[index].title;
   }
   function finishSwap() {
     if (!pendingSwap) return;
