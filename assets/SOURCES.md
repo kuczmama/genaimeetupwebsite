@@ -129,3 +129,7 @@ The social exports were updated at the user’s request to capitalize `Gen AI.` 
 ## Ollama — October 24, 2026
 
 `partners/ollama.png` is the unchanged transparent 181 × 256 [official Ollama mascot](https://ollama.com/public/ollama.png), explicitly linked as the organization's logo in the [Ollama homepage](https://ollama.com/) structured metadata. Original black artwork and transparency are retained without cropping, recoloring, or generation. The standalone mascot is paired with ordinary “Ollama” text in the roster. It is included for the user-confirmed presentation at [Gen AI Demos & Tech Talk, July 20, 2023](https://www.meetup.com/gen-ai/events/293654682/).
+
+## Procopio — October 24, 2026
+
+`partners/procopio.svg` is the unchanged transparent horizontal [official Procopio wordmark](https://www.procopio.com/_next/static/media/logo-procopio.221ded12.svg), used in the header of its [Latin America practice page](https://www.procopio.com/services-and-sectors/latin-america). The original 121.484 × 27.257 SVG viewBox and dark gray (`#555`) artwork are retained without recoloring, cropping, or generation. The logo was visually checked on the site's cream background. Procopio is included as the user-confirmed sponsor of [Gen AI Demos & Tech Talk, July 20, 2023](https://www.meetup.com/gen-ai/events/293654682/).
