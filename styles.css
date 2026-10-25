@@ -1705,6 +1705,7 @@ button:focus-visible {
 .gallery-controls button:hover:not(:disabled) { border-color: var(--pink); background: var(--blush); }
 .gallery-controls button:disabled { opacity: .35; cursor: default; }
 .podcast-links a { font-size: 14px; display: inline-flex; align-items: center; min-height: 44px; }
+.podcast-platform-icon { width: 24px; height: 24px; flex: 0 0 24px; object-fit: contain; margin-right: 12px; }
 .podcast-player > p { font-size: 13px; line-height: 1.6; }
 .reading-section .article-info .meta { font-size: 11px; line-height: 1.6; flex-wrap: wrap; }
 .reading-section .article-info > p:not(.meta) { font-size: 14px; }

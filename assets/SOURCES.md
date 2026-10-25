@@ -88,3 +88,10 @@ Each photo was auto-oriented, resized proportionally to 1440 and 720 pixels wide
 | `community/packed-talk.webp`, `community/packed-talk-720.webp` | `PXL_20250509_020621583.MP.jpg` | 1440 × 810 / 720 × 405 |
 | `community/community-audience.webp`, `community/community-audience-720.webp` | `PXL_20251010_020407954.jpg` | 1440 × 810 / 720 × 405 |
 | `community/cafe-conversations.webp`, `community/cafe-conversations-720.webp` | `PXL_20230818_024305187.jpg` | 1440 × 1084 / 720 × 542 |
+
+## Podcast platform icons — October 24, 2026
+
+| Local asset | Official source and treatment |
+| --- | --- |
+| `platforms/spotify.svg` | Unchanged `Primary_Logo_Black_RGB.svg` from Spotify's [official icon package](https://developer.spotify.com/images/guidelines/design/2024-spotify-logo-icon.zip), linked by its [design guidelines](https://developer.spotify.com/documentation/design). Black artwork is used on the site's light cream background. |
+| `platforms/apple-podcasts.png` | Unchanged 80 × 80 transparent [Apple Podcasts icon](https://marketing.services.apple/mdsa/assets/storage/blobs/images/6aab2064a5b37b0feb424887/en-us-large@1x.png) from the [official identity guidelines](https://marketing.services.apple/apple-podcasts-identity-guidelines). Original purple artwork, displayed at 24 × 24 pixels beside the text label. |
