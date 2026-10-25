@@ -42,34 +42,54 @@ function followLegacyAnchor() {
 followLegacyAnchor();
 window.addEventListener("hashchange", followLegacyAnchor);
 
-// One featured destination at a time. Manual interaction stops rotation;
-// hovering and background tabs temporarily suspend it. Respect reduced motion.
+// The active tab's underline tracks the same clock that advances the carousel.
+// Pause the clock during interaction, playback, and time spent away from the card.
 const carousel = document.querySelector(".feature-carousel");
 const slides = [...carousel.querySelectorAll(".feature-slide")];
 const selectors = [...carousel.querySelectorAll("[data-slide]")];
 const slideRegion = carousel.querySelector(".feature-slides");
-const pauseButton = carousel.querySelector("[data-carousel-pause]");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const slideDuration = 7000;
 let activeSlide = 0;
-let rotating = !reducedMotion.matches;
-let rotationTimer;
+let elapsed = 0;
+let lastFrameAt = null;
+let rotationFrame;
 let hovered = false;
+let inView = false;
+let podcastEngaged = false;
 
-function scheduleRotation() {
-  clearTimeout(rotationTimer);
-  if (rotating && !hovered && !document.hidden && (!carousel.contains(document.activeElement) || document.activeElement === pauseButton)) {
-    rotationTimer = setTimeout(() => {
-      showSlide(activeSlide + 1);
-      scheduleRotation();
-    }, 7000);
-  }
+function updateProgress() {
+  const progress = reducedMotion.matches ? 1 : Math.min(elapsed / slideDuration, 1);
+  carousel.style.setProperty("--slide-progress", String(progress));
 }
-function setRotation(enabled) {
-  rotating = enabled;
-  pauseButton.textContent = enabled ? "Ⅱ" : "▶";
-  pauseButton.setAttribute("aria-label", enabled ? "Pause highlight rotation" : "Start highlight rotation");
-  slideRegion.setAttribute("aria-live", enabled ? "off" : "polite");
-  scheduleRotation();
+function pauseClock() {
+  cancelAnimationFrame(rotationFrame);
+  if (lastFrameAt !== null) elapsed += performance.now() - lastFrameAt;
+  lastFrameAt = null;
+  updateProgress();
+}
+function focusHoldsSlide() {
+  const focused = document.activeElement;
+  if (!carousel.contains(focused)) return false;
+  // Pointer-selected tabs can resume after hover ends; keyboard users keep control.
+  return !selectors.includes(focused) || focused.matches(":focus-visible");
+}
+function tickRotation(now) {
+  elapsed += now - lastFrameAt;
+  lastFrameAt = now;
+  if (elapsed >= slideDuration) showSlide(activeSlide + 1);
+  updateProgress();
+  rotationFrame = requestAnimationFrame(tickRotation);
+}
+function syncRotation() {
+  pauseClock();
+  const running = !reducedMotion.matches && !hovered && !document.hidden
+    && inView && !podcastEngaged && !focusHoldsSlide();
+  slideRegion.setAttribute("aria-live", running ? "off" : "polite");
+  if (running) {
+    lastFrameAt = performance.now();
+    rotationFrame = requestAnimationFrame(tickRotation);
+  }
 }
 function showSlide(index) {
   const nextSlide = (index + slides.length) % slides.length;
@@ -77,28 +97,33 @@ function showSlide(index) {
     // Podbean's player API pauses audio when its slide is deliberately left.
     slides[activeSlide].querySelector("[data-podcast-player]")?.contentWindow
       ?.postMessage({ action: "PB.Widget.API.PAUSE" }, "https://www.podbean.com");
+    podcastEngaged = false;
   }
   activeSlide = nextSlide;
+  elapsed = 0;
   slides.forEach((slide, i) => { slide.hidden = i !== activeSlide; });
   selectors.forEach((button, i) => button.setAttribute("aria-pressed", String(i === activeSlide)));
+  updateProgress();
 }
 function chooseSlide(index) {
-  setRotation(false);
+  pauseClock();
   showSlide(index);
+  syncRotation();
 }
 selectors.forEach(button => button.addEventListener("click", () => chooseSlide(Number(button.dataset.slide))));
-carousel.querySelector("[data-carousel-prev]").addEventListener("click", () => chooseSlide(activeSlide - 1));
-carousel.querySelector("[data-carousel-next]").addEventListener("click", () => chooseSlide(activeSlide + 1));
-pauseButton.addEventListener("click", () => setRotation(!rotating));
-carousel.addEventListener("mouseenter", () => { hovered = true; scheduleRotation(); });
-carousel.addEventListener("mouseleave", () => { hovered = false; scheduleRotation(); });
-carousel.addEventListener("focusin", (event) => {
-  if (event.target !== pauseButton) setRotation(false);
+carousel.addEventListener("pointerenter", event => {
+  if (event.pointerType === "mouse") { hovered = true; syncRotation(); }
 });
-carousel.addEventListener("focusout", scheduleRotation);
+carousel.addEventListener("pointerleave", event => {
+  if (event.pointerType === "mouse") { hovered = false; syncRotation(); }
+});
+carousel.addEventListener("focusin", syncRotation);
+carousel.addEventListener("focusout", () => queueMicrotask(syncRotation));
 // podcast.js validates the Podbean message origin and iframe before emitting this.
-document.addEventListener("podcast:play", () => setRotation(false));
-carousel.querySelector("[data-podcast-player]")?.addEventListener("pointerenter", () => setRotation(false));
+document.addEventListener("podcast:play", () => { podcastEngaged = true; syncRotation(); });
+// Focus can enter the cross-origin player without a focusin event on this page.
+window.addEventListener("blur", () => queueMicrotask(syncRotation));
+window.addEventListener("focus", syncRotation);
 carousel.querySelector(".feature-controls").addEventListener("keydown", event => {
   if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
   event.preventDefault();
@@ -106,10 +131,14 @@ carousel.querySelector(".feature-controls").addEventListener("keydown", event =>
   chooseSlide(index);
   selectors[activeSlide].focus();
 });
-reducedMotion.addEventListener("change", () => { if (reducedMotion.matches) setRotation(false); });
-document.addEventListener("visibilitychange", scheduleRotation);
+reducedMotion.addEventListener("change", syncRotation);
+document.addEventListener("visibilitychange", syncRotation);
+new IntersectionObserver(entries => {
+  inView = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.2;
+  syncRotation();
+}, { threshold: [0, 0.2] }).observe(carousel);
 carousel.querySelector(".feature-controls").hidden = false;
-setRotation(rotating);
+syncRotation();
 
 // Each logo rotates inside its own fixed tile until visitors expand the full set.
 // Reduced-motion and no-JavaScript visitors start with every company visible.
