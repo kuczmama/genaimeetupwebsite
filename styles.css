@@ -1844,6 +1844,8 @@ button:focus-visible {
 
 /* A dedicated listening highlight, with the full player further down the page. */
 .feature-controls { flex-wrap: wrap; }
+.feature-selectors { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(56px, 1.2fr); flex: 1 0 285px; max-width: 100%; gap: 0; }
+.feature-selectors button { min-width: 0; padding-inline: 6px; }
 .feature-navigation { margin-left: auto; }
 #feature-podcast .feature-platform .icon { width: 18px; height: 18px; }
 .feature-podcast-player { display: block; width: 100%; height: 150px; flex-shrink: 0; border: 0; }
@@ -1884,4 +1886,27 @@ button:focus-visible {
   .podcast-latest h3 { font-size: 23px; }
   .podcast-section .podcast-links { grid-template-columns: 1fr; gap: 8px; }
   .podcast-section .podcast-links a { min-height: 54px; }
+}
+
+/* A clear invitation to the community's online conversation. */
+.feature-discuss-cover { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; height: 235px; flex-shrink: 0; padding: 24px; background: #e9e7f6; color: var(--ink); }
+.feature-discuss-cover > img { width: 72px; height: auto; }
+.feature-discuss-cover > span { font-size: 32px; font-weight: 700; line-height: 1.15; letter-spacing: -.8px; text-align: center; }
+.feature-discuss-cover em { font-weight: 400; }
+.feature-discuss-cover:hover { background: #e1def2; }
+@media (min-width: 621px) and (max-width: 1100px) {
+  .feature-discuss-cover { height: 210px; }
+  .feature-selectors button { font-size: 13px; padding-inline: 2px; }
+}
+@media (min-width: 621px) and (max-width: 800px) {
+  .feature-discuss-cover { height: 180px; gap: 14px; padding: 18px; }
+  .feature-discuss-cover > img { width: 58px; }
+  .feature-discuss-cover > span { font-size: 26px; }
+}
+@media (max-width: 620px) {
+  .feature-selectors { flex-basis: 100%; }
+  .feature-selectors button { font-size: 13px; padding-inline: 2px; }
+  .feature-discuss-cover { height: auto; aspect-ratio: 1.78; gap: 16px; padding: 20px; }
+  .feature-discuss-cover > img { width: 56px; }
+  .feature-discuss-cover > span { font-size: 28px; }
 }
