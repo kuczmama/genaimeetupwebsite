@@ -1,0 +1,11 @@
+{
+  "sourceUrl": "https://podcast.genaimeetup.com/feed.xml",
+  "updatedAt": "2026-10-25T01:00:51Z",
+  "latestEpisode": {
+    "title": "Mario plus Red Dead Redemption?! Reverse Engineering AI",
+    "url": "https://podcast.genaimeetup.com/e/mario-plus-red-dead-redemption-reverse-engineering-ai/",
+    "publishedAt": "2026-10-20T12:54:20Z",
+    "durationSeconds": 5735,
+    "description": "In this episode we cover AI, reverse engineering, and the week's tech news. We talk about why binaries are hard to reverse, whether open source and vibe coding threaten Adobe and SaaS, predatory mobile games, browser…"
+  }
+}

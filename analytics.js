@@ -12,7 +12,7 @@
     email: "email_click",
   });
   const sections = new Set([
-    "navigation", "hero", "hero-article", "hero-video", "hero-event",
+    "navigation", "hero", "hero-article", "hero-video", "hero-event", "hero-podcast", "podcast",
     "events", "watch", "video", "spotify", "apple", "all-episodes",
     "player-fallback", "reading", "article", "contact", "footer",
   ]);

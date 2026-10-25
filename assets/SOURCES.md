@@ -105,3 +105,7 @@ Official artwork is saved unchanged and shown beside the platform names in the h
 | `platforms/youtube.png` | Original `YouTube_Icon/Digital/01 Red/yt_icon_red_digital.png` from the [official YouTube icon package](https://www.gstatic.com/marketing-cms/78/29/3e68a1414bb28d0b7e47b44c3c91/youtube-icon.zip), linked by [YouTube's brand page](https://brand.youtube/youtube-icon/). Transparent 1255 × 1075 PNG, original red and white artwork. |
 | `platforms/substack.png` | Original transparent 1000 × 1000 [orange Substack logo](https://substack.com/img/substack.png), linked by the [official brand page](https://substack.com/brand). Replaces the previous hand-drawn outline. |
 | `platforms/meetup.svg` | Original `Meetup Logo Symbol/meetup-logo-symbol-red.svg` from the [official symbol package](https://s3.amazonaws.com/com.meetup.prod.brand/meetup-logo-symbol-redesign-package.zip), linked by [Meetup's media page](https://www.meetup.com/media/). Transparent 185 × 185 SVG, native red artwork. |
+
+## Podcast cover — October 24, 2026
+
+`editorial/podcast-cover.jpg` is the unchanged 1600 × 1600 [published podcast cover](https://pbcdn1.podbean.com/imglogo/image-logo/17891792/gen-ai-podcast-cover-1600.jpg), linked by both image fields in the [official podcast RSS feed](https://podcast.genaimeetup.com/feed.xml). It shows the cream Gen AI Podcast wordmark and pink robot on a black grid background.

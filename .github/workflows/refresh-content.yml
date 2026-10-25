@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Check calendar parsing
+      - name: Check feed parsing
         run: python -m unittest discover -s tests -p 'test_*.py'
       - name: Fetch the public calendar
         id: calendar
@@ -34,12 +34,16 @@ jobs:
         id: videos
         continue-on-error: true
         run: python scripts/update-videos.py
+      - name: Fetch the latest podcast episode
+        id: podcast
+        continue-on-error: true
+        run: python scripts/update-podcast.py
       - name: Save the successful snapshot
-        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success'
+        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success' || steps.podcast.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- data/events.json data/videos.json 'assets/editorial/youtube-*.jpg'
+          git add -- data/events.json data/videos.json data/podcast.json 'assets/editorial/youtube-*.jpg'
           if ! git diff --cached --quiet; then
             git commit -m "Refresh homepage feeds"
             git push origin HEAD:main
@@ -47,7 +51,7 @@ jobs:
       # GITHUB_TOKEN pushes do not automatically start a Pages build. Explicitly
       # request one for this repository's existing main-branch Pages source.
       - name: Request the GitHub Pages rebuild
-        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success'
+        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success' || steps.podcast.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -70,7 +74,7 @@ jobs:
           echo "Timed out waiting for GitHub Pages to publish $expected_commit"
           exit 1
       - name: Report an upstream failure
-        if: steps.calendar.outcome == 'failure' || steps.videos.outcome == 'failure'
+        if: steps.calendar.outcome == 'failure' || steps.videos.outcome == 'failure' || steps.podcast.outcome == 'failure'
         run: |
           echo "A feed refresh failed. Its last successful snapshot was preserved."
           exit 1
