@@ -8,6 +8,28 @@
       name="description"
       content="Make sense of AI together. Find Silicon Valley events, watch or listen to the Gen AI Podcast, and read hands-on experiments and long-form analysis on Substack."
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://genaimeetup.com/#organization",
+        "name": "Gen AI Meetup",
+        "url": "https://genaimeetup.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://genaimeetup.com/assets/social/gen-ai-meetup-logo.png",
+          "width": 512,
+          "height": 512
+        },
+        "description": "A Silicon Valley community for AI builders and curious minds, with in-person meetups, the Gen AI Podcast, and a newsletter on Substack.",
+        "sameAs": [
+          "https://www.meetup.com/gen-ai/",
+          "https://www.youtube.com/@GenAIPod",
+          "https://podcast.genaimeetup.com/",
+          "https://genaipod.substack.com/"
+        ]
+      }
+    </script>
     <meta name="theme-color" content="#f6f3ec" />
     <link rel="canonical" href="https://genaimeetup.com/" />
     <meta property="og:type" content="website" />
@@ -22,9 +44,17 @@
     <meta property="og:url" content="https://genaimeetup.com/" />
     <meta
       property="og:image"
-      content="https://genaimeetup.com/assets/banner.png"
+      content="https://genaimeetup.com/assets/social/gen-ai-meetup-share.png"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Gen AI Meetup. Make sense of AI. Together. Silicon Valley’s AI community." />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gen AI Meetup — Make sense of AI. Together." />
+    <meta name="twitter:description" content="Silicon Valley meetups, the Gen AI Podcast, and a deeper read on Substack." />
+    <meta name="twitter:image" content="https://genaimeetup.com/assets/social/gen-ai-meetup-share.png" />
+    <meta name="twitter:image:alt" content="Gen AI Meetup. Make sense of AI. Together. Silicon Valley’s AI community." />
     <link rel="icon" href="assets/favicon/favicon.ico" />
     <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="assets/favicon/site.webmanifest" />
@@ -35,7 +65,7 @@
       type="font/ttf"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=d1fa5a4ac2" />
+    <link rel="stylesheet" href="styles.css?v=d0ec8cd0ff" />
     <script defer src="analytics.js"></script>
     <script defer src="script.js?v=24f0313439"></script>
     <script defer src="events.js?v=e68bfa93fc"></script>
@@ -258,7 +288,7 @@
         aria-labelledby="events-title"
       >
         <div class="container events-layout">
-          <div class="events-copy">
+          <div class="events-copy events-heading">
             <p class="eyebrow">
               <span class="live-dot" aria-hidden="true"></span> SILICON VALLEY
               GENERATIVE AI
@@ -266,6 +296,15 @@
             <h2 id="events-title">
               Good conversations<br />happen <em>in person.</em>
             </h2>
+          </div>
+          <div class="upcoming-events">
+            <div class="upcoming-heading"><span class="eyebrow">UP NEXT</span><span class="location-label">SUNNYVALE, CA</span></div>
+            <div id="upcoming-events-list">
+              <a class="meetup-fallback" href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="events" target="_blank" rel="noopener noreferrer"><h3>There’s a seat at the table.</h3><p>Explore the next gathering, check the details, and RSVP on Meetup.</p><span class="text-link">See upcoming events <span aria-hidden="true">↗</span></span></a>
+            </div>
+            <p id="events-status" class="events-status" role="status">Event details and RSVPs are managed on Meetup.</p>
+          </div>
+          <div class="events-copy events-details">
             <p>
               First time? Bring a question, share a project, or come to listen.
               Our café socials are relaxed conversations about AI, and newcomers are welcome.
@@ -280,13 +319,6 @@
               <a href="https://www.meetup.com/gen-ai/" data-channel="meetup" data-location="events" target="_blank" rel="noopener noreferrer">Join the Meetup group <span aria-hidden="true">↗</span></a>
               <a href="https://discadia.com/gen-ai/" data-channel="discord" data-location="events" target="_blank" rel="noopener noreferrer">Join Discord <span aria-hidden="true">↗</span></a>
             </div>
-          </div>
-          <div class="upcoming-events">
-            <div class="upcoming-heading"><span class="eyebrow">UP NEXT</span><span class="location-label">SUNNYVALE, CA</span></div>
-            <div id="upcoming-events-list">
-              <a class="meetup-fallback" href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="events" target="_blank" rel="noopener noreferrer"><h3>There’s a seat at the table.</h3><p>Explore the next gathering, check the details, and RSVP on Meetup.</p><span class="text-link">See upcoming events <span aria-hidden="true">↗</span></span></a>
-            </div>
-            <p id="events-status" class="events-status" role="status">Event details and RSVPs are managed on Meetup.</p>
           </div>
         </div>
       </section>
@@ -344,8 +376,7 @@
           <div class="section-heading">
             <div><p class="eyebrow">A LOOK INSIDE THE MEETUP</p><h2 id="community-photos-title">From café tables<br />to <em>full rooms.</em></h2></div>
             <div class="section-intro community-formats">
-              <p><strong>Café conversations.</strong> Small groups in Sunnyvale, shared tables, and time to talk through an idea.</p>
-              <p><strong>Talks &amp; demos.</strong> Larger gatherings with AI builders sharing their work and meeting the community.</p>
+              <p>Meet the people behind the conversations. Moments from our meetups, shared by the community.</p>
             </div>
           </div>
           <div class="photo-gallery" tabindex="0" role="region" aria-label="Photos from our community meetups">
@@ -665,6 +696,8 @@
               data-channel="podcast"
               data-location="footer"
                target="_blank" rel="noopener noreferrer">Podcast ↗</a
+            ><a href="https://open.spotify.com/show/17iOtOaooBbod2vGLvh7cS" data-channel="podcast" data-location="footer" target="_blank" rel="noopener noreferrer"><img class="footer-platform-icon" src="assets/platforms/spotify.svg" width="18" height="18" alt="" />Spotify ↗</a
+            ><a href="https://podcasts.apple.com/us/podcast/the-generative-ai-meetup-podcast/id1727039579" data-channel="podcast" data-location="footer" target="_blank" rel="noopener noreferrer"><img class="footer-platform-icon" src="assets/platforms/apple-podcasts.png" width="18" height="18" alt="" />Apple Podcasts ↗</a
             ><a
               href="https://genaipod.substack.com/"
               data-channel="substack"

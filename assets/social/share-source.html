@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta name="viewport" content="width=1200, initial-scale=1" />
+    <title>Gen AI Meetup — social share artwork</title>
+    <style>
+      @font-face { font-family: "DM Sans"; font-weight: 400; src: url("../fonts/dm-sans-regular.ttf") format("truetype"); }
+      @font-face { font-family: "DM Sans"; font-weight: 700; src: url("../fonts/dm-sans-bold.ttf") format("truetype"); }
+      @font-face { font-family: Newsreader; font-style: italic; font-weight: 400; src: url("../fonts/newsreader-italic.ttf") format("truetype"); }
+      * { box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; margin: 0; }
+      body { background: #f6f3ec; color: #24231f; font-family: "DM Sans", sans-serif; -webkit-font-smoothing: antialiased; }
+      .card { width: 1200px; height: 630px; border-top: 8px solid #b92358; padding: 0 64px; display: grid; grid-template-rows: 137px 387px 98px; }
+      .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #d7d3cb; }
+      .wordmark { display: inline-grid; grid-template-columns: auto auto; font-size: 46px; line-height: .85; letter-spacing: -3.03px; font-weight: 700; }
+      .wordmark-dot { color: #b92358; }
+      .wordmark-small { grid-column: 1 / -1; font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 12px; line-height: 1; letter-spacing: 5.93px; margin-top: 12px; padding-left: 2px; }
+      .domain { color: #66645e; font-size: 20px; letter-spacing: -.3px; }
+      .content { padding-top: 38px; }
+      .eyebrow { margin: 0 0 23px; display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; }
+      .eyebrow::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #b92358; }
+      h1 { margin: 0; font-size: 98px; line-height: 1.04; letter-spacing: -4.9px; font-weight: 700; }
+      h1 em { display: block; margin-top: 7px; color: #b92358; font-family: Newsreader, Georgia, serif; font-size: 120px; line-height: 1.04; letter-spacing: -4.8px; font-weight: 400; }
+      .footer { display: flex; align-items: center; border-top: 1px solid #d7d3cb; }
+      .channels { display: flex; align-items: center; gap: 23px; margin: 0; padding: 0; list-style: none; font-size: 21px; font-weight: 700; letter-spacing: -.4px; }
+      .channels li + li::before { content: "/"; margin-right: 23px; color: #b92358; font-weight: 400; }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <header class="header">
+        <div class="wordmark" aria-label="Gen AI Meetup"><span>gen ai</span><span class="wordmark-dot">.</span><span class="wordmark-small">MEETUP</span></div>
+        <span class="domain">genaimeetup.com</span>
+      </header>
+      <section class="content">
+        <p class="eyebrow">Silicon Valley’s AI community</p>
+        <h1>Make sense of AI.<em>Together.</em></h1>
+      </section>
+      <footer class="footer">
+        <ul class="channels" aria-label="Meet, watch, listen, read, and discuss"><li>Meet</li><li>Watch</li><li>Listen</li><li>Read</li><li>Discuss</li></ul>
+      </footer>
+    </main>
+  </body>
+</html>

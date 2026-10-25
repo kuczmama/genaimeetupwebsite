@@ -683,15 +683,16 @@ button:focus-visible {
   bottom: 13px;
   left: 14px;
   font-family: var(--mono);
-  font-size: 8px;
-  line-height: 1;
-  letter-spacing: 1px;
-  padding: 9px;
+  font-size: 11px;
+  line-height: 1.3;
+  letter-spacing: .6px;
+  padding: 8px 10px;
   background: var(--paper);
 }
 .video-info {
   padding: 19px 0 0;
 }
+.video-info .meta { font-size: 12px; line-height: 1.5; }
 .video-info h3 {
   font-size: 23px;
   letter-spacing: -0.6px;
@@ -1920,4 +1921,24 @@ button:focus-visible {
   .feature-discuss-cover { height: auto; aspect-ratio: 1.78; gap: 16px; padding: 20px; }
   .feature-discuss-cover > img { width: 56px; }
   .feature-discuss-cover > span { font-size: 28px; }
+}
+
+/* Keep dates early in both reading order and the narrow-screen layout. */
+.events-layout { grid-template-areas: "heading upcoming" "details upcoming"; row-gap: 0; align-items: start; }
+.events-heading { grid-area: heading; }
+.events-details { grid-area: details; }
+.upcoming-events { grid-area: upcoming; align-self: center; min-width: 0; }
+.footer-links { display: grid; grid-template-columns: repeat(4, max-content); max-width: 660px; justify-content: end; column-gap: 24px; row-gap: 4px; }
+.footer-links a { gap: 7px; }
+.footer-platform-icon { width: 18px; height: 18px; flex: none; object-fit: contain; }
+@media (max-width: 900px) {
+  .footer-main { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .footer-links { max-width: none; justify-content: flex-start; }
+}
+@media (max-width: 760px) {
+  .events-layout { grid-template-columns: 1fr; grid-template-areas: "heading" "upcoming" "details"; gap: 28px; }
+  .events-heading h2 { margin-bottom: 0; }
+}
+@media (max-width: 620px) {
+  .footer-links { grid-template-columns: repeat(2, max-content); }
 }
