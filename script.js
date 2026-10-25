@@ -29,6 +29,74 @@ document.addEventListener("click", (event) => {
 window.matchMedia("(min-width: 801px)").addEventListener("change", closeMenu);
 document.querySelector("#current-year").textContent = new Date().getFullYear();
 
+// Keep both wordmarks in sync without changing their width or accessible name.
+(() => {
+  const labels = [...document.querySelectorAll("[data-wordmark-label]")];
+  if (!labels.length) return;
+  const wordmarks = labels.map((label) => label.closest(".wordmark"));
+  const words = ["Meetup", "Podcast", "Community", "Videos", "Articles"];
+  const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let index = 0;
+  let timer;
+  let animations = [];
+
+  function render() {
+    labels.forEach((label) => { label.textContent = words[index]; });
+  }
+  function canRotate() {
+    return !motion.matches && !document.hidden &&
+      !wordmarks.some((wordmark) => wordmark.matches(":hover, :focus-within"));
+  }
+  function schedule() {
+    if (canRotate()) timer = window.setTimeout(advance, 3000);
+  }
+  async function advance() {
+    if (!canRotate()) return;
+    const outgoing = labels.map((label) => label.animate([
+      { opacity: 1, transform: "translateY(0)" },
+      { opacity: 0, transform: "translateY(-35%)" },
+    ], { duration: 180, easing: "ease-in", fill: "forwards" }));
+    animations = outgoing;
+    await Promise.allSettled(outgoing.map((animation) => animation.finished));
+    if (animations !== outgoing) return;
+
+    index = (index + 1) % words.length;
+    render();
+    outgoing.forEach((animation) => animation.cancel());
+    const incoming = labels.map((label) => label.animate([
+      { opacity: 0, transform: "translateY(35%)" },
+      { opacity: 1, transform: "translateY(0)" },
+    ], { duration: 220, easing: "ease-out" }));
+    animations = incoming;
+    await Promise.allSettled(incoming.map((animation) => animation.finished));
+    if (animations !== incoming) return;
+    animations = [];
+    schedule();
+  }
+  function sync() {
+    window.clearTimeout(timer);
+    const previous = animations;
+    animations = [];
+    previous.forEach((animation) => animation.cancel());
+    if (motion.matches) {
+      index = words.indexOf("Community");
+      render();
+    }
+    schedule();
+  }
+
+  render();
+  wordmarks.forEach((wordmark) => {
+    wordmark.addEventListener("pointerenter", sync);
+    wordmark.addEventListener("pointerleave", sync);
+    wordmark.addEventListener("focusin", sync);
+    wordmark.addEventListener("focusout", () => queueMicrotask(sync));
+  });
+  document.addEventListener("visibilitychange", sync);
+  motion.addEventListener("change", sync);
+  sync();
+})();
+
 // Preserve links to sections of the old homepage.
 const legacySections = {
   "#youtube": "#watch",

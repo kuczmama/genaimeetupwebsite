@@ -125,23 +125,35 @@ button:focus-visible {
 }
 .wordmark {
   display: inline-grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
+  flex-shrink: 0;
   font-size: 38px;
   line-height: 0.85;
   letter-spacing: -2.5px;
   font-weight: 700;
 }
+.wordmark-name {
+  white-space: nowrap;
+}
 .wordmark-dot {
   color: var(--pink);
 }
 .wordmark-small {
-  grid-column: 1/-1;
+  position: relative;
+  display: block;
+  height: 1.3em;
+  overflow: hidden;
   font-family: var(--mono);
   font-size: 10px;
-  line-height: 1;
+  line-height: 1.3;
   letter-spacing: 4.9px;
   margin-top: 10px;
-  padding-left: 2px;
+  text-transform: uppercase;
+}
+[data-wordmark-label] {
+  position: absolute;
+  inset: 0 0 0 2px;
+  white-space: nowrap;
 }
 .main-nav {
   display: flex;

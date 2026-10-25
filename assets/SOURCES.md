@@ -118,8 +118,10 @@ Official artwork is saved unchanged and shown beside the platform names in the h
 
 ## Social sharing and organization artwork — October 24, 2026
 
-- `social/gen-ai-meetup-share.png`: opaque 1200 × 630 social share image, composed with HTML/CSS from the existing homepage identity. Uses the site's cream (`#f6f3ec`), ink (`#24231f`), and burgundy (`#b92358`), existing `gen ai. MEETUP` wordmark, the headline “Make sense of AI. Together.”, and the community's five activities. No photography, generated imagery, or third-party artwork is included.
+- `social/gen-ai-meetup-share.png`: opaque 1200 × 630 social share image, composed with HTML/CSS from the existing homepage identity. Uses the site's cream (`#f6f3ec`), ink (`#24231f`), and burgundy (`#b92358`), homepage wordmark, capitalized as `Gen AI.` with the static `COMMUNITY` subtitle for export, the headline “Make sense of AI. Together.”, and the community's five activities. No photography, generated imagery, or third-party artwork is included.
 - `social/gen-ai-meetup-logo.png`: opaque 512 × 512 organization logo, rendering the existing homepage wordmark on the same cream background. This is a raster export of the established identity, not a redesigned mark.
 - Reproducible sources: `social/share-source.html`, `social/logo-source.html`, and `social/render.cjs`. Run `node assets/social/render.cjs` in an environment with Playwright and Google Chrome. The renderer loads the repository's existing DM Sans and Newsreader font files from `assets/fonts/` without network requests. Font licenses remain in `assets/fonts/licenses/`.
 
 Both exports were checked for exact dimensions, full opacity, and legible, unclipped lettering; an independent visual review also confirmed the spacing and brand consistency.
+
+The social exports were updated at the user’s request to capitalize `Gen AI.` and use `COMMUNITY` beneath it. The cream palette, layouts, type sizes, and letter spacing are preserved; both updated renders were visually checked for subtitle fit and clipping. The exported subtitle stays static while the website cycles its labels.
