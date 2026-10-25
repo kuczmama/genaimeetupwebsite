@@ -1,0 +1,24 @@
+{
+  "source": "https://genaipod.substack.com/feed",
+  "updatedAt": "2026-10-25T03:22:59Z",
+  "articles": [
+    {
+      "title": "I owed half a million on margin, so I built my own AI financial advisor",
+      "url": "https://genaipod.substack.com/p/personal-finance",
+      "published": "2026-10-01T13:45:50Z",
+      "description": "I'm sharing the holistic personal finance system I built over the last several weeks, and the skills to build your own.",
+      "thumbnail": "https://substack-post-media.s3.amazonaws.com/public/images/0bb8a82e-18a7-478c-93b2-eae10276281e_1672x941.png",
+      "localThumbnail": "assets/editorial/substack-personal-finance-2f8901e097c1.jpg",
+      "localThumbnailSource": "https://substackcdn.com/image/fetch/w_960,c_limit,f_jpg,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0bb8a82e-18a7-478c-93b2-eae10276281e_1672x941.png"
+    },
+    {
+      "title": "ARC-AGI-3: A game with no instructions",
+      "url": "https://genaipod.substack.com/p/arc-agi-3",
+      "published": "2026-08-26T14:01:24Z",
+      "description": "I spent several days and a few hundred dollars trying to solve it. Here’s how the leading systems see, remember, test theories, and learn as they go.",
+      "thumbnail": "https://substack-post-media.s3.amazonaws.com/public/images/0feec3fa-22b6-4bed-a74f-636fc3716ba0_2940x1654.png",
+      "localThumbnail": "assets/editorial/substack-arc-agi-3-7c6d51b8397b.jpg",
+      "localThumbnailSource": "https://substackcdn.com/image/fetch/w_960,c_limit,f_jpg,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0feec3fa-22b6-4bed-a74f-636fc3716ba0_2940x1654.png"
+    }
+  ]
+}

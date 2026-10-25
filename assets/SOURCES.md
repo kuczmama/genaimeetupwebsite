@@ -137,3 +137,7 @@ The social exports were updated at the user’s request to capitalize `Gen AI.` 
 ## CodeRabbit icon update — October 24, 2026
 
 `partners/coderabbit.svg` retains the existing official horizontal wordmark lettering, clip, spacing, and 2814 × 513 viewBox. At the user’s request, its previous black symbol and cutout mask were replaced by the two exact SVG path definitions from the [current official CodeRabbit homepage header](https://www.coderabbit.ai/) (`viewBox="0 0 29 29"`). The header’s computed colors were verified in Chrome: `fill-orange-500` is `rgb(255, 87, 10)` (`#FF570A`), and `fill-white` is `#FFFFFF`. These native colors are encoded explicitly so the standalone asset does not depend on CodeRabbit’s stylesheet. The two paths are uniformly scaled by 17.905855788153 to preserve the original symbol’s 512.274 × 512.274 bounds; the unused old mask was removed. No lettering or icon path was redrawn.
+
+## Automatically refreshed Substack thumbnails — October 24, 2026
+
+`editorial/substack-*.jpg` files are cached from the [Gen AI Podcast RSS feed](https://genaipod.substack.com/feed) through Substack’s native image CDN at a maximum width of 960px. They accompany the newest two published articles in the reading section and the newest article in the hero. `data/articles.json` records each original `thumbnail` URL and exact cached `localThumbnailSource` URL. `scripts/update-articles.py` refreshes the selection and images; the artwork is not regenerated.

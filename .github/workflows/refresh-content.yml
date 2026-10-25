@@ -12,6 +12,7 @@ on:
         options:
           - all
           - podcast
+          - articles
 
 permissions:
   contents: write
@@ -35,25 +36,31 @@ jobs:
       - name: Check feed parsing
         run: python -m unittest discover -s tests -p 'test_*.py'
       - name: Fetch the public calendar
-        if: github.event_name != 'workflow_dispatch' || inputs.feed != 'podcast'
+        if: github.event_name != 'workflow_dispatch' || inputs.feed == 'all'
         id: calendar
         continue-on-error: true
         run: python scripts/refresh_events.py
       - name: Fetch the latest YouTube episodes
-        if: github.event_name != 'workflow_dispatch' || inputs.feed != 'podcast'
+        if: github.event_name != 'workflow_dispatch' || inputs.feed == 'all'
         id: videos
         continue-on-error: true
         run: python scripts/update-videos.py
       - name: Fetch the latest podcast episode
+        if: github.event_name != 'workflow_dispatch' || inputs.feed != 'articles'
         id: podcast
         continue-on-error: true
         run: python scripts/update-podcast.py
+      - name: Fetch the latest Substack articles
+        if: github.event_name != 'workflow_dispatch' || inputs.feed != 'podcast'
+        id: articles
+        continue-on-error: true
+        run: python scripts/update-articles.py
       - name: Save the successful snapshot
-        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success' || steps.podcast.outcome == 'success'
+        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success' || steps.podcast.outcome == 'success' || steps.articles.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- data/events.json data/videos.json data/podcast.json 'assets/editorial/youtube-*.jpg'
+          git add -- data/events.json data/videos.json data/podcast.json data/articles.json 'assets/editorial/youtube-*.jpg' 'assets/editorial/substack-*'
           if ! git diff --cached --quiet; then
             git commit -m "Refresh homepage feeds"
             git push origin HEAD:main
@@ -61,7 +68,7 @@ jobs:
       # GITHUB_TOKEN pushes do not automatically start a Pages build. Explicitly
       # request one for this repository's existing main-branch Pages source.
       - name: Request the GitHub Pages rebuild
-        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success' || steps.podcast.outcome == 'success'
+        if: steps.calendar.outcome == 'success' || steps.videos.outcome == 'success' || steps.podcast.outcome == 'success' || steps.articles.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -84,7 +91,7 @@ jobs:
           echo "Timed out waiting for GitHub Pages to publish $expected_commit"
           exit 1
       - name: Report an upstream failure
-        if: steps.calendar.outcome == 'failure' || steps.videos.outcome == 'failure' || steps.podcast.outcome == 'failure'
+        if: steps.calendar.outcome == 'failure' || steps.videos.outcome == 'failure' || steps.podcast.outcome == 'failure' || steps.articles.outcome == 'failure'
         run: |
           echo "A feed refresh failed. Its last successful snapshot was preserved."
           exit 1
