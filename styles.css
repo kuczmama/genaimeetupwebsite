@@ -1654,9 +1654,6 @@ button:focus-visible {
 .contact-copy h2 { font-size: 62px; margin-block: 20px 24px; }
 .contact-copy > p:not(.eyebrow) { max-width: 350px; font-size: 16px; line-height: 1.7; margin-bottom: 22px; }
 .contact-copy > .text-link { font-size: 13px; gap: 14px; }
-.contact-community { margin-top: 45px; padding-top: 22px; border-top: 1px solid #d5b2be; max-width: 350px; }
-.contact-community p { font-size: 13px; color: #5e4b51; margin-bottom: 5px; }
-.contact-community .text-link { font-size: 13px; }
 .contact-form { display: grid; gap: 22px; min-width: 0; }
 .contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .form-group { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
@@ -1683,7 +1680,6 @@ button:focus-visible {
   .contact-layout { grid-template-columns: 1fr; gap: 32px; }
   .contact-copy h2 { font-size: 48px; margin-block: 17px 20px; }
   .contact-copy > p:not(.eyebrow) { font-size: 15px; margin-bottom: 15px; }
-  .contact-community { margin-top: 25px; padding-top: 17px; }
   .contact-form-footer { gap: 15px; }
   .contact-form-footer .button { width: 100%; }
 }
@@ -1831,7 +1827,7 @@ button:focus-visible {
   .newsletter-signup { box-shadow: 5px 5px 0 #e9e4dc; }
   .newsletter-signup h3 { padding-inline: 20px; }
   .newsletter-signup iframe { height: 520px; }
-  .crew-invite, .contact-community p, .contact-community .text-link, .contact-copy > .text-link { font-size: 14px; }
+  .crew-invite, .contact-copy > .text-link { font-size: 14px; }
   .form-group label { font-size: 14px; }
 }
 @media (max-width: 359px) {
