@@ -294,17 +294,17 @@ button:focus-visible {
   color: var(--pink);
 }
 .feature-platform-icon {
-  width: 34px;
-  height: 24px;
+  width: 26px;
+  height: 18px;
   flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.feature-platform-icon img { width: 24px; height: auto; max-width: none; flex: none; }
+.feature-platform-icon img { width: 18px; height: auto; max-width: none; flex: none; }
 /* Account for the transparent clear space in the original brand assets. */
-.feature-platform-icon .feature-platform-youtube { width: 52px; }
-.feature-platform-icon .feature-platform-substack { width: 40px; }
+.feature-platform-icon .feature-platform-youtube { width: 39px; }
+.feature-platform-icon .feature-platform-substack { width: 30px; }
 .icon {
   width: 20px;
   height: 20px;
