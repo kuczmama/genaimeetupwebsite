@@ -1695,6 +1695,8 @@ button:focus-visible {
 .photo-slide { margin: 0; min-width: 0; scroll-snap-align: start; }
 .photo-slide img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 65%; background: #e6dcc9; }
 .photo-slide figcaption { padding-top: 12px; font-size: 14px; color: var(--muted); line-height: 1.5; }
+.photo-slide figcaption a { display: inline-block; min-height: 44px; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.photo-slide figcaption a:hover { color: var(--pink); text-decoration-color: currentColor; }
 .gallery-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-top: 12px; }
 .gallery-footer > p { font-size: 13px; color: var(--muted); }
 .gallery-controls { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
