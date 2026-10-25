@@ -1728,8 +1728,8 @@ button:focus-visible {
 .reading-content .article-card { display: grid; }
 .reading-content .article-info { padding-top: 0; }
 .reading-content .article-image img { aspect-ratio: 1.15; }
-.newsletter-signup { min-width: 0; max-width: 480px; width: 100%; justify-self: end; background: #fff; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(36, 35, 31, .04); }
-.newsletter-signup h3 { font-size: 25px; line-height: 1.25; margin: 0; padding: 26px 26px 8px; }
+.newsletter-signup { min-width: 0; max-width: 480px; width: 100%; justify-self: end; background: var(--white); border: 1px solid var(--line); border-radius: 0; overflow: hidden; box-shadow: 7px 7px 0 #e9e4dc; }
+.newsletter-signup h3 { font-size: 25px; line-height: 1.25; margin: 0; padding: 18px 22px; border-bottom: 1px solid var(--line); }
 .newsletter-signup iframe { display: block; width: 100%; height: 320px; border: 0; background: #fff; }
 @media (max-width: 1100px) {
   .reading-content { grid-template-columns: 1fr; gap: 32px; }
@@ -1806,8 +1806,8 @@ button:focus-visible {
   .reading-heading h2 { font-size: 38px; }
   .reading-heading > p:not(.eyebrow) { font-size: 15px; }
   .reading-section .article-card { grid-template-columns: 90px 1fr; gap: 16px; }
-  .newsletter-signup { border-radius: 24px; }
-  .newsletter-signup h3 { font-size: 23px; padding: 22px 20px 4px; }
+  .newsletter-signup { box-shadow: 5px 5px 0 #e9e4dc; }
+  .newsletter-signup h3 { font-size: 23px; padding: 18px 20px; }
   .newsletter-signup iframe { height: 520px; }
   .crew-invite, .contact-community p, .contact-community .text-link, .contact-copy > .text-link { font-size: 14px; }
   .form-group label { font-size: 14px; }
