@@ -39,6 +39,7 @@
     <script defer src="analytics.js"></script>
     <script defer src="script.js"></script>
     <script defer src="events.js"></script>
+    <script defer src="gallery.js"></script>
     <script>
       // Keep local previews out of production analytics.
       if (
@@ -82,9 +83,10 @@
           <a
             class="nav-subscribe"
             href="https://genaipod.substack.com/subscribe"
+            aria-label="Subscribe to the newsletter on Substack"
             data-channel="substack"
             data-location="navigation"
-            >Subscribe <span aria-hidden="true">↗</span></a
+            >Newsletter <span aria-hidden="true">↗</span></a
           >
         </nav>
       </div>
@@ -93,24 +95,23 @@
       <section class="hero container" id="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">
-            <span class="live-dot" aria-hidden="true"></span> SILICON VALLEY ROOTS. A
-            WIDER CONVERSATION.
+            <span class="live-dot" aria-hidden="true"></span> SILICON VALLEY’S AI COMMUNITY
           </p>
           <h1 id="hero-title">
             Make sense<br />of AI.<br /><em>Together.</em>
           </h1>
           <p class="hero-description">
-            For people building with AI, figuring it out, and asking what comes
-            next. Meet in person, join the conversation, or settle in for a
-            deeper read.
+            A Silicon Valley community for AI builders and curious minds. Meet in
+            Sunnyvale, swap ideas, and learn from the people putting AI to work.
           </p>
           <div class="hero-actions">
             <a
               class="button button-pink"
+              data-event-link
               href="https://www.meetup.com/gen-ai/events/"
               data-channel="meetup"
               data-location="hero"
-              >Find your next meetup <span aria-hidden="true">↗</span></a
+              >Join the next meetup <span aria-hidden="true">↗</span></a
             >
             <a
               class="text-link"
@@ -119,11 +120,45 @@
             >
           </div>
         </div>
+      <section class="community-stats" aria-label="Our community in numbers">
+        <p class="eyebrow">BUILT TOGETHER.<br />STILL GROWING.</p>
+        <div><strong>6,000<span>+</span></strong><span>Community members</span></div>
+        <div><strong>100<span>+</span></strong><span>Meetup events</span></div>
+        <div><strong>50<span>+</span></strong><span>Podcast episodes</span></div>
+      </section>
         <div class="hero-feature feature-carousel" role="region" aria-roledescription="carousel" aria-label="Community highlights">
           <div class="feature-slides" aria-live="off">
-        <article class="feature-slide" id="feature-article" role="group" aria-roledescription="slide" aria-label="1 of 3: Featured article">
+            <article class="feature-slide" id="feature-event" role="group" aria-roledescription="slide" aria-label="1 of 3: Upcoming meetup">
+              <div class="feature-topline"><span class="eyebrow">01 / SEE YOU IN PERSON</span><span class="substack-label">On Meetup</span></div>
+              <a class="feature-event-cover" data-event-link href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="hero-event" aria-label="See the next meetup">
+                <img class="feature-event-photo" src="assets/community/cafe-tables.webp" srcset="assets/community/cafe-tables-720.webp 720w, assets/community/cafe-tables.webp 1440w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 1100px) 45vw, 535px" width="1440" height="1084" alt="People talking around several tables at a Sunnyvale café meetup." fetchpriority="high" />
+                <span class="feature-photo-caption">Around the table in Sunnyvale</span>
+                <div class="feature-calendar" aria-hidden="true"><span data-event-month>LET’S</span><strong data-event-day>MEET</strong></div>
+              </a>
+              <div class="feature-copy">
+                <p class="meta" data-event-date>UPCOMING IN SUNNYVALE</p>
+                <h2><a data-event-link data-event-title href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="hero-event">Meet the community in person</a></h2>
+                <p data-event-location>Sunnyvale, CA</p>
+                <p class="feature-event-invitation">Bring a project, a question, or just your curiosity.</p>
+                <a class="text-link" data-event-link href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="hero-event"><span class="event-cta-label" data-event-cta>See upcoming events</span> <span aria-hidden="true">↗</span></a>
+              </div>
+            </article>
+            <article class="feature-slide" id="feature-video" role="group" aria-roledescription="slide" aria-label="2 of 3: Featured video" hidden>
+              <div class="feature-topline"><span class="eyebrow">02 / THE LATEST CONVERSATION</span><span class="substack-label">On YouTube</span></div>
+              <a class="feature-cover video-image" data-feature-video-link href="https://www.youtube.com/watch?v=mt4qfLVVh9g" data-channel="youtube" data-location="hero-video" aria-label="Watch Can Free AI Clones Kill Adobe?">
+                <img data-feature-video-image src="assets/editorial/youtube-mt4qfLVVh9g-maxresdefault.jpg" width="1280" height="720" alt="Can Free AI Clones Kill Adobe? video thumbnail." />
+                <span class="play-button" aria-hidden="true">▶</span>
+              </a>
+              <div class="feature-copy">
+                <p class="meta">GEN AI MEETUP PODCAST <span>·</span> <time data-feature-video-date datetime="2026-10-20">OCT 20, 2026</time></p>
+                <h2><a data-feature-video-link data-feature-video-title href="https://www.youtube.com/watch?v=mt4qfLVVh9g" data-channel="youtube" data-location="hero-video">Can Free AI Clones Kill Adobe?</a></h2>
+                <p>News, experiments, and honest conversations about building with AI.</p>
+                <a class="text-link" data-feature-video-link href="https://www.youtube.com/watch?v=mt4qfLVVh9g" data-channel="youtube" data-location="hero-video">Watch the episode <span aria-hidden="true">↗</span></a>
+              </div>
+            </article>
+            <article class="feature-slide" id="feature-article" role="group" aria-roledescription="slide" aria-label="3 of 3: Featured article" hidden>
           <div class="feature-topline">
-            <span class="eyebrow">01 / FEATURED READ</span
+            <span class="eyebrow">03 / FEATURED READ</span
             ><span class="substack-label"
               ><svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
                 <path d="M4 3h16M4 7h16M4 11h16v10l-8-5-8 5z" />
@@ -142,7 +177,7 @@
               width="1100"
               height="619"
               alt="A diagram of a personal AI financial advisor: accounts, local ledger, AI analysis, and decisions."
-              fetchpriority="high"
+              loading="lazy"
           /></a>
           <div class="feature-copy">
             <p class="meta">HANDS-ON AI <span>·</span> OCT 1, 2026</p>
@@ -168,38 +203,12 @@
             >
           </div>
         </article>
-            <article class="feature-slide" id="feature-video" role="group" aria-roledescription="slide" aria-label="2 of 3: Featured video" hidden>
-              <div class="feature-topline"><span class="eyebrow">02 / THE LATEST CONVERSATION</span><span class="substack-label">On YouTube</span></div>
-              <a class="feature-cover video-image" data-feature-video-link href="https://www.youtube.com/watch?v=mt4qfLVVh9g" data-channel="youtube" data-location="hero-video" aria-label="Watch Can Free AI Clones Kill Adobe?">
-                <img data-feature-video-image src="assets/editorial/youtube-mt4qfLVVh9g-maxresdefault.jpg" width="1280" height="720" alt="Can Free AI Clones Kill Adobe? video thumbnail." />
-                <span class="play-button" aria-hidden="true">▶</span>
-              </a>
-              <div class="feature-copy">
-                <p class="meta">GEN AI MEETUP PODCAST <span>·</span> <time data-feature-video-date datetime="2026-10-20">OCT 20, 2026</time></p>
-                <h2><a data-feature-video-link data-feature-video-title href="https://www.youtube.com/watch?v=mt4qfLVVh9g" data-channel="youtube" data-location="hero-video">Can Free AI Clones Kill Adobe?</a></h2>
-                <p>News, experiments, and honest conversations about building with AI.</p>
-                <a class="text-link" data-feature-video-link href="https://www.youtube.com/watch?v=mt4qfLVVh9g" data-channel="youtube" data-location="hero-video">Watch the episode <span aria-hidden="true">↗</span></a>
-              </div>
-            </article>
-            <article class="feature-slide" id="feature-event" role="group" aria-roledescription="slide" aria-label="3 of 3: Upcoming meetup" hidden>
-              <div class="feature-topline"><span class="eyebrow">03 / SEE YOU IN PERSON</span><span class="substack-label">On Meetup</span></div>
-              <a class="feature-event-cover" data-event-link href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="hero-event" aria-label="See the next meetup">
-                <div class="feature-calendar" aria-hidden="true"><span data-event-month>LET’S</span><strong data-event-day>meet.</strong></div>
-                <div class="feature-event-note"><span class="eyebrow">SUNNYVALE, CA</span><span>A shared curiosity.<br />A real conversation.</span><span class="event-cover-arrow" aria-hidden="true">↗</span></div>
-              </a>
-              <div class="feature-copy">
-                <p class="meta" data-event-date>UPCOMING IN SUNNYVALE</p>
-                <h2><a data-event-link data-event-title href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="hero-event">Meet the community in person</a></h2>
-                <p data-event-location>Sunnyvale, CA</p>
-                <a class="text-link" data-event-link href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="hero-event"><span class="event-cta-label" data-event-cta>See upcoming events</span> <span aria-hidden="true">↗</span></a>
-              </div>
-            </article>
           </div>
           <div class="feature-controls" hidden>
             <div class="feature-selectors" aria-label="Choose a highlight">
-              <button type="button" data-slide="0" aria-controls="feature-article" aria-pressed="true">Read</button>
+              <button type="button" data-slide="0" aria-controls="feature-event" aria-pressed="true">Meet</button>
               <button type="button" data-slide="1" aria-controls="feature-video" aria-pressed="false">Watch</button>
-              <button type="button" data-slide="2" aria-controls="feature-event" aria-pressed="false">Meet</button>
+              <button type="button" data-slide="2" aria-controls="feature-article" aria-pressed="false">Read</button>
             </div>
             <div class="feature-navigation">
               <button type="button" data-carousel-prev aria-label="Previous highlight">←</button>
@@ -208,12 +217,6 @@
             </div>
           </div>
         </div>
-      </section>
-      <section class="community-stats container" aria-label="Our community in numbers">
-        <p class="eyebrow">BUILT TOGETHER.<br />STILL GROWING.</p>
-        <div><strong>6,000<span>+</span></strong><span>Community members</span></div>
-        <div><strong>100<span>+</span></strong><span>Meetup events</span></div>
-        <div><strong>50<span>+</span></strong><span>Podcast episodes</span></div>
       </section>
       <section
         class="events-section"
@@ -230,10 +233,15 @@
               Good conversations<br />happen <em>in person.</em>
             </h2>
             <p>
-              Bring the thing you’re building, the question you can’t shake, or
-              just your curiosity. Find people exploring AI in Silicon Valley.
+              From café conversations in Sunnyvale to talks and demos across
+              Silicon Valley, meet people exploring AI and share what you’re working on.
             </p>
             <a class="text-link events-calendar-link" href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="events">Full Meetup calendar <span aria-hidden="true">↗</span></a>
+            <div class="events-community-links">
+              <p>Keep the conversation going</p>
+              <a href="https://www.meetup.com/gen-ai/" data-channel="meetup" data-location="events">Join the Meetup group <span aria-hidden="true">↗</span></a>
+              <a href="https://discadia.com/gen-ai/" data-channel="discord" data-location="events">Join Discord <span aria-hidden="true">↗</span></a>
+            </div>
           </div>
           <div class="upcoming-events">
             <div class="upcoming-heading"><span class="eyebrow">UP NEXT</span><span class="location-label">SUNNYVALE, CA</span></div>
@@ -241,6 +249,83 @@
               <a class="meetup-fallback" href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="events"><h3>There’s a seat at the table.</h3><p>Explore the next gathering, check the details, and RSVP on Meetup.</p><span class="text-link">See upcoming events <span aria-hidden="true">↗</span></span></a>
             </div>
             <p id="events-status" class="events-status" role="status">Event details and RSVPs are managed on Meetup.</p>
+          </div>
+        </div>
+      </section>
+      <section class="partners-section" id="sponsors" aria-labelledby="partners-title">
+        <div class="container">
+          <div class="partners-heading">
+            <div><p class="eyebrow">SPONSORS, SPEAKERS &amp; PODCAST GUESTS</p><h2 id="partners-title">Good company. <em>Great conversations.</em></h2></div>
+            <p>The teams that have hosted our meetups, shared their work, and joined us on the podcast.</p>
+          </div>
+          <ul class="partner-grid" id="partner-grid" aria-label="Past sponsors, speakers, and podcast guests" aria-live="off">
+            <li class="partner-tile"><a class="partner-link" href="https://www.databricks.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Databricks website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/databricks.svg" alt="Databricks" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.couchbase.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Couchbase website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/couchbase.svg" alt="Couchbase" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.llamaindex.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit LlamaIndex website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/llamaindex.svg" alt="LlamaIndex" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://sambanova.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit SambaNova website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/sambanova.png" alt="SambaNova" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.langflow.org/" target="_blank" rel="noopener noreferrer" aria-label="Visit Langflow website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/langflow.svg" alt="Langflow" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.datastax.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit DataStax website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/datastax.png" alt="DataStax" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.pinecone.io/" target="_blank" rel="noopener noreferrer" aria-label="Visit Pinecone website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/pinecone.svg" alt="Pinecone" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://sentient.foundation/" target="_blank" rel="noopener noreferrer" aria-label="Visit Sentient Foundation website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/sentient-foundation.svg" alt="Sentient Foundation" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://withmartian.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Martian Router website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/martian.svg" alt="Martian Router" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.swlaw.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Snell &amp; Wilmer website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/snell-wilmer.svg" alt="Snell &amp; Wilmer" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.sentient.xyz/" target="_blank" rel="noopener noreferrer" aria-label="Visit Sentient AI website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/sentient.svg" alt="Sentient AI" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.realwear.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit RealWear website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/realwear.svg" alt="RealWear" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.genspark.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Genspark website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/genspark.svg" alt="Genspark" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.getmerlin.in/" target="_blank" rel="noopener noreferrer" aria-label="Visit Merlin website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/merlin-transparent.png" alt="Merlin" loading="lazy" width="2172" height="724" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://rtrvr.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit rtrvr.ai website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/rtrvr.svg" alt="rtrvr.ai" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://www.cerebras.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Cerebras website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/cerebras.png" alt="Cerebras" loading="lazy" width="180" height="65" /></div></a></li>
+            <li class="partner-tile"><a class="partner-link" href="https://analytica.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Analytica website (opens in a new tab)"><div class="partner-logo"><img src="assets/partners/analytica.png" alt="Analytica" loading="lazy" width="180" height="65" /></div></a></li>
+          </ul>
+
+        </div>
+      </section>
+      <section class="community-photos section-space" id="community-photos" aria-labelledby="community-photos-title">
+        <div class="container">
+          <div class="section-heading">
+            <div><p class="eyebrow">A LOOK INSIDE THE MEETUP</p><h2 id="community-photos-title">From café tables<br />to <em>full rooms.</em></h2></div>
+            <div class="section-intro community-formats">
+              <p><strong>Café conversations.</strong> Small groups in Sunnyvale, shared tables, and time to talk through an idea.</p>
+              <p><strong>Talks &amp; demos.</strong> Larger gatherings with AI builders sharing their work and meeting the community.</p>
+            </div>
+          </div>
+          <div class="photo-gallery" tabindex="0" role="region" aria-label="Photos from our community meetups">
+            <figure class="photo-slide">
+              <img src="assets/community/packed-talk.webp" srcset="assets/community/packed-talk-720.webp 720w, assets/community/packed-talk.webp 1440w" sizes="(max-width: 620px) 86vw, (max-width: 900px) 80vw, 780px" width="1440" height="810" alt="A full room listening to a speaker at a Gen AI Meetup event." loading="lazy" decoding="async" />
+              <figcaption>A full house for AI talks</figcaption>
+            </figure>
+            <figure class="photo-slide">
+              <img src="assets/community/cafe-tables.webp" srcset="assets/community/cafe-tables-720.webp 720w, assets/community/cafe-tables.webp 1440w" sizes="(max-width: 620px) 86vw, (max-width: 900px) 80vw, 780px" width="1440" height="1084" alt="Community members in conversation around café tables in Sunnyvale." loading="lazy" decoding="async" />
+              <figcaption>Café conversations in Sunnyvale</figcaption>
+            </figure>
+            <figure class="photo-slide">
+              <img src="assets/community/meetup-conversations.webp" srcset="assets/community/meetup-conversations-720.webp 720w, assets/community/meetup-conversations.webp 1440w" sizes="(max-width: 620px) 86vw, (max-width: 900px) 80vw, 780px" width="1440" height="1080" alt="Attendees meeting and talking between presentations at a large community event." loading="lazy" decoding="async" />
+              <figcaption>Meeting people between the talks</figcaption>
+            </figure>
+            <figure class="photo-slide">
+              <img src="assets/community/community-talk.webp" srcset="assets/community/community-talk-720.webp 720w, assets/community/community-talk.webp 1440w" sizes="(max-width: 620px) 86vw, (max-width: 900px) 80vw, 780px" width="1440" height="1084" alt="An audience listening to a speaker at the front of a crowded room." loading="lazy" decoding="async" />
+              <figcaption>Ideas shared with the community</figcaption>
+            </figure>
+            <figure class="photo-slide">
+              <img src="assets/community/ai-agent-demo.webp" srcset="assets/community/ai-agent-demo-720.webp 720w, assets/community/ai-agent-demo.webp 1440w" sizes="(max-width: 620px) 86vw, (max-width: 900px) 80vw, 780px" width="1440" height="1080" alt="A speaker introducing an AI agents session in front of a projected presentation." loading="lazy" decoding="async" />
+              <figcaption>Demos and conversations about AI agents</figcaption>
+            </figure>
+            <figure class="photo-slide">
+              <img src="assets/community/community-audience.webp" srcset="assets/community/community-audience-720.webp 720w, assets/community/community-audience.webp 1440w" sizes="(max-width: 620px) 86vw, (max-width: 900px) 80vw, 780px" width="1440" height="810" alt="People seated with laptops and notebooks at a community presentation." loading="lazy" decoding="async" />
+              <figcaption>Learning together, one session at a time</figcaption>
+            </figure>
+            <figure class="photo-slide">
+              <img src="assets/community/cafe-conversations.webp" srcset="assets/community/cafe-conversations-720.webp 720w, assets/community/cafe-conversations.webp 1440w" sizes="(max-width: 620px) 86vw, (max-width: 900px) 80vw, 780px" width="1440" height="1084" alt="Small groups talking across several café tables during a Sunnyvale meetup." loading="lazy" decoding="async" />
+              <figcaption>More conversations around the table</figcaption>
+            </figure>
+          </div>
+          <div class="gallery-footer">
+            <p>Real gatherings. Different sizes. A shared curiosity.</p>
+            <div class="gallery-controls" data-gallery-controls hidden>
+              <span data-gallery-status aria-live="polite" aria-atomic="true">1 / 7</span>
+              <button type="button" data-gallery-prev aria-label="Previous meetup photo">←</button>
+              <button type="button" data-gallery-next aria-label="Next meetup photo">→</button>
+            </div>
           </div>
         </div>
       </section>
@@ -444,34 +529,6 @@
               <p>The technical and organizational bets behind Claude.</p>
             </div>
           </article>
-        </div>
-      </section>
-      <section class="partners-section" id="sponsors" aria-labelledby="partners-title">
-        <div class="container">
-          <div class="partners-heading">
-            <div><p class="eyebrow">SPONSORS, SPEAKERS &amp; PODCAST GUESTS</p><h2 id="partners-title">Good company. <em>Great conversations.</em></h2></div>
-            <p>The teams that have hosted our meetups, shared their work, and joined us on the podcast.</p>
-          </div>
-          <ul class="partner-grid" id="partner-grid" aria-label="Past sponsors, speakers, and podcast guests" aria-live="off">
-            <li class="partner-tile"><a class="partner-link" href="https://www.databricks.com/" aria-label="Visit Databricks website"><div class="partner-logo"><img src="assets/partners/databricks.svg" alt="Databricks" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.couchbase.com/" aria-label="Visit Couchbase website"><div class="partner-logo"><img src="assets/partners/couchbase.svg" alt="Couchbase" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.llamaindex.ai/" aria-label="Visit LlamaIndex website"><div class="partner-logo"><img src="assets/partners/llamaindex.svg" alt="LlamaIndex" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://sambanova.ai/" aria-label="Visit SambaNova website"><div class="partner-logo"><img src="assets/partners/sambanova.png" alt="SambaNova" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.langflow.org/" aria-label="Visit Langflow website"><div class="partner-logo"><img src="assets/partners/langflow.svg" alt="Langflow" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.datastax.com/" aria-label="Visit DataStax website"><div class="partner-logo"><img src="assets/partners/datastax.png" alt="DataStax" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.pinecone.io/" aria-label="Visit Pinecone website"><div class="partner-logo"><img src="assets/partners/pinecone.svg" alt="Pinecone" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://sentient.foundation/" aria-label="Visit Sentient Foundation website"><div class="partner-logo"><img src="assets/partners/sentient-foundation.svg" alt="Sentient Foundation" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://withmartian.com/" aria-label="Visit Martian Router website"><div class="partner-logo"><img src="assets/partners/martian.svg" alt="Martian Router" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.swlaw.com/" aria-label="Visit Snell &amp; Wilmer website"><div class="partner-logo"><img src="assets/partners/snell-wilmer.svg" alt="Snell &amp; Wilmer" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.sentient.xyz/" aria-label="Visit Sentient AI website"><div class="partner-logo"><img src="assets/partners/sentient.svg" alt="Sentient AI" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.realwear.com/" aria-label="Visit RealWear website"><div class="partner-logo"><img src="assets/partners/realwear.svg" alt="RealWear" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.genspark.ai/" aria-label="Visit Genspark website"><div class="partner-logo"><img src="assets/partners/genspark.svg" alt="Genspark" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.getmerlin.in/" aria-label="Visit Merlin website"><div class="partner-logo"><img src="assets/partners/merlin-transparent.png" alt="Merlin" loading="lazy" width="2172" height="724" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://rtrvr.ai/" aria-label="Visit rtrvr.ai website"><div class="partner-logo"><img src="assets/partners/rtrvr.svg" alt="rtrvr.ai" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://www.cerebras.ai/" aria-label="Visit Cerebras website"><div class="partner-logo"><img src="assets/partners/cerebras.png" alt="Cerebras" loading="lazy" width="180" height="65" /></div></a></li>
-            <li class="partner-tile"><a class="partner-link" href="https://analytica.com/" aria-label="Visit Analytica website"><div class="partner-logo"><img src="assets/partners/analytica.png" alt="Analytica" loading="lazy" width="180" height="65" /></div></a></li>
-          </ul>
-
         </div>
       </section>
       <section class="crew-section container section-space" id="crew" aria-labelledby="crew-title">

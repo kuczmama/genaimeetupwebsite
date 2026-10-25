@@ -26,7 +26,7 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("click", (event) => {
   if (!event.target.closest(".site-header")) closeMenu();
 });
-window.matchMedia("(min-width: 621px)").addEventListener("change", closeMenu);
+window.matchMedia("(min-width: 801px)").addEventListener("change", closeMenu);
 document.querySelector("#current-year").textContent = new Date().getFullYear();
 
 // Preserve links to sections of the old homepage.
@@ -142,7 +142,9 @@ setRotation(rotating);
   }
   function setDestination(link, index) {
     link.href = partners[index].href;
-    link.setAttribute("aria-label", `Visit ${partners[index].name} website`);
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.setAttribute("aria-label", `Visit ${partners[index].name} website (opens in a new tab)`);
   }
   function finishSwap() {
     if (!pendingSwap) return;

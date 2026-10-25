@@ -72,3 +72,19 @@ Retrieved October 24, 2026 from each company’s official website. Original colo
 | `partners/analytica.png` | [Current transparent Analytica wordmark](https://analytica.com/wp-content/uploads/2026/09/analytica_logo_clear.png), linked from the [Analytica homepage](https://analytica.com/). Original 437 × 115 PNG, unchanged; teal and orange artwork. Analytica by Lumina Decision Systems, the exact user-specified domain. |
 
 All three were visually checked together on a white background and decoded correctly in Chrome. The SVG was also checked for valid XML and absence of scripts or external resource references.
+
+## Community photographs — October 24, 2026
+
+Seven authentic photographs supplied by the user from their Desktop for use on this website. All seven are retained in the community gallery; `cafe-tables.webp` also supplies the main hero photograph. The originals remain untouched.
+
+Each photo was auto-oriented, resized proportionally to 1440 and 720 pixels wide, and exported as WebP at quality 82. EXIF, XMP, IPTC, and orientation metadata were stripped from the web exports. No cropping, retouching, generative editing, or compositing was applied to these assets. Dimensions differ slightly because their original aspect ratios are preserved.
+
+| Local assets | User-supplied original | Dimensions (large / small) |
+| --- | --- | --- |
+| `community/cafe-tables.webp`, `community/cafe-tables-720.webp` | `PXL_20230519_025433426.MP.jpg` | 1440 × 1084 / 720 × 542 |
+| `community/community-talk.webp`, `community/community-talk-720.webp` | `PXL_20250124_023440808.MP.jpg` | 1440 × 1084 / 720 × 542 |
+| `community/meetup-conversations.webp`, `community/meetup-conversations-720.webp` | `IMG_0147.jpg` | 1440 × 1080 / 720 × 540 |
+| `community/ai-agent-demo.webp`, `community/ai-agent-demo-720.webp` | `IMG_0359.jpg` | 1440 × 1080 / 720 × 540 |
+| `community/packed-talk.webp`, `community/packed-talk-720.webp` | `PXL_20250509_020621583.MP.jpg` | 1440 × 810 / 720 × 405 |
+| `community/community-audience.webp`, `community/community-audience-720.webp` | `PXL_20251010_020407954.jpg` | 1440 × 810 / 720 × 405 |
+| `community/cafe-conversations.webp`, `community/cafe-conversations-720.webp` | `PXL_20230818_024305187.jpg` | 1440 × 1084 / 720 × 542 |
