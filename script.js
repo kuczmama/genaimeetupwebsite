@@ -39,7 +39,7 @@ document.addEventListener("click", (event) => {
 window.matchMedia("(min-width: 801px)").addEventListener("change", closeMenu);
 document.querySelector("#current-year").textContent = new Date().getFullYear();
 
-// Keep both wordmarks in sync without changing their width or accessible name.
+// Rotate the wordmark descriptor without changing its width or accessible name.
 (() => {
   const labels = [...document.querySelectorAll("[data-wordmark-label]")];
   if (!labels.length) return;

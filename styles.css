@@ -801,10 +801,9 @@ button:focus-visible {
   gap: 30px;
   padding-bottom: 35px;
 }
-.footer-main > div > p {
+.footer-tagline {
   font-size: 12px;
   color: var(--muted);
-  margin-top: 17px;
 }
 .footer-links {
   display: flex;
@@ -1401,9 +1400,8 @@ button:focus-visible {
     flex-direction: column;
     padding-bottom: 25px;
   }
-  .footer-main > div > p {
+  .footer-tagline {
     font-size: 11px;
-    margin-top: 14px;
   }
   .footer-links {
     gap: 15px 22px;
@@ -1764,7 +1762,7 @@ button:focus-visible {
 .crew-card > span { font-size: 13px; }
 .footer-links { font-size: 14px; }
 .footer-links a { min-height: 44px; display: inline-flex; align-items: center; }
-.footer-bottom, .site-footer .footer-main > div > p { font-size: 12px; }
+.footer-bottom, .footer-tagline { font-size: 12px; }
 @media (min-width: 621px) and (max-width: 1000px) {
   .main-nav { gap: 15px; font-size: 12px; }
   .main-nav .nav-subscribe { padding-inline: 10px; gap: 10px; }
