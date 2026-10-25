@@ -60,6 +60,16 @@
     </script>
   </head>
   <body>
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position: absolute; overflow: hidden" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="icon-podcast" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="2.5" width="6" height="11" rx="3" />
+            <path d="M7 10.5V12a5 5 0 0 0 10 0v-1.5M12 17v4M9 21h6M4 6.5a10 10 0 0 0 0 9M20 6.5a10 10 0 0 1 0 9" />
+          </g>
+        </symbol>
+      </defs>
+    </svg>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="container header-inner">
@@ -131,7 +141,7 @@
         <div class="hero-feature feature-carousel" role="region" aria-roledescription="carousel" aria-label="Community highlights">
           <div class="feature-slides" aria-live="off">
             <article class="feature-slide" id="feature-event" role="group" aria-roledescription="slide" aria-label="1 of 5: Upcoming meetup">
-              <div class="feature-topline"><span class="eyebrow">01 / SEE YOU IN PERSON</span><span class="feature-platform"><span class="feature-platform-icon" aria-hidden="true"><img src="assets/platforms/meetup.svg" width="24" height="24" alt="" /></span>On Meetup</span></div>
+              <div class="feature-topline"><span class="eyebrow">SEE YOU IN PERSON</span><span class="feature-platform"><span class="feature-platform-icon" aria-hidden="true"><img src="assets/platforms/meetup.svg" width="24" height="24" alt="" /></span>On Meetup</span></div>
               <a class="feature-event-cover" data-event-link href="https://www.meetup.com/gen-ai/events/" data-channel="meetup" data-location="hero-event" aria-label="See the next meetup" target="_blank" rel="noopener noreferrer">
                 <img class="feature-event-photo" src="assets/community/cafe-tables.webp" srcset="assets/community/cafe-tables-720.webp 720w, assets/community/cafe-tables.webp 1440w" sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 1100px) 45vw, 535px" width="1440" height="1084" alt="People talking around several tables at a Sunnyvale café meetup." fetchpriority="high" />
                 <span class="feature-photo-caption">Around the table in Sunnyvale</span>
@@ -146,7 +156,7 @@
               </div>
             </article>
             <article class="feature-slide" id="feature-video" role="group" aria-roledescription="slide" aria-label="2 of 5: Featured video" hidden>
-              <div class="feature-topline"><span class="eyebrow">02 / THE LATEST CONVERSATION</span><span class="feature-platform"><span class="feature-platform-icon" aria-hidden="true"><img class="feature-platform-youtube" src="assets/platforms/youtube.png" width="52" height="45" alt="" /></span>On YouTube</span></div>
+              <div class="feature-topline"><span class="eyebrow">THE LATEST CONVERSATION</span><span class="feature-platform"><span class="feature-platform-icon" aria-hidden="true"><img class="feature-platform-youtube" src="assets/platforms/youtube.png" width="52" height="45" alt="" /></span>On YouTube</span></div>
               <a class="feature-cover video-image" data-feature-video-link href="https://www.youtube.com/watch?v=mt4qfLVVh9g" data-channel="youtube" data-location="hero-video" aria-label="Watch Can Free AI Clones Kill Adobe?" target="_blank" rel="noopener noreferrer">
                 <img data-feature-video-image src="assets/editorial/youtube-mt4qfLVVh9g-maxresdefault.jpg" width="1280" height="720" alt="Can Free AI Clones Kill Adobe? video thumbnail." />
                 <span class="play-button" aria-hidden="true">▶</span>
@@ -159,7 +169,7 @@
               </div>
             </article>
             <article class="feature-slide" id="feature-podcast" role="group" aria-roledescription="slide" aria-label="3 of 5: Latest podcast episode" hidden>
-              <div class="feature-topline"><span class="eyebrow">03 / THE LATEST EPISODE</span><span class="feature-platform"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3M4 13H2v7h5v-7zm16 0h2v7h-5v-7z" /></svg>Gen AI Podcast</span></div>
+              <div class="feature-topline"><span class="eyebrow">THE LATEST EPISODE</span><span class="feature-platform"><svg class="icon podcast-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#icon-podcast" /></svg>Gen AI Podcast</span></div>
               <iframe class="feature-podcast-player" id="hero-podcast-player" data-podcast-player title="Play the latest Gen AI Podcast episode" src="https://www.podbean.com/player-v2/?i=tniji-1b8c456&amp;share=0&amp;download=0&amp;rtl=0&amp;fonts=Arial&amp;skin=1&amp;font-color=auto&amp;logo_link=none&amp;btn-skin=b92358&amp;size=150" width="100%" height="150" loading="lazy" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>
               <div class="feature-copy feature-podcast-copy">
                 <p class="meta podcast-episode-meta"><time data-podcast-date></time><span data-podcast-duration></span></p>
@@ -174,7 +184,7 @@
             </article>
             <article class="feature-slide" id="feature-article" role="group" aria-roledescription="slide" aria-label="4 of 5: Featured article" hidden>
           <div class="feature-topline">
-            <span class="eyebrow">04 / FEATURED READ</span
+            <span class="eyebrow">FEATURED READ</span
             ><span class="feature-platform"
               ><span class="feature-platform-icon" aria-hidden="true"><img class="feature-platform-substack" src="assets/platforms/substack.png" width="40" height="40" alt="" /></span>
               On Substack</span
@@ -218,7 +228,7 @@
           </div>
         </article>
             <article class="feature-slide" id="feature-discuss" role="group" aria-roledescription="slide" aria-label="5 of 5: Discuss on Discord" hidden>
-              <div class="feature-topline"><span class="eyebrow">05 / JOIN THE CONVERSATION</span><span class="feature-platform"><span class="feature-platform-icon" aria-hidden="true"><img src="assets/platforms/discord.svg" width="24" height="24" alt="" /></span>On Discord</span></div>
+              <div class="feature-topline"><span class="eyebrow">JOIN THE CONVERSATION</span><span class="feature-platform"><span class="feature-platform-icon" aria-hidden="true"><img src="assets/platforms/discord.svg" width="24" height="24" alt="" /></span>On Discord</span></div>
               <a class="feature-discuss-cover" href="https://discadia.com/gen-ai/" data-channel="discord" data-location="hero-discuss" aria-label="Join the Gen AI community on Discord" target="_blank" rel="noopener noreferrer">
                 <img src="assets/platforms/discord.svg" width="80" height="61" alt="" />
                 <span>Gen AI <em>on Discord.</em></span>
@@ -484,7 +494,7 @@
               href="https://podcast.genaimeetup.com/"
               data-channel="podcast"
               data-location="all-episodes"
-               target="_blank" rel="noopener noreferrer"><svg class="icon podcast-platform-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3M4 13H2v7h5v-7zm16 0h2v7h-5v-7z" /></svg>All episodes <span aria-hidden="true">↗</span></a
+               target="_blank" rel="noopener noreferrer"><svg class="icon podcast-icon podcast-platform-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#icon-podcast" /></svg>All episodes <span aria-hidden="true">↗</span></a
             >
           </div>
         <div class="podcast-player">
