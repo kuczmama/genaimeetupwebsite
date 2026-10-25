@@ -658,6 +658,16 @@ button:focus-visible {
   grid-template-columns: 1fr 1fr;
   gap: 28px;
 }
+.video-card { min-width: 0; }
+.video-embed {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  min-height: 200px;
+  border: 0;
+  background: #000;
+}
 .video-image {
   position: relative;
   overflow: hidden;
@@ -668,9 +678,6 @@ button:focus-visible {
   aspect-ratio: 16/9;
   object-fit: cover;
   transition: transform 0.4s;
-}
-.video-link:hover img {
-  transform: scale(1.025);
 }
 .play-button {
   position: absolute;
@@ -688,20 +695,6 @@ button:focus-visible {
   padding-left: 3px;
   transition: background 0.2s;
 }
-.video-link:hover .play-button {
-  background: var(--pink);
-}
-.video-label {
-  position: absolute;
-  bottom: 13px;
-  left: 14px;
-  font-family: var(--mono);
-  font-size: 11px;
-  line-height: 1.3;
-  letter-spacing: .6px;
-  padding: 8px 10px;
-  background: var(--paper);
-}
 .video-info {
   padding: 19px 0 0;
 }
@@ -711,6 +704,8 @@ button:focus-visible {
   letter-spacing: -0.6px;
   line-height: 1.25;
   margin-top: 9px;
+}
+.video-link {
   display: flex;
   justify-content: space-between;
   gap: 18px;
@@ -719,7 +714,7 @@ button:focus-visible {
   font-weight: 400;
   color: var(--pink);
 }
-.video-link:hover h3 {
+.video-link:hover {
   color: var(--pink);
 }
 .podcast-strip {

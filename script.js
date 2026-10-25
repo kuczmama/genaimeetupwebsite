@@ -413,7 +413,7 @@ syncRotation();
 })();
 
 // Refresh from the same-origin snapshot generated from YouTube's official feed.
-// Keep complete local cards if the refresh or a replacement image is unavailable.
+// Keep existing players on refresh failure and the hero if its image is unavailable.
 async function refreshVideos() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
@@ -424,6 +424,7 @@ async function refreshVideos() {
     if (!Array.isArray(data.videos)) return;
     const seen = new Set();
     const videos = data.videos.filter(video => {
+      if (!video || typeof video.id !== "string") return false;
       const published = new Date(video.published);
       if (video.isShort || !/^[\w-]{11}$/.test(video.id) || typeof video.title !== "string" || !video.title.trim() || !Number.isFinite(published.getTime()) || published > new Date() || seen.has(video.id)) return false;
       seen.add(video.id);
@@ -432,24 +433,36 @@ async function refreshVideos() {
     const cards = document.querySelectorAll(".video-card");
     videos.forEach((video, index) => {
       const card = cards[index];
-      if (!card) return;
       const title = video.title.trim();
       const url = `https://www.youtube.com/watch?v=${video.id}`;
       const published = new Date(video.published);
       const dateText = published.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).toUpperCase();
-      const cover = new Image();
-      cover.onload = () => {
-        card.querySelector("img").src = cover.src;
-        card.querySelector("img").alt = `${title} video thumbnail.`;
-        card.querySelector(".video-link").href = url;
-        const arrow = document.createElement("span");
-        arrow.textContent = "↗";
-        arrow.setAttribute("aria-hidden", "true");
-        card.querySelector("h3").replaceChildren(document.createTextNode(title + " "), arrow);
+      if (card) {
+        const player = card.querySelector("iframe.video-embed");
+        const embedUrl = `https://www.youtube-nocookie.com/embed/${video.id}?playsinline=1&rel=0`;
+        if (player) {
+          // Reassigning the same src would reload the player and stop playback.
+          if (player.src !== embedUrl) player.src = embedUrl;
+          player.title = `Play ${title}`;
+        }
+        const link = card.querySelector("h3 .video-link");
+        if (link) {
+          link.href = url;
+          link.title = `Watch ${title} on YouTube`;
+          const arrow = document.createElement("span");
+          arrow.textContent = "↗";
+          arrow.setAttribute("aria-hidden", "true");
+          link.replaceChildren(document.createTextNode(title + " "), arrow);
+        }
         const date = card.querySelector("time");
-        date.dateTime = video.published;
-        date.textContent = dateText;
-        if (index === 0) {
+        if (date) {
+          date.dateTime = video.published;
+          date.textContent = dateText;
+        }
+      }
+      if (index === 0) {
+        const cover = new Image();
+        cover.onload = () => {
           document.querySelectorAll("[data-feature-video-link]").forEach(link => { link.href = url; });
           const imageLink = document.querySelector(".feature-cover[data-feature-video-link]");
           imageLink.setAttribute("aria-label", `Watch ${title}`);
@@ -460,10 +473,10 @@ async function refreshVideos() {
           const heroDate = document.querySelector("[data-feature-video-date]");
           heroDate.dateTime = video.published;
           heroDate.textContent = dateText;
-        }
-      };
-      cover.src = typeof video.localThumbnail === "string" && /^assets\/editorial\/[a-zA-Z0-9_-]+\.jpg$/.test(video.localThumbnail)
-        ? video.localThumbnail : `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
+        };
+        cover.src = typeof video.localThumbnail === "string" && /^assets\/editorial\/[a-zA-Z0-9_-]+\.jpg$/.test(video.localThumbnail)
+          ? video.localThumbnail : `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
+      }
     });
   } catch {
     // Static content is always available, including when opened without a server.
