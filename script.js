@@ -111,11 +111,12 @@ document.addEventListener("visibilitychange", scheduleRotation);
 carousel.querySelector(".feature-controls").hidden = false;
 setRotation(rotating);
 
-// Each logo rotates inside its own fixed tile. Reduced-motion and no-JavaScript
-// visitors get the full static set; the default two-row grid rotates automatically.
+// Each logo rotates inside its own fixed tile until visitors expand the full set.
+// Reduced-motion and no-JavaScript visitors start with every company visible.
 (() => {
   const section = document.querySelector(".partners-section");
   const grid = section.querySelector(".partner-grid");
+  const toggle = section.querySelector(".partner-toggle");
   const partners = [...grid.querySelectorAll("img")].map(image => {
     const link = image.closest("a");
     return {
@@ -132,6 +133,7 @@ setRotation(rotating);
   let timer;
   let pendingSwap;
   let columns;
+  let showAll = reducedMotion.matches;
 
   function shuffle(items) {
     for (let i = items.length - 1; i > 0; i--) {
@@ -175,14 +177,17 @@ setRotation(rotating);
   }
   function schedule() {
     clearTimeout(timer);
-    if (reducedMotion.matches || !inView || document.hidden || grid.matches(":hover, :focus-within") || visible.length >= partners.length) return;
+    if (showAll || reducedMotion.matches || !inView || document.hidden || grid.matches(":hover, :focus-within") || visible.length >= partners.length) return;
     timer = setTimeout(rotateOne, 1700 + Math.random() * 900);
   }
   function render() {
     clearTimeout(timer);
     finishSwap();
     columns = Number(getComputedStyle(grid).getPropertyValue("--partner-columns")) || 5;
-    const count = reducedMotion.matches ? partners.length : Math.min(columns * 2, partners.length);
+    const count = showAll ? partners.length : Math.min(columns * 2, partners.length);
+    toggle.setAttribute("aria-expanded", String(showAll));
+    toggle.querySelector(".partner-toggle-label").textContent = showAll ? "Show fewer companies" : `Show all ${partners.length} companies`;
+    toggle.querySelector(".partner-toggle-icon").textContent = showAll ? "−" : "+";
     visible = partners.map((_, index) => index).slice(0, count);
     waiting = shuffle(partners.map((_, index) => index).slice(count));
     tileOrder = [];
@@ -230,7 +235,14 @@ setRotation(rotating);
     finishSwap();
     schedule();
   }
-  reducedMotion.addEventListener("change", render);
+  toggle.addEventListener("click", () => {
+    showAll = !showAll;
+    render();
+  });
+  reducedMotion.addEventListener("change", () => {
+    if (reducedMotion.matches) showAll = true;
+    render();
+  });
   // Keep destinations steady while visitors point at or keyboard-focus a logo.
   grid.addEventListener("pointerenter", () => { finishSwap(); schedule(); });
   grid.addEventListener("pointerleave", schedule);
@@ -244,11 +256,16 @@ setRotation(rotating);
   }, { threshold: 0.2 }).observe(grid);
   new ResizeObserver(() => {
     const updated = Number(getComputedStyle(grid).getPropertyValue("--partner-columns"));
-    if (updated !== columns) render();
+    if (updated !== columns) {
+      // Expanded tiles can reflow without replacing links or losing focus.
+      if (showAll) columns = updated;
+      else render();
+    }
   }).observe(grid);
   // Warm the small, locally hosted logo pool before the first replacement.
   partners.forEach(partner => { const image = new Image(); image.src = partner.src; });
   render();
+  section.querySelector(".partner-controls").hidden = false;
 })();
 
 // Refresh from the same-origin snapshot generated from YouTube's official feed.

@@ -1487,6 +1487,10 @@ button:focus-visible {
 .partners-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 28px; }
 .partners-heading h2 { font-size: 36px; margin-top: 12px; }
 .partners-heading p:not(.eyebrow) { font-size: 13px; color: var(--muted); max-width: 340px; }
+.partner-controls { display: flex; justify-content: flex-end; margin: -12px 0 14px; }
+.partner-toggle { display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 8px 0; border: 0; border-bottom: 1px solid currentColor; color: var(--ink); background: transparent; font-size: 14px; font-weight: 700; cursor: pointer; }
+.partner-toggle:hover { color: var(--pink); }
+.partner-toggle-icon { font-size: 21px; font-weight: 400; line-height: 1; }
 .partner-grid { --partner-columns: 5; display: grid; grid-template-columns: repeat(var(--partner-columns), minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .partner-tile { position: relative; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); height: 140px; overflow: hidden; background: var(--white); min-width: 0; }
 .partner-link { position: absolute; inset: 0; display: block; color: inherit; }
