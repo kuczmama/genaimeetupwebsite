@@ -3,11 +3,21 @@
 document.documentElement.classList.add("js");
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector("#main-nav");
+const siteHeader = document.querySelector(".site-header");
+
+// Align section backgrounds with the sticky header at every screen size.
+function syncHeaderOffset() {
+  document.documentElement.style.setProperty("--header-height", `${siteHeader.getBoundingClientRect().height}px`);
+}
+syncHeaderOffset();
+new ResizeObserver(syncHeaderOffset).observe(siteHeader);
 
 function closeMenu() {
   mainNav.classList.remove("is-open");
   menuToggle.setAttribute("aria-expanded", "false");
   menuToggle.querySelector("span").textContent = "+";
+  // Update before a clicked anchor's native scroll uses the collapsed height.
+  syncHeaderOffset();
 }
 menuToggle.addEventListener("click", () => {
   const open = mainNav.classList.toggle("is-open");
@@ -107,7 +117,8 @@ function followLegacyAnchor() {
   const target = legacySections[window.location.hash];
   if (target) document.querySelector(target)?.scrollIntoView();
 }
-followLegacyAnchor();
+// Initial aliases need the final font and carousel layout before scrolling.
+window.addEventListener("load", followLegacyAnchor, { once: true });
 window.addEventListener("hashchange", followLegacyAnchor);
 
 // The active tab's underline tracks the same clock that advances the carousel.

@@ -20,6 +20,7 @@
   src: url("assets/fonts/newsreader-italic.ttf") format("truetype");
 }
 :root {
+  --header-height: 96px;
   --paper: #f6f3ec;
   --ink: #24231f;
   --muted: #66645e;
@@ -34,7 +35,7 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 110px;
+  scroll-padding-top: var(--header-height);
 }
 body {
   margin: 0;
@@ -893,6 +894,9 @@ button:focus-visible {
   }
 }
 @media (max-width: 800px) {
+  :root {
+    --header-height: 82px;
+  }
   .container {
     width: calc(100% - 48px);
   }
@@ -1090,9 +1094,6 @@ button:focus-visible {
   }
 }
 @media (max-width: 620px) {
-  html {
-    scroll-padding-top: 98px;
-  }
   .container {
     width: calc(100% - 40px);
   }
