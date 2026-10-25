@@ -117,12 +117,16 @@ setRotation(rotating);
   const section = document.querySelector(".partners-section");
   const grid = section.querySelector(".partner-grid");
   const toggle = section.querySelector(".partner-toggle");
-  const partners = [...grid.querySelectorAll("img")].map(image => {
-    const link = image.closest("a");
+  const partners = [...grid.querySelectorAll(".partner-link")].map(link => {
+    const image = link.querySelector("img");
     return {
-      src: image.getAttribute("src"), name: image.alt, href: link.href,
+      src: image?.getAttribute("src") || "",
+      name: image?.alt || link.querySelector(".partner-name").textContent,
+      wordmark: image ? link.querySelector(".partner-name")?.textContent || "" : "",
+      href: link.href,
       label: link.getAttribute("aria-label"), title: link.title,
       action: link.querySelector(".partner-action")?.textContent || "Visit website ↗",
+      note: link.querySelector(".partner-note")?.textContent || "",
     };
   });
   let visible = [];
@@ -145,18 +149,39 @@ setRotation(rotating);
   function logo(index) {
     const panel = document.createElement("div");
     panel.className = "partner-logo";
-    const image = new Image(180, 65);
-    image.alt = partners[index].name;
-    image.src = partners[index].src;
-    image.addEventListener("error", () => {
+    function companyName(text = partners[index].name) {
       const name = document.createElement("span");
-      name.textContent = partners[index].name;
-      image.replaceWith(name);
-    }, { once: true });
+      name.className = "partner-name";
+      name.textContent = text;
+      return name;
+    }
+    if (partners[index].src) {
+      const image = new Image(180, 65);
+      image.alt = partners[index].name;
+      image.src = partners[index].src;
+      if (partners[index].wordmark) {
+        const brand = document.createElement("div");
+        brand.className = "partner-brand";
+        image.addEventListener("error", () => brand.replaceWith(companyName()), { once: true });
+        brand.append(image, companyName(partners[index].wordmark));
+        panel.append(brand);
+      } else {
+        image.addEventListener("error", () => image.replaceWith(companyName()), { once: true });
+        panel.append(image);
+      }
+    } else {
+      panel.append(companyName());
+    }
     const action = document.createElement("span");
     action.className = "partner-action";
     action.textContent = partners[index].action;
-    panel.append(image, action);
+    if (partners[index].note) {
+      const note = document.createElement("span");
+      note.className = "partner-note";
+      note.textContent = partners[index].note;
+      panel.append(note);
+    }
+    panel.append(action);
     return panel;
   }
   function setDestination(link, index) {
@@ -263,7 +288,7 @@ setRotation(rotating);
     }
   }).observe(grid);
   // Warm the small, locally hosted logo pool before the first replacement.
-  partners.forEach(partner => { const image = new Image(); image.src = partner.src; });
+  partners.filter(partner => partner.src).forEach(partner => { const image = new Image(); image.src = partner.src; });
   render();
   section.querySelector(".partner-controls").hidden = false;
 })();
