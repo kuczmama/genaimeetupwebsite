@@ -1682,6 +1682,9 @@ button:focus-visible {
 .events-community-links p { flex-basis: 100%; font-size: 13px; color: #c3c0b8; }
 .events-community-links a { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 14px; color: #e7a8ba; font-weight: 700; }
 .events-community-links a:hover { color: white; }
+.meetup-formats { margin: 22px 0 0; display: grid; gap: 16px; }
+.meetup-formats dt { font-size: 15px; font-weight: 700; color: var(--paper); }
+.meetup-formats dd { margin: 4px 0 0; max-width: 440px; font-size: 15px; line-height: 1.65; color: #c3c0b8; }
 .partners-heading > p { font-size: 15px; }
 .community-photos { padding-bottom: 20px; }
 .community-formats p { font-size: 15px; line-height: 1.65; }
@@ -1703,6 +1706,19 @@ button:focus-visible {
 .podcast-player > p { font-size: 13px; line-height: 1.6; }
 .reading-section .article-info .meta { font-size: 11px; line-height: 1.6; flex-wrap: wrap; }
 .reading-section .article-info > p:not(.meta) { font-size: 14px; }
+.reading-content { display: grid; grid-template-columns: 1.2fr 1fr; align-items: start; gap: 55px; }
+.reading-content > .article-grid { grid-template-columns: 1fr; gap: 28px; }
+.reading-content .article-card { display: grid; }
+.reading-content .article-info { padding-top: 0; }
+.reading-content .article-image img { aspect-ratio: 1.15; }
+.newsletter-signup { min-width: 0; max-width: 480px; width: 100%; justify-self: end; }
+.newsletter-signup h3 { font-size: 25px; margin-bottom: 16px; }
+.newsletter-signup iframe { display: block; width: 100%; height: 320px; border: 0; background: #fff; }
+.newsletter-signup > .text-link { min-height: 44px; font-size: 14px; margin-top: 8px; }
+@media (max-width: 900px) {
+  .reading-content { grid-template-columns: 1fr; gap: 32px; }
+  .newsletter-signup { justify-self: center; }
+}
 .crew-card > span { font-size: 13px; }
 .footer-links { font-size: 14px; }
 .footer-links a { min-height: 44px; display: inline-flex; align-items: center; }
@@ -1770,6 +1786,7 @@ button:focus-visible {
   .reading-section .article-info .meta { font-size: 11px; }
   .reading-section .article-info > p:not(.meta) { font-size: 14px; }
   .reading-section .article-card { grid-template-columns: 90px 1fr; gap: 16px; }
+  .newsletter-signup iframe { height: 520px; }
   .crew-invite, .contact-community p, .contact-community .text-link, .contact-copy > .text-link { font-size: 14px; }
   .form-group label { font-size: 14px; }
 }
