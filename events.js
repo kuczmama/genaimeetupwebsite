@@ -39,6 +39,10 @@
   function element(tag, className, value) {
     const node = document.createElement(tag);
     node.className = className;
+    if (tag === "a") {
+      node.target = "_blank";
+      node.rel = "noopener noreferrer";
+    }
     if (value) node.textContent = value;
     return node;
   }
