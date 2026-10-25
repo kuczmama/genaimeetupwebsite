@@ -125,6 +125,13 @@ let rotationFrame;
 let hovered = false;
 let inView = false;
 let podcastEngaged = false;
+let podcastPreloadRequested = false;
+
+function preparePodcast() {
+  if (podcastPreloadRequested) return;
+  podcastPreloadRequested = true;
+  document.dispatchEvent(new Event("podcast:preload"));
+}
 
 function updateProgress() {
   const progress = reducedMotion.matches ? 1 : Math.min(elapsed / slideDuration, 1);
@@ -145,6 +152,8 @@ function focusHoldsSlide() {
 function tickRotation(now) {
   elapsed += now - lastFrameAt;
   lastFrameAt = now;
+  // Give the next slide's real player a head start on the carousel's own clock.
+  if (slides[activeSlide].id === "feature-video" && elapsed >= slideDuration / 2) preparePodcast();
   if (elapsed >= slideDuration) showSlide(activeSlide + 1);
   updateProgress();
   rotationFrame = requestAnimationFrame(tickRotation);
@@ -169,6 +178,7 @@ function showSlide(index) {
   }
   activeSlide = nextSlide;
   elapsed = 0;
+  if (slides[activeSlide].id === "feature-podcast") preparePodcast();
   slides.forEach((slide, i) => { slide.hidden = i !== activeSlide; });
   selectors.forEach((button, i) => button.setAttribute("aria-pressed", String(i === activeSlide)));
   updateProgress();

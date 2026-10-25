@@ -92,9 +92,39 @@
     || !document.querySelector("[data-podcast-link], [data-podcast-title], [data-podcast-date], [data-podcast-duration], [data-podcast-description], [data-podcast-player]")) return;
 
   const player = document.querySelector("iframe[data-podcast-player]");
+  const playlist = document.querySelector("iframe[data-podcast-playlist]");
   let refreshInFlight = false;
   let episodePinned = false;
   let pendingEpisode = null;
+
+  function preparePlayer(frame) {
+    // Promote the existing lazy iframe. Replacing it or reassigning src would
+    // reload the widget and could interrupt audio or lose its playback position.
+    if (frame && frame.loading !== "eager") frame.loading = "eager";
+  }
+
+  const prepareHero = () => preparePlayer(player);
+  document.addEventListener("podcast:preload", prepareHero, { once: true });
+  const listenTab = document.querySelector('[aria-controls="feature-podcast"]');
+  ["pointerenter", "focus", "pointerdown"].forEach(type => {
+    listenTab?.addEventListener(type, prepareHero, { once: true });
+  });
+
+  if (playlist) {
+    if (typeof IntersectionObserver === "undefined") {
+      preparePlayer(playlist);
+    } else {
+      const observer = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        preparePlayer(playlist);
+        observer.disconnect();
+      });
+      const heading = document.querySelector("#watch .section-heading");
+      if (heading) observer.observe(heading);
+      // Also cover direct links to #podcast that skip past the Watch heading.
+      observer.observe(playlist);
+    }
+  }
 
   function setText(selector, value) {
     document.querySelectorAll(selector).forEach(node => { node.textContent = value; });
