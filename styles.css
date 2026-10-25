@@ -1474,8 +1474,6 @@ button:focus-visible {
 .podcast-strip { margin-bottom: 25px; }
 .podcast-player { border: 0; padding: 0; background: transparent; }
 .podcast-player iframe { width: 100%; display: block; border: 0; }
-.podcast-player > p { font-size: 11px; color: var(--muted); padding-top: 8px; text-align: right; }
-.podcast-player > p a { text-decoration: underline; text-underline-offset: 3px; }
 .reading-section { padding-top: 0; }
 .reading-section .article-grid { grid-template-columns: 1fr 1fr; gap: 35px; }
 .reading-section .article-card { display: grid; grid-template-columns: 145px 1fr; align-items: start; gap: 20px; }
@@ -1593,7 +1591,6 @@ button:focus-visible {
   .meetup-event-details h3 { font-size: 20px; }
   .meetup-event-time, .meetup-event-location { font-size: 12px; }
   .events-status { font-size: 11px; }
-  .podcast-player > p { text-align: left; }
   .reading-section { padding-top: 0; }
   .reading-section .article-grid { grid-template-columns: 1fr; gap: 25px; }
   .reading-section .article-card { display: grid; grid-template-columns: 100px 1fr; gap: 15px; }
@@ -1720,7 +1717,6 @@ button:focus-visible {
 .gallery-controls button:disabled { opacity: .35; cursor: default; }
 .podcast-links a { font-size: 14px; display: inline-flex; align-items: center; min-height: 44px; }
 .podcast-platform-icon { width: 24px; height: 24px; flex: 0 0 24px; object-fit: contain; margin-right: 12px; }
-.podcast-player > p { font-size: 13px; line-height: 1.6; }
 .reading-section .article-info .meta { font-size: 11px; line-height: 1.6; flex-wrap: wrap; }
 .reading-section .article-info > p:not(.meta) { font-size: 14px; }
 .reading-content { display: grid; grid-template-columns: minmax(0, 1fr) 480px; align-items: start; gap: 64px; border-top: 1px solid var(--line); padding-top: 50px; }
@@ -1868,14 +1864,9 @@ button:focus-visible {
 .feature-podcast-providers img { width: 18px; height: 18px; object-fit: contain; }
 .feature-podcast-providers a:hover { color: var(--pink); }
 .podcast-section { margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--line); }
-.podcast-heading { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin-bottom: 28px; }
-.podcast-heading h2 { font-size: 42px; margin-block: 14px; }
-.podcast-heading-copy > p:last-child { font-size: 16px; line-height: 1.65; max-width: 410px; color: var(--muted); }
-.podcast-latest { border-left: 2px solid var(--pink); padding-left: 28px; }
-.podcast-latest h3 { font-size: 25px; line-height: 1.25; margin-block: 12px; }
-.podcast-latest h3 a:hover { color: var(--pink); }
-.podcast-latest .meta { font-size: 12px; line-height: 1.6; flex-wrap: wrap; }
-.podcast-latest .text-link { margin-top: 10px; min-height: 44px; font-size: 14px; }
+.podcast-heading { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: end; margin-bottom: 28px; }
+.podcast-heading h2 { font-size: 42px; margin-top: 14px; }
+.podcast-description { font-size: 16px; line-height: 1.65; max-width: 440px; color: var(--muted); }
 .podcast-section .podcast-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: none; margin-bottom: 24px; }
 .podcast-section .podcast-links a { min-width: 0; min-height: 60px; padding: 12px 20px; border: 1px solid var(--line); background: var(--white); font-size: 14px; }
 .podcast-section .podcast-links a > span { margin-left: auto; padding-left: 8px; }
@@ -1888,11 +1879,9 @@ button:focus-visible {
 @media (max-width: 620px) {
   .feature-podcast-providers { column-gap: 14px; margin-top: 12px; }
   .podcast-section { margin-top: 32px; padding-top: 28px; }
-  .podcast-heading { grid-template-columns: 1fr; gap: 24px; }
+  .podcast-heading { grid-template-columns: 1fr; gap: 16px; }
   .podcast-heading h2 { font-size: 36px; }
-  .podcast-heading-copy > p:last-child { font-size: 15px; }
-  .podcast-latest { padding-left: 18px; }
-  .podcast-latest h3 { font-size: 23px; }
+  .podcast-description { font-size: 15px; }
   .podcast-section .podcast-links { grid-template-columns: 1fr; gap: 8px; }
   .podcast-section .podcast-links a { min-height: 54px; }
 }
