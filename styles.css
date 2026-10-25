@@ -1579,7 +1579,7 @@ button:focus-visible {
   .reading-section .article-info { padding-top: 15px; }
   .partners-heading { flex-wrap: wrap; gap: 20px; }
   .partners-heading > p { flex-basis: 100%; max-width: 480px; }
-  .partner-grid { --partner-columns: 3; }
+  .partner-grid { --partner-columns: 3; margin-inline: -24px; }
   .partner-tile { height: 132px; }
   .partners-heading > div:first-child { flex-basis: 100%; }
   .crew-grid { grid-template-columns: repeat(3, 1fr); gap: 28px 20px; }
@@ -1624,7 +1624,7 @@ button:focus-visible {
   .partners-section { padding-block: 38px; }
   .partners-heading h2 { font-size: 32px; }
   .partners-heading > p { font-size: 13px; }
-  .partner-grid { --partner-columns: 2; }
+  .partner-grid { --partner-columns: 2; margin-inline: -20px; }
   .partner-tile { height: 112px; }
   .partner-logo { padding: 14px 18px; gap: 5px; }
   .partner-logo img { height: 44px; }
