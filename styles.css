@@ -1493,7 +1493,7 @@ button:focus-visible {
 .reading-section { padding-top: 0; }
 .reading-section .article-grid { grid-template-columns: 1fr 1fr; gap: 35px; }
 .reading-section .article-card { display: grid; grid-template-columns: 145px 1fr; align-items: start; gap: 20px; }
-.reading-section .article-image img { aspect-ratio: 1.15; }
+.reading-section .article-image img { aspect-ratio: 16 / 9; object-fit: contain; transform: none; }
 .reading-section .article-info { padding: 0; }
 .reading-section .article-info h3 { font-size: 22px; }
 .reading-section .article-info > p:not(.meta) { font-size: 13px; }
@@ -1578,7 +1578,6 @@ button:focus-visible {
   .meetup-event { gap: 13px; }
   .meetup-event-details h3 { font-size: 18px; }
   .reading-section .article-card { display: block; }
-  .reading-section .article-image img { aspect-ratio: 1.9; }
   .reading-section .article-info { padding-top: 15px; }
   .partners-heading { flex-wrap: wrap; gap: 20px; }
   .partners-heading > p { flex-basis: 100%; max-width: 480px; }
@@ -1620,7 +1619,6 @@ button:focus-visible {
   .reading-section { padding-top: 0; }
   .reading-section .article-grid { grid-template-columns: 1fr; gap: 25px; }
   .reading-section .article-card { display: grid; grid-template-columns: 100px 1fr; gap: 15px; }
-  .reading-section .article-image img { aspect-ratio: 1; }
   .reading-section .article-info { padding: 0; }
   .reading-section .article-info h3 { font-size: 20px; margin-top: 6px; }
   .reading-section .article-info .meta { font-size: 7px; gap: 5px; flex-wrap: wrap; }
@@ -1756,7 +1754,6 @@ button:focus-visible {
 .reading-editorial .article-grid { grid-template-columns: 1fr; gap: 28px; }
 .reading-content .article-card { display: grid; }
 .reading-content .article-info { padding-top: 0; }
-.reading-content .article-image img { aspect-ratio: 1.15; }
 .newsletter-signup { min-width: 0; max-width: 480px; width: 100%; justify-self: end; background: #fff; border: 1px solid var(--line); border-radius: 0; overflow: hidden; box-shadow: 7px 7px 0 #e9e4dc; }
 .newsletter-signup h3 { font-family: var(--mono); font-size: 12px; font-weight: 400; line-height: 1.5; letter-spacing: .8px; text-transform: uppercase; margin: 0; padding: 14px 22px; border-bottom: 1px solid var(--line); }
 .newsletter-signup iframe { display: block; width: 100%; height: 320px; border: 0; background: #fff; }
