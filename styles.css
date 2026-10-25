@@ -1944,9 +1944,8 @@ button:focus-visible {
 .events-heading { grid-area: heading; }
 .events-details { grid-area: details; }
 .upcoming-events { grid-area: upcoming; align-self: center; min-width: 0; }
-.footer-links { display: grid; grid-template-columns: repeat(4, max-content); max-width: 660px; justify-content: end; column-gap: 24px; row-gap: 4px; }
+.footer-links { display: grid; grid-template-columns: repeat(5, max-content); max-width: 660px; justify-content: end; column-gap: 24px; row-gap: 4px; }
 .footer-links a { gap: 7px; }
-.footer-platform-icon { width: 18px; height: 18px; flex: none; object-fit: contain; }
 @media (max-width: 900px) {
   .footer-main { flex-direction: column; align-items: flex-start; gap: 24px; }
   .footer-links { max-width: none; justify-content: flex-start; }
@@ -1956,5 +1955,5 @@ button:focus-visible {
   .events-heading h2 { margin-bottom: 0; }
 }
 @media (max-width: 620px) {
-  .footer-links { grid-template-columns: repeat(2, max-content); }
+  .footer-links { grid-template-columns: repeat(3, max-content); }
 }
