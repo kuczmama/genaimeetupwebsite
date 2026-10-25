@@ -1521,6 +1521,8 @@ button:focus-visible {
 .partner-logo .partner-brand img { width: 36px; height: 36px; flex-shrink: 0; }
 .partner-brand:has(img[alt="DSPy"]) .partner-name { font-size: 32px; font-weight: 700; letter-spacing: -0.04em; }
 .partner-logo .partner-brand img[alt="DSPy"] { width: 30px; height: 30px; }
+.partner-brand:has(img[alt="Ollama"]) .partner-name { font-size: 30px; letter-spacing: -0.04em; }
+.partner-logo .partner-brand img[alt="Ollama"] { width: 32px; height: 45px; }
 .partner-logo .partner-action { font-size: 11px; font-weight: 400; line-height: 1.4; color: var(--muted); white-space: nowrap; }
 .partner-link:hover .partner-action, .partner-link:focus-visible .partner-action { color: var(--pink); }
 .crew-section .section-intro p { margin: 0; }
@@ -1635,6 +1637,8 @@ button:focus-visible {
   .partner-brand .partner-name { font-size: 16px; }
   .partner-brand:has(img[alt="DSPy"]) .partner-name { font-size: 26px; }
   .partner-logo .partner-brand img[alt="DSPy"] { width: 24px; height: 24px; }
+  .partner-brand:has(img[alt="Ollama"]) .partner-name { font-size: 22px; }
+  .partner-logo .partner-brand img[alt="Ollama"] { width: 24px; height: 34px; }
   .partner-logo img[src$="/insilico-medicine.svg"] { height: 58px; }
   .crew-grid { grid-template-columns: repeat(2, 1fr); gap: 25px 20px; }
   .crew-card h3 { font-size: 17px; }
