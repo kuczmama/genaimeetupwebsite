@@ -10,7 +10,8 @@ from datetime import datetime, timezone
 from html import escape
 from pathlib import Path
 from urllib.parse import quote
-from unittest.mock import patch
+from unittest.mock import Mock, patch
+from urllib.error import HTTPError
 
 SPEC = importlib.util.spec_from_file_location(
     "update_articles", Path(__file__).resolve().parents[1] / "scripts/update-articles.py"
@@ -44,6 +45,53 @@ def valid_feed(*extra):
 
 
 class ArticleSnapshotTests(unittest.TestCase):
+    def test_only_http_403_retries_with_the_public_curl_client(self):
+        for code in [403, 404, 503]:
+            error = HTTPError(articles.FEED_URL, code, "upstream error", {}, None)
+            with patch.object(articles, "urlopen", side_effect=error), \
+                    patch.object(articles, "fetch_with_curl", return_value=valid_feed()) as retry, \
+                    contextlib.redirect_stderr(io.StringIO()):
+                if code == 403:
+                    self.assertEqual(articles.fetch(articles.FEED_URL), valid_feed())
+                    retry.assert_called_once_with(articles.FEED_URL)
+                else:
+                    with self.assertRaises(HTTPError):
+                        articles.fetch(articles.FEED_URL)
+                    retry.assert_not_called()
+
+    def test_curl_is_bounded_validates_redirects_and_keeps_body_separate_from_diagnostics(self):
+        cases = [
+            (b"<rss/>", articles.FEED_URL, 0, None),
+            (b"<rss/>", "http://genaipod.substack.com/feed", 0, ValueError),
+            (b"<rss/>", "https://evil.example/feed", 0, ValueError),
+            (b"", articles.FEED_URL, 22, OSError),
+            (b"x" * 33, articles.FEED_URL, 0, ValueError),
+        ]
+        for body, final_url, status, error in cases:
+            process = Mock()
+            process.stdout = io.BytesIO(body)
+            process.wait.return_value = status
+            process.poll.return_value = None if len(body) > 32 else status
+
+            def start(command, stdout, stderr):
+                self.assertIn("--http2", command)
+                self.assertEqual(command[command.index("--proto-redir") + 1], "=https")
+                self.assertEqual(command[command.index("--max-time") + 1], "30")
+                self.assertEqual(command[command.index("--max-filesize") + 1], "32")
+                stderr.write(f"GENAI_EFFECTIVE_URL:{final_url}\n".encode())
+                return process
+
+            with self.subTest(url=final_url, status=status, size=len(body)), \
+                    patch.object(articles, "MAX_RESPONSE_BYTES", 32), \
+                    patch.object(articles.subprocess, "Popen", side_effect=start):
+                if error:
+                    with self.assertRaises(error):
+                        articles.fetch_with_curl(articles.FEED_URL)
+                else:
+                    self.assertEqual(articles.fetch_with_curl(articles.FEED_URL), body)
+            if len(body) > 32:
+                process.kill.assert_called_once()
+
     def test_returns_only_newest_two_sorted_and_deduplicated_after_timezone_normalization(self):
         data = feed(
             entry("oldest", "Wed, 01 Jul 2026 12:00:00 GMT"),

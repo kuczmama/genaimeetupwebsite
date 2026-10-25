@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Cache the newest two published articles from the official Substack RSS feed.
 
-Python 3.10+ standard library only; no API keys or browser session are required.
+Python 3.10+ standard library, with a curl HTTP/2 retry for public HTTP 403
+responses; no API keys or browser session are required.
 Feed failures preserve the previous snapshot. Thumbnail failures are optional
 and leave the original official image URL available to the frontend.
 """
@@ -10,6 +11,7 @@ import hashlib
 import json
 import re
 import ssl
+import subprocess
 import sys
 import tempfile
 import xml.etree.ElementTree as ET
@@ -18,6 +20,7 @@ from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,23 +30,73 @@ PUBLICATION_URL = "https://genaipod.substack.com"
 CONTENT = "{http://purl.org/rss/1.0/modules/content/}encoded"
 ITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
 IMAGE_HOSTS = {"substack-post-media.s3.amazonaws.com", "substackcdn.com"}
+MAX_RESPONSE_BYTES = 5_000_000
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; GenAIMeetup/1.0; +https://genaimeetup.com)",
+    "Accept": "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.1",
+}
+
+
+def validate_response_url(final_url, requested_url):
+    final = urlparse(final_url)
+    allowed = {"genaipod.substack.com"} if requested_url == FEED_URL else IMAGE_HOSTS
+    if final.scheme != "https" or final.netloc not in allowed:
+        raise ValueError("Upstream redirected outside its official host")
+
+
+def fetch_with_curl(url):
+    # Some public RSS requests are rejected with urllib's HTTP/1.1 transport on
+    # hosted runners. Retry once with curl's ordinary HTTP/2 client, without
+    # cookies, credentials, proxies, or a browser session.
+    command = [
+        "curl", "--http2", "--fail", "--silent", "--show-error", "--location",
+        "--max-redirs", "3", "--proto", "=https", "--proto-redir", "=https",
+        "--connect-timeout", "10", "--max-time", "30",
+        "--max-filesize", str(MAX_RESPONSE_BYTES),
+        "--user-agent", HEADERS["User-Agent"], "--header", f"Accept: {HEADERS['Accept']}",
+        "--write-out", "%{stderr}\nGENAI_EFFECTIVE_URL:%{url_effective}\n", url,
+    ]
+    # Read at most the limit plus one byte even if an older curl cannot enforce
+    # --max-filesize on a chunked response. The curl deadline bounds the read.
+    with tempfile.TemporaryFile() as diagnostics:
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=diagnostics)
+        try:
+            data = process.stdout.read(MAX_RESPONSE_BYTES + 1)
+            if len(data) > MAX_RESPONSE_BYTES:
+                raise ValueError("Upstream response exceeds the size limit")
+            status = process.wait(timeout=5)
+        finally:
+            if process.poll() is None:
+                process.kill()
+                process.wait(timeout=5)
+            process.stdout.close()
+        diagnostics.seek(0)
+        output = diagnostics.read(16_384).decode("utf-8", errors="replace")
+    if status:
+        raise OSError(f"Public Substack curl request failed (exit {status})")
+    final_urls = [line.removeprefix("GENAI_EFFECTIVE_URL:") for line in output.splitlines()
+                  if line.startswith("GENAI_EFFECTIVE_URL:")]
+    if not final_urls:
+        raise ValueError("curl did not report its final response URL")
+    validate_response_url(final_urls[-1], url)
+    return data
 
 
 def fetch(url):
-    request = Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (compatible; GenAIMeetup/1.0; +https://genaimeetup.com)",
-        "Accept": "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.1",
-    })
+    request = Request(url, headers=HEADERS)
     context = ssl.create_default_context()
     if not ssl.get_default_verify_paths().cafile and Path("/etc/ssl/cert.pem").exists():
         context.load_verify_locations(cafile="/etc/ssl/cert.pem")
-    with urlopen(request, timeout=30, context=context) as response:
-        final = urlparse(response.url)
-        allowed = {"genaipod.substack.com"} if url == FEED_URL else IMAGE_HOSTS
-        if final.scheme != "https" or final.netloc not in allowed:
-            raise ValueError("Upstream redirected outside its official host")
-        data = response.read(5_000_001)
-    if len(data) > 5_000_000:
+    try:
+        with urlopen(request, timeout=30, context=context) as response:
+            validate_response_url(response.url, url)
+            data = response.read(MAX_RESPONSE_BYTES + 1)
+    except HTTPError as error:
+        if error.code != 403:
+            raise
+        print("Public Substack request returned HTTP 403; retrying with curl HTTP/2", file=sys.stderr)
+        return fetch_with_curl(url)
+    if len(data) > MAX_RESPONSE_BYTES:
         raise ValueError("Upstream response exceeds the size limit")
     return data
 
