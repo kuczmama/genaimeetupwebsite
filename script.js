@@ -243,7 +243,8 @@ syncRotation();
     toggle.querySelector(".partner-toggle-label").textContent = showAll ? "Show fewer companies" : `Show all ${partners.length} companies`;
     toggle.querySelector(".partner-toggle-icon").textContent = showAll ? "−" : "+";
     visible = partners.map((_, index) => index).slice(0, count);
-    waiting = shuffle(partners.map((_, index) => index).slice(count));
+    // Introduce recognizable names first; the changing tile is still randomized.
+    waiting = partners.map((_, index) => index).slice(count);
     tileOrder = [];
     lastTile = -1;
     grid.replaceChildren(...visible.map(index => {
