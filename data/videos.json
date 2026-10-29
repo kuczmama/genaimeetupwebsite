@@ -1,14 +1,14 @@
 {
-  "updatedAt": "2026-10-28T18:50:55Z",
+  "updatedAt": "2026-10-29T09:54:33Z",
   "source": "https://www.youtube.com/feeds/videos.xml?channel_id=UCnQGeStcP1YuF9mmNSue8dw",
   "channelId": "UCnQGeStcP1YuF9mmNSue8dw",
   "videos": [
     {
-      "id": "xuMjOMMJC8k",
-      "title": "Indie Software Developers: Is Your Product Still Protectable? #shorts",
-      "published": "2026-10-21T06:00:40Z",
-      "url": "https://www.youtube.com/shorts/xuMjOMMJC8k",
-      "thumbnail": "https://i1.ytimg.com/vi/xuMjOMMJC8k/hqdefault.jpg",
+      "id": "BDrk9kkavTs",
+      "title": "I had AI apply to 100+ jobs for me and get me referrals on Linkedin",
+      "published": "2026-10-29T00:07:23Z",
+      "url": "https://www.youtube.com/shorts/BDrk9kkavTs",
+      "thumbnail": "https://i3.ytimg.com/vi/BDrk9kkavTs/hqdefault.jpg",
       "isShort": true
     },
     {
@@ -104,14 +104,6 @@
       "isShort": false
     },
     {
-      "id": "vynKOdewtkg",
-      "title": "China's $4 Model beat OpenAI at Coding",
-      "published": "2026-06-20T03:53:43Z",
-      "url": "https://www.youtube.com/shorts/vynKOdewtkg",
-      "thumbnail": "https://i3.ytimg.com/vi/vynKOdewtkg/hqdefault.jpg",
-      "isShort": true
-    },
-    {
       "id": "HWqz-AUXDoc",
       "title": "I Stopped Reading My YouTube Charts and Just Asked",
       "published": "2026-06-18T17:37:38Z",
@@ -125,6 +117,14 @@
       "published": "2026-06-15T04:11:26Z",
       "url": "https://www.youtube.com/shorts/JMr7NVs_cBI",
       "thumbnail": "https://i3.ytimg.com/vi/JMr7NVs_cBI/hqdefault.jpg",
+      "isShort": true
+    },
+    {
+      "id": "IuA-nW9Jpgs",
+      "title": "This AI Was TOO Powerful for the Government 🏛️  #news #ai #anthropic #technews",
+      "published": "2026-06-13T22:04:28Z",
+      "url": "https://www.youtube.com/shorts/IuA-nW9Jpgs",
+      "thumbnail": "https://i2.ytimg.com/vi/IuA-nW9Jpgs/hqdefault.jpg",
       "isShort": true
     }
   ]
