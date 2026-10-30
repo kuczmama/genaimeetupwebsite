@@ -1,17 +1,8 @@
 {
   "version": 1,
   "source": "https://www.meetup.com/gen-ai/events/ical/",
-  "refreshedAt": "2026-10-30T01:56:51Z",
+  "refreshedAt": "2026-10-30T08:36:46Z",
   "events": [
-    {
-      "id": "event_316919852@meetup.com",
-      "title": "Generative AI Social",
-      "url": "https://www.meetup.com/gen-ai/events/316919852/",
-      "startsAt": "2026-10-30T02:00:00Z",
-      "timeZone": "America/Los_Angeles",
-      "location": "",
-      "endsAt": "2026-10-30T04:00:00Z"
-    },
     {
       "id": "event_316963851@meetup.com",
       "title": "Generative AI Social",
@@ -92,6 +83,15 @@
       "timeZone": "America/Los_Angeles",
       "location": "",
       "endsAt": "2027-01-01T05:00:00Z"
+    },
+    {
+      "id": "event_btzsbvykccbkb@meetup.com",
+      "title": "Generative AI Social",
+      "url": "https://www.meetup.com/gen-ai/events/btzsbvykccbkb/",
+      "startsAt": "2027-01-08T03:00:00Z",
+      "timeZone": "America/Los_Angeles",
+      "location": "",
+      "endsAt": "2027-01-08T05:00:00Z"
     }
   ]
 }
