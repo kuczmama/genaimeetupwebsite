@@ -1,12 +1,12 @@
 {
   "sourceUrl": "https://podcast.genaimeetup.com/feed.xml",
-  "updatedAt": "2026-11-15T09:20:21Z",
+  "updatedAt": "2026-11-15T17:06:02Z",
   "latestEpisode": {
-    "title": "Mario plus Red Dead Redemption?! Reverse Engineering AI",
-    "url": "https://podcast.genaimeetup.com/e/mario-plus-red-dead-redemption-reverse-engineering-ai/",
-    "publishedAt": "2026-10-20T12:54:20Z",
-    "durationSeconds": 5735,
-    "description": "In this episode we cover AI, reverse engineering, and the week's tech news. We talk about why binaries are hard to reverse, whether open source and vibe coding threaten Adobe and SaaS, predatory mobile games, browser…",
-    "embedUrl": "https://www.podbean.com/player-v2/?i=tniji-1b8c456&share=0&download=0&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=none&btn-skin=b92358&size=150"
+    "title": "We need to talk about Nvidia",
+    "url": "https://podcast.genaimeetup.com/e/we-need-to-talk-about-nvidia/",
+    "publishedAt": "2026-11-15T12:29:34Z",
+    "durationSeconds": 6052,
+    "description": "In this episode of the Gen AI Meetup podcast, we break down the Jensen Huang exodus from Nvidia: the timeline, the affair and spy allegations, what it could mean for Nvidia stock and the AI trade, and who might…",
+    "embedUrl": "https://www.podbean.com/player-v2/?i=p2cf9-1bb047e&share=0&download=0&rtl=0&fonts=Arial&skin=1&font-color=auto&logo_link=none&btn-skin=b92358&size=150"
   }
 }
