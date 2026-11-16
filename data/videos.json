@@ -1,8 +1,18 @@
 {
-  "updatedAt": "2026-11-15T21:45:58Z",
+  "updatedAt": "2026-11-16T09:36:57Z",
   "source": "https://www.youtube.com/feeds/videos.xml?channel_id=UCnQGeStcP1YuF9mmNSue8dw",
   "channelId": "UCnQGeStcP1YuF9mmNSue8dw",
   "videos": [
+    {
+      "id": "CiUUdoq7Wkw",
+      "title": "We need to talk about Nvidia",
+      "published": "2026-11-15T22:12:41Z",
+      "url": "https://www.youtube.com/watch?v=CiUUdoq7Wkw",
+      "thumbnail": "https://i4.ytimg.com/vi/CiUUdoq7Wkw/hqdefault.jpg",
+      "isShort": false,
+      "localThumbnail": "assets/editorial/youtube-CiUUdoq7Wkw-maxresdefault.jpg",
+      "localThumbnailSource": "https://i.ytimg.com/vi/CiUUdoq7Wkw/maxresdefault.jpg"
+    },
     {
       "id": "BDrk9kkavTs",
       "title": "I had AI apply to 100+ jobs for me and get me referrals on Linkedin",
@@ -27,9 +37,7 @@
       "published": "2026-10-06T23:44:20Z",
       "url": "https://www.youtube.com/watch?v=LGOAQZbvJ28",
       "thumbnail": "https://i1.ytimg.com/vi/LGOAQZbvJ28/hqdefault.jpg",
-      "isShort": false,
-      "localThumbnail": "assets/editorial/youtube-LGOAQZbvJ28-maxresdefault.jpg",
-      "localThumbnailSource": "https://i.ytimg.com/vi/LGOAQZbvJ28/maxresdefault.jpg"
+      "isShort": false
     },
     {
       "id": "atSsXBAvXso",
@@ -117,14 +125,6 @@
       "published": "2026-06-15T04:11:26Z",
       "url": "https://www.youtube.com/shorts/JMr7NVs_cBI",
       "thumbnail": "https://i3.ytimg.com/vi/JMr7NVs_cBI/hqdefault.jpg",
-      "isShort": true
-    },
-    {
-      "id": "IuA-nW9Jpgs",
-      "title": "This AI Was TOO Powerful for the Government 🏛️  #news #ai #anthropic #technews",
-      "published": "2026-06-13T22:04:28Z",
-      "url": "https://www.youtube.com/shorts/IuA-nW9Jpgs",
-      "thumbnail": "https://i2.ytimg.com/vi/IuA-nW9Jpgs/hqdefault.jpg",
       "isShort": true
     }
   ]
