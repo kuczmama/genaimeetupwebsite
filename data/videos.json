@@ -1,8 +1,16 @@
 {
-  "updatedAt": "2026-11-18T04:16:07Z",
+  "updatedAt": "2026-11-18T13:06:21Z",
   "source": "https://www.youtube.com/feeds/videos.xml?channel_id=UCnQGeStcP1YuF9mmNSue8dw",
   "channelId": "UCnQGeStcP1YuF9mmNSue8dw",
   "videos": [
+    {
+      "id": "mbb8_GPmYxw",
+      "title": "Jensen Huang steps down as Nvidia CEO",
+      "published": "2026-11-18T09:01:22Z",
+      "url": "https://www.youtube.com/shorts/mbb8_GPmYxw",
+      "thumbnail": "https://i2.ytimg.com/vi/mbb8_GPmYxw/hqdefault.jpg",
+      "isShort": true
+    },
     {
       "id": "CiUUdoq7Wkw",
       "title": "We need to talk about Nvidia",
@@ -117,14 +125,6 @@
       "published": "2026-06-18T17:37:38Z",
       "url": "https://www.youtube.com/shorts/HWqz-AUXDoc",
       "thumbnail": "https://i1.ytimg.com/vi/HWqz-AUXDoc/hqdefault.jpg",
-      "isShort": true
-    },
-    {
-      "id": "JMr7NVs_cBI",
-      "title": "Google's CEO Said \"AI\" 100 Times at I/O — Then 0 at Stanford",
-      "published": "2026-06-15T04:11:26Z",
-      "url": "https://www.youtube.com/shorts/JMr7NVs_cBI",
-      "thumbnail": "https://i3.ytimg.com/vi/JMr7NVs_cBI/hqdefault.jpg",
       "isShort": true
     }
   ]
